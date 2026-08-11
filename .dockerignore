@@ -1,0 +1,11 @@
+# حرج: لا تُخبز الأسرار ولا حالة التشغيل داخل طبقات الصورة
+.env
+.git
+.gitignore
+checkpoints/
+.pytest_cache/
+__pycache__/
+*.pyc
+chroma_db/
+reports/generated/
+.venv/

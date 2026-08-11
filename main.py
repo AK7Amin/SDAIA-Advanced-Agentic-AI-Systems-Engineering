@@ -40,8 +40,12 @@ def cmd_run(guardrails: bool):
     docs = sorted((ROOT / "sample_docs").glob("*"))
     print(f"== معالجة {len(docs)} وثيقة (guardrails={'on' if guardrails else 'OFF'}) ==\n")
     for d in docs:
-        res = process_document(graph, d.stem, d.read_text(encoding="utf-8"), guardrails, REPORTS, llm=llm)
-        print(f"  {d.name:32s} → {res['final_status']:18s} حواجز={res['guardrails']}")
+        # مرونة: فشل وثيقة (خطأ نموذج، 429، مخرج فاسد) لا يُسقط الدفعة كلها.
+        try:
+            res = process_document(graph, d.stem, d.read_text(encoding="utf-8"), guardrails, REPORTS, llm=llm)
+            print(f"  {d.name:32s} → {res['final_status']:18s} حواجز={res['guardrails']}")
+        except Exception as exc:  # noqa: BLE001
+            print(f"  {d.name:32s} → FAILED: {type(exc).__name__}: {str(exc)[:120]}")
     tracing.write_metrics_snapshot(REPORTS, llm.meter.snapshot())
     print(f"\nلقطة المقاييس: {REPORTS / 'metrics-snapshot.json'}")
 
@@ -59,7 +63,8 @@ def cmd_attack(guardrails: bool):
     print(f"[حقن مباشر] «{direct[:40]}...» → {'محجوب' if (guardrails and v.blocked) else 'مرّ!'}")
     graph, llm = build_production_graph(_saver(), POLICY)
     doc = (ROOT / "sample_docs" / "03_injected_contract.md").read_text(encoding="utf-8")
-    res = process_document(graph, "attack_indirect", doc, guardrails, REPORTS)
+    thread = "attack_indirect_raw" if not guardrails else "attack_indirect_hardened"
+    res = process_document(graph, thread, doc, guardrails, REPORTS, llm=llm)
     print(f"[حقن غير مباشر عبر وثيقة] → الحالة={res['final_status']} حواجز={res['guardrails']}")
 
 

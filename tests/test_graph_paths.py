@@ -70,6 +70,20 @@ def test_extraction_loop_bounded_then_escalates(graph_with_stubs):
     assert state["final_status"] == "awaiting_approval"
 
 
+def test_letter_skips_extraction_via_plan_route(graph_with_stubs):
+    """plan_route يغيّر تدفق التحكم فعلًا: الخطاب يتخطى الاستخراج إلى التدقيق.
+
+    هذا ما يمنع تصنيف النظام «سلسلة خطية مقنّعة» في بند rubric 1.
+    """
+    graph = graph_with_stubs(classification=DocType.LETTER, verdict=Verdict.COMPLIANT)
+    state = _run(graph, "خطاب رسمي بلا التزام مالي", "letter_path")
+    nodes = [e.node for e in state["audit_trail"]]
+    assert "plan_route" in nodes
+    assert "extract" not in nodes          # تُخطّي فعليًا
+    assert "policy_check" in nodes
+    assert state["final_status"] == "archived"
+
+
 def test_audit_trail_appends_never_replaces(graph_with_stubs, compliant_contract_ar):
     """reducer الحالة يجمع أحداث التدقيق ولا يستبدلها."""
     graph = graph_with_stubs(

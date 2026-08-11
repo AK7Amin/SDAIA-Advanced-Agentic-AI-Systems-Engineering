@@ -82,6 +82,8 @@ class LLMLayer:
         self.meter = meter or UsageMeter()
         #: يُضبط قبل معالجة كل وثيقة ليُنسب الاستهلاك إليها (تكلفة لكل وثيقة).
         self.active_doc_id = "-"
+        #: حاجز ميزانية لكل وثيقة — يُستبدل في process_document؛ None = بلا حد.
+        self.budget = None
 
     def __repr__(self) -> str:  # لا يتسرب المفتاح أبدًا
         return f"LLMLayer(model={self.model!r}, key=set={bool(self._api_key)})"
@@ -129,7 +131,13 @@ class LLMLayer:
             raise RuntimeError(redact_secrets(str(exc))) from None
 
     def invoke(self, prompt: str, node: str = "-", doc_id: str = "-") -> str:
-        """نداء موقوت مع تسجيل الاستهلاك (توكنز/كمون/تكلفة مرجعية)."""
+        """نداء موقوت مع تسجيل الاستهلاك (توكنز/كمون/تكلفة مرجعية).
+
+        يمر أولًا بحاجز الميزانية: تجاوز الحد لوثيقة واحدة يرفع BudgetExceeded
+        بدل الاستمرار في الإنفاق (الجواب العملي على «انفجار التكلفة»).
+        """
+        if self.budget is not None:
+            self.budget.charge()
         t0 = time.perf_counter()
         try:
             content, pt, ct = self._post(self._api_key, prompt)

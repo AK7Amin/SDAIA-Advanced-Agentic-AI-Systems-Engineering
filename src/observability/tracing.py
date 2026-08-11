@@ -20,6 +20,11 @@ GUARDRAIL_BLOCKS = Counter("guardrail_blocks_total", "حجوزات الحواج�
 DOC_LATENCY = Histogram("doc_latency_ms", "زمن معالجة الوثيقة (مللي ثانية)")
 
 
+def observe_doc_latency(ms: float) -> None:
+    """يرصد زمن معالجة وثيقة كاملة في الهيستوجرام."""
+    DOC_LATENCY.observe(ms)
+
+
 def write_trace(reports_dir: str | Path, doc_id: str, audit_trail: list[AuditEvent]) -> Path:
     """يكتب أثر وثيقة كملف JSON مع التحقق من سلامة سلسلة التجزئة."""
     traces = Path(reports_dir) / "traces"

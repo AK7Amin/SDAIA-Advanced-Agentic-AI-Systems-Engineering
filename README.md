@@ -38,8 +38,9 @@ flowchart TD
 ```
 
 - **الوكلاء المتخصصون** (`src/agents/`): مصنّف classifier، مستخرِج extractor،
-  مدقق سياسات policy_checker، وصائغ الإشعار — كلٌّ يعيد **نوعًا محددًا Pydantic**
-  (لا نص حر) فلا تتشوّه المعلومة بين الوكلاء.
+  مدقق سياسات policy_checker — كلٌّ يعيد **نوعًا محددًا Pydantic** (لا نص حر)
+  فلا تتشوّه المعلومة بين الوكلاء. عقدة `notify` حاليًا تسجّل حالة الإشعار في
+  الأثر (توليد نص الإشعار بقوالب Jinja2 ترقية مخطط لها، غير منفذة).
 - **المنسق** = مخطط الحالة نفسه (`src/graph/build.py`): عقد nodes وحواف شرطية
   conditional edges. عقدة `plan_route` **تخطيط Plan-and-Execute** تغيّر التدفق
   فعلًا (الخطابات تتخطى الاستخراج).
@@ -92,7 +93,7 @@ docker build -t doc-agent . && docker run -p 8000:8000 --env-file .env doc-agent
 
 ### الاختبارات
 ```bash
-pytest -v          # 51 اختبارًا (schemas, llm, graph, checkpoint, guardrails, policy)
+pytest -v          # 49 اختبارًا (schemas, llm, graph, checkpoint, guardrails, policy)
 ```
 
 ## الأدلة المحفوظة (`reports/`)

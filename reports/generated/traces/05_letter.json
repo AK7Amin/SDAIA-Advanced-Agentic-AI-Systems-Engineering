@@ -1,0 +1,46 @@
+{
+  "doc_id": "05_letter",
+  "chain_intact": true,
+  "events": [
+    {
+      "node": "ingest",
+      "summary": "استُلمت الوثيقة 05_letter",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "",
+      "digest": "2ae577bc649c83de766d6c96a9bd957fbbe2a4b1f586f54796bb06de776a3ff8"
+    },
+    {
+      "node": "classify",
+      "summary": "النوع=letter ثقة=0.95",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "2ae577bc649c83de766d6c96a9bd957fbbe2a4b1f586f54796bb06de776a3ff8",
+      "digest": "5224e9930598543d6338a9a42784742127889df498ae94d16ce48dd1c97ad213"
+    },
+    {
+      "node": "plan_route",
+      "summary": "خطة=skip_extract لنوع letter",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "5224e9930598543d6338a9a42784742127889df498ae94d16ce48dd1c97ad213",
+      "digest": "6081467bdbc255afe4d7b4a8e77339496a79f69e4be61de9c46e23227bec6739"
+    },
+    {
+      "node": "policy_check",
+      "summary": "حكم=uncertain سياسة=None",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "6081467bdbc255afe4d7b4a8e77339496a79f69e4be61de9c46e23227bec6739",
+      "digest": "0ceefd6f5e1640902a2262d4fb743e7f1d82c6738b740f3a8e780e019b8b2294"
+    },
+    {
+      "node": "escalate",
+      "summary": "صُعّدت لموافقة بشرية",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "0ceefd6f5e1640902a2262d4fb743e7f1d82c6738b740f3a8e780e019b8b2294",
+      "digest": "b0ff1a113ab5cc6b10f7508b0cc6bdbae0f5a706c034c8b7862db7f91e86c4cc"
+    }
+  ]
+}

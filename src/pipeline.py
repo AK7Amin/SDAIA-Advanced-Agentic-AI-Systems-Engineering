@@ -5,12 +5,14 @@
 """
 from __future__ import annotations
 
+import os
+import time
 from pathlib import Path
 
 from src.agents.real import RealAgents
 from src.graph.build import AgentDeps, build_graph
 from src.guardrails import output_guard
-from src.guardrails.budget import enforce_input_size
+from src.guardrails.budget import BudgetGuard, enforce_input_size
 from src.guardrails.input_guard import sanitize_document, scan_user_input
 from src.guardrails.path_guard import safe_doc_id
 from src.llm import LLMLayer
@@ -47,9 +49,13 @@ def process_document(graph, doc_id: str, raw_text: str, guardrails: bool, report
     safe_text, flags = prepare_text(raw_text, guardrails)
     if llm is not None:
         llm.active_doc_id = safe_id   # ينسب الاستهلاك لهذه الوثيقة (تكلفة لكل وثيقة)
+        # حاجز الميزانية: عدّاد جديد لكل وثيقة — يفشل بصوت عالٍ عند تجاوز الحد.
+        llm.budget = BudgetGuard(max_calls=int(os.getenv("MAX_LLM_CALLS_PER_DOC", "8")))
     state_in = {"doc_id": safe_id, "masked_text": safe_text, "extract_attempts": 0, "audit_trail": []}
     cfg = {"configurable": {"thread_id": safe_id}}
+    t0 = time.perf_counter()
     out = graph.invoke(state_in, cfg)
+    tracing.observe_doc_latency((time.perf_counter() - t0) * 1000)
     status = out.get("final_status", "awaiting_approval")
     tracing.DOCS_PROCESSED.labels(final_status=status).inc()
     for e in out.get("audit_trail", []):
