@@ -41,6 +41,13 @@ Jinja2 يخرج الإشعار. طوال المسار: أثر تدقيق + تك�
 
 - venv جاهزة: `C:\Users\abdul\sdaia-agents-venv` (Python 3.12، langgraph 1.x،
   chromadb، fastapi، prometheus-client، pypdf، jinja2 — مثبتة ومختبرة).
+  **أُضيف** `langgraph-checkpoint-sqlite` (لم يكن ضمن الحزمة الأصلية).
+- **مزلق SqliteSaver مثبت بالتجربة**: يُبنى بـ
+  `SqliteSaver(sqlite3.connect(path, check_same_thread=False))` مباشرة —
+  **ليس** context manager (لا `with`)، و`from_conn_string` وحده هو الـCM.
+- **الاستئناف عبر عملية جديدة يعمل** (مُختبَر بـspike): `Command(resume=...)`
+  بنفس thread_id، والتصعيد مفصول: `escalate` (تكتب وترجع) ثم `human_gate`
+  (كل جسمها بعد `interrupt()`) — يمنع تكرار أحداث التدقيق عند الاستئناف.
 - النموذج: **OpenRouter بنماذج مجانية** (`openai/gpt-oss-20b:free` — مُختبَر
   ويولّد عربية صحيحة). المفتاحان في `.env` من v3 يعملان (اختُبرا).
 - طبقة مزود قابلة للتبديل: `LLM_MODEL` في `.env` يغيّر النموذج بلا لمس كود.

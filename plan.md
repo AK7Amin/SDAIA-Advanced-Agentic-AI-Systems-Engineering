@@ -1,8 +1,27 @@
-# خطة البناء — وكيل دورة حياة الوثيقة المؤسسية
+# خطة البناء — وكيل دورة حياة الوثيقة المؤسسية (v2)
 
+> **v2 بعد نقد الوكلاء الثلاثة** — التعديلات الكاملة في `docs/critique-round-1.md`.
 > تُقرأ مع `docs/rubric-predicted.md` (كل مرحلة موسومة ببند الrubric الذي تثبته).
 > منهجية: TDD — اختبارات كل قطعة قبل كودها. حلقة تنفيذ↔تحقق لكل قطعة بحد
 > أقصى 4 انتقالات، ثم توثيق العجز والانتقال (لا حلقات لانهائية).
+
+## تعديلات v2 المعتمدة (مدموجة من النقد — انظر critique-round-1.md للتفصيل)
+
+- **المخطط**: التصعيد عقدتان `escalate`→`human_gate` (interrupt بعد كتابة
+  الحالة)، والاستئناف `Command(resume=...)`. plan_route **يغيّر التحكم فعلًا**
+  (الخطابات تتخطى extract؛ re-plan على UNCERTAIN). المخطط يُجمَّع دومًا بـ
+  checkpointer. **[مُثبت بـspike حقيقي عبر عمليتين]**.
+- **الأمن**: `raw_text` لا يدخل الحالة المُنقَّطة (فقط `masked_text`) — لا PII
+  في الcheckpoint. تعقيم الوثيقة بالتغليف لا الحذف. مُنقٍّح مفاتيح مركزي.
+  مضمِّن ChromaDB محلي مثبت. سطح الاختراق: حقن مباشر/غير مباشر + استخراج
+  system prompt عبر notify + تسميم السياسات + اجتياز مسار + استنزاف حجم.
+- **الأدلة**: علم `--no-guardrails` لدليل «قبل/بعد». تكلفة/توكنز/كمون **لكل
+  وثيقة** تُحفظ في `reports/metrics-snapshot.json`. traces كملفات
+  `reports/traces/<doc_id>.json`. لوحة HTML تقرأ الملف المحفوظ.
+- **التحوّط**: `Dockerfile` + `requirements.txt` مثبت + endpoint `POST /process`.
+  مخطط Mermaid + متطلبات GitHub الست في README.
+- **SqliteSaver**: حزمة `langgraph-checkpoint-sqlite` (ثُبتت)، تُبنى مباشرة
+  `SqliteSaver(sqlite3.connect(path, check_same_thread=False))` بلا `with`.
 
 ## 0. القرارات المعمارية
 
