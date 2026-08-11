@@ -1,0 +1,20 @@
+# أسرار — لا تُرفع أبدًا (قاعدة أمان Vibe Coding)
+.env
+
+# بايثون
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+
+# بيانات تشغيل محلية (قواعد متعددة الملفات لا تدخل git — درس تلف HNSW الموثق)
+data/
+chroma_db/
+checkpoints/*.sqlite*
+inbox/*
+!inbox/.gitkeep
+reports/generated/
+
+# أدوات
+.vscode/
+.idea/
