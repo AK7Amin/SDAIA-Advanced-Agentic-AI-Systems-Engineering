@@ -1,0 +1,15 @@
+# هندسة أنظمة الذكاء الاصطناعي التوكيلي المتقدمة — تبعيات المشروع الختامي
+# النسخ مثبتة من البيئة المختبرة (Python 3.12).
+langgraph==1.2.10
+langgraph-checkpoint-sqlite
+langchain==1.3.14
+langchain-openai
+chromadb==1.5.9
+pydantic
+fastapi
+uvicorn
+prometheus-client
+jinja2
+pypdf
+python-dotenv
+pytest

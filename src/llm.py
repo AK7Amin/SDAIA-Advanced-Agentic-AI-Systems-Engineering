@@ -80,6 +80,8 @@ class LLMLayer:
         self._fallback_key = fallback_key or os.getenv("OPENROUTER_API_KEY_FALLBACK", "")
         self.model = model or os.getenv("LLM_MODEL", "openai/gpt-oss-20b:free")
         self.meter = meter or UsageMeter()
+        #: يُضبط قبل معالجة كل وثيقة ليُنسب الاستهلاك إليها (تكلفة لكل وثيقة).
+        self.active_doc_id = "-"
 
     def __repr__(self) -> str:  # لا يتسرب المفتاح أبدًا
         return f"LLMLayer(model={self.model!r}, key=set={bool(self._api_key)})"
@@ -138,6 +140,10 @@ class LLMLayer:
                 raise RuntimeError(redact_secrets(str(exc))) from None
         latency_ms = int((time.perf_counter() - t0) * 1000)
         self.meter.record(
-            node=node, prompt_tokens=pt, completion_tokens=ct, latency_ms=latency_ms, doc_id=doc_id
+            node=node,
+            prompt_tokens=pt,
+            completion_tokens=ct,
+            latency_ms=latency_ms,
+            doc_id=doc_id if doc_id != "-" else self.active_doc_id,
         )
         return content

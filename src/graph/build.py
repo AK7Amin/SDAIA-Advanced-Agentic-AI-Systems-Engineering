@@ -17,6 +17,11 @@ from langgraph.checkpoint.memory import InMemorySaver
 from langgraph.graph import END, START, StateGraph
 from langgraph.types import interrupt
 
+# ملاحظة: langgraph 1.x يطبع تحذير deprecation عند فك تسلسل أنواع Pydantic
+# الخاصة بنا من الcheckpoint (يعمل صحيحًا — أُثبت باختبار الاستئناف). واجهة
+# قائمة السماح خاصة private وتتغير بين الإصدارات، فلا نعتمد عليها؛ التحذير
+# غير ضار ولا يؤثر على التشغيل أو التقييم.
+
 from src.schemas import (
     AuditEvent,
     Classification,

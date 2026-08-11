@@ -10,10 +10,12 @@ __pycache__/
 # بيانات تشغيل محلية (قواعد متعددة الملفات لا تدخل git — درس تلف HNSW الموثق)
 data/
 chroma_db/
-checkpoints/*.sqlite*
+checkpoints/
 inbox/*
 !inbox/.gitkeep
-reports/generated/
+
+# reports/generated/ **يُلتزم** كدليل تقييم (كل الوثائق اصطناعية بلا PII حقيقي).
+# لو شُغّلت وثائق حقيقية مستقبلًا: لا تلتزم مخرجاتها (قد تحمل PII — قاعدة R021).
 
 # أدوات
 .vscode/

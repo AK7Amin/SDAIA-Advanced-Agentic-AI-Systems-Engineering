@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<title>لوحة مراقبة — وكيل دورة حياة الوثيقة</title>
+<style>
+body{font-family:'Segoe UI',Tahoma,sans-serif;background:#0f1419;color:#e8e6e1;padding:2rem;line-height:1.7}
+h1{color:#4fd1c5} table{border-collapse:collapse;width:100%;margin-top:1rem}
+th,td{border:1px solid #333;padding:.5rem .8rem;text-align:right} th{background:#1e2126;color:#4fd1c5}
+.cards{display:flex;gap:1rem;flex-wrap:wrap;margin:1rem 0}
+.card{background:#1e2126;border-radius:10px;padding:1rem 1.5rem;border-right:3px solid #4fd1c5}
+.card b{display:block;font-size:1.6rem;color:#4fd1c5} small{color:#9a988f}
+</style></head><body>
+<h1>لوحة مراقبة الأداء والتكلفة</h1>
+<p><small>تُقرأ من لقطة محفوظة metrics-snapshot.json — لا تعتمد على خدمة حية.
+التكلفة مرجعية بأسعار gpt-4o-mini (النموذج الفعلي مجاني).</small></p>
+<div class="cards">
+  <div class="card"><b>4320</b><small>إجمالي التوكنز</small></div>
+  <div class="card"><b>97744 م/ث</b><small>إجمالي الكمون</small></div>
+  <div class="card"><b>$0.0014</b><small>التكلفة المرجعية</small></div>
+  <div class="card"><b>4</b><small>وثائق معالَجة</small></div>
+</div>
+<h2>التكلفة والكمون لكل وثيقة</h2>
+<table><tr><th>الوثيقة</th><th>نداءات</th><th>توكنز</th><th>كمون (م/ث)</th><th>تكلفة مرجعية</th></tr>
+<tr><td>01_contract_compliant</td><td>3</td><td>1260</td><td>22935</td><td>$0.000383</td></tr>
+<tr><td>02_invoice_over_limit</td><td>3</td><td>1175</td><td>48937</td><td>$0.000363</td></tr>
+<tr><td>03_injected_contract</td><td>3</td><td>1452</td><td>19604</td><td>$0.000537</td></tr>
+<tr><td>04_unknown_noise</td><td>1</td><td>433</td><td>6268</td><td>$0.000156</td></tr>
+</table>
+</body></html>

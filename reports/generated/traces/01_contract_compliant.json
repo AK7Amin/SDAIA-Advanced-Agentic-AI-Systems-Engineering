@@ -1,0 +1,62 @@
+{
+  "doc_id": "01_contract_compliant",
+  "chain_intact": true,
+  "events": [
+    {
+      "node": "ingest",
+      "summary": "استُلمت الوثيقة 01_contract_compliant",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "",
+      "digest": "febc655e16c71b4e62d45ed43c5ccbdf1e83c742031e3493a9e380c175530e5f"
+    },
+    {
+      "node": "classify",
+      "summary": "النوع=contract ثقة=0.95",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "febc655e16c71b4e62d45ed43c5ccbdf1e83c742031e3493a9e380c175530e5f",
+      "digest": "e0a2a0c0f5e2be65a8c002e5e733e27defc0443e316b32d0afcc39e85fe03b32"
+    },
+    {
+      "node": "plan_route",
+      "summary": "خطة=full لنوع contract",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "e0a2a0c0f5e2be65a8c002e5e733e27defc0443e316b32d0afcc39e85fe03b32",
+      "digest": "804e0673b107f2ecb1c3a002c748f1da83b91996f12ffa77f57200c5ee36c822"
+    },
+    {
+      "node": "extract",
+      "summary": "محاولة 1؛ ناقص=[]",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "804e0673b107f2ecb1c3a002c748f1da83b91996f12ffa77f57200c5ee36c822",
+      "digest": "79b1069c0f765d5dfd2fd7d9dc4ce44ebc2e49fd0ca5a5969c9b7f777fa49e19"
+    },
+    {
+      "node": "policy_check",
+      "summary": "حكم=compliant سياسة=None",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "79b1069c0f765d5dfd2fd7d9dc4ce44ebc2e49fd0ca5a5969c9b7f777fa49e19",
+      "digest": "67386c4ed2bebf91812c329becd294f67511807fdce4a3c62f90a1351814e3d0"
+    },
+    {
+      "node": "archive",
+      "summary": "أُرشفت الوثيقة",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "67386c4ed2bebf91812c329becd294f67511807fdce4a3c62f90a1351814e3d0",
+      "digest": "f732aa92bf05c0fd6b6b65dc7e5e6a355713597c4527ce68aed446a1946db4d8"
+    },
+    {
+      "node": "notify",
+      "summary": "أُشعر بالحالة archived",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "f732aa92bf05c0fd6b6b65dc7e5e6a355713597c4527ce68aed446a1946db4d8",
+      "digest": "9089ae96bfe8e6e112fa9443d0c7f21b2140db8197dc4b3c0a0cb8f45bfa60b0"
+    }
+  ]
+}
