@@ -13,7 +13,7 @@ def test_interrupt_persists_to_sqlite(tmp_path, graph_with_stubs_factory):
     db = tmp_path / "ck.sqlite"
     graph = graph_with_stubs_factory(checkpoint_db=db, verdict="violation")
     graph.invoke(
-        {"raw_text": "فاتورة مخالفة", "doc_id": "DOC-9"},
+        {"masked_text": "فاتورة مخالفة", "doc_id": "DOC-9", "extract_attempts": 0, "audit_trail": []},
         config={"configurable": {"thread_id": "T-9"}},
     )
     assert db.exists() and db.stat().st_size > 0
@@ -28,7 +28,7 @@ def test_resume_in_separate_process_completes(tmp_path, graph_with_stubs_factory
     db = tmp_path / "ck.sqlite"
     graph = graph_with_stubs_factory(checkpoint_db=db, verdict="violation")
     graph.invoke(
-        {"raw_text": "فاتورة مخالفة", "doc_id": "DOC-9"},
+        {"masked_text": "فاتورة مخالفة", "doc_id": "DOC-9", "extract_attempts": 0, "audit_trail": []},
         config={"configurable": {"thread_id": "T-9"}},
     )
     result = subprocess.run(
