@@ -142,7 +142,9 @@ def build_graph(deps: AgentDeps, checkpointer=None):
         events = _audit_chain(state, entries)
         return {
             "policy_verdict": v,
-            "tool_calls": react.tool_calls if react else 0,
+            # تراكمي: التدقيق قد يُعاد بعد نقد Reflexion، فالعدّاد يجمع الجولتين
+            # ليطابق ما في أثر التدقيق (كان يعرض جولة واحدة فيناقض الأثر).
+            "tool_calls": state.get("tool_calls", 0) + (react.tool_calls if react else 0),
             "decision_source": source,
             "audit_trail": events,
         }

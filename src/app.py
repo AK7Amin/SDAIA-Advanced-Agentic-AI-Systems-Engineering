@@ -6,18 +6,19 @@
 """
 from __future__ import annotations
 
-import sqlite3
 from pathlib import Path
 
+from dotenv import load_dotenv
 from fastapi import FastAPI
-from langgraph.checkpoint.sqlite import SqliteSaver
 from prometheus_client import CONTENT_TYPE_LATEST, generate_latest
 from pydantic import BaseModel
 from starlette.responses import Response
 
+from src.checkpointing import make_sqlite_saver
 from src.pipeline import build_production_graph, process_document
 
 ROOT = Path(__file__).parent.parent
+load_dotenv(ROOT / ".env")   # نفس عقد README: المفاتيح من .env لا من الكود
 app = FastAPI(title="Document Lifecycle Agent")
 _STATE: dict = {}
 
@@ -25,9 +26,7 @@ _STATE: dict = {}
 def _graph():
     """مخطط دائم بـSqliteSaver — تدعم الخدمة الاستئناف مثل واجهة الأوامر."""
     if "graph" not in _STATE:
-        ck = ROOT / "checkpoints"
-        ck.mkdir(parents=True, exist_ok=True)
-        saver = SqliteSaver(sqlite3.connect(str(ck / "api.sqlite"), check_same_thread=False))
+        saver = make_sqlite_saver(ROOT / "checkpoints" / "api.sqlite")
         graph, llm = build_production_graph(saver, ROOT / "policies" / "procurement_policy.md")
         _STATE["graph"], _STATE["llm"] = graph, llm
     return _STATE["graph"], _STATE["llm"]

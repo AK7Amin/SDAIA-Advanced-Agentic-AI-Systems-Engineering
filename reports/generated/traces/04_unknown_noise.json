@@ -12,19 +12,19 @@
     },
     {
       "node": "classify",
-      "summary": "النوع=unknown ثقة=0.9",
+      "summary": "النوع=unknown ثقة=0.95",
       "cost_usd": 0.0,
       "latency_ms": 0,
       "prev_hash": "f4800914f01e6f49f661ab2ecd9607e3dc30c4cc4ba0028837d5576a1fb4fe0e",
-      "digest": "d42286396c5f26f86f87ad1865a5e3134e6c0d3a99c0d0d1fe5228ae3e04c90f"
+      "digest": "c3242b53a9033db973adcd4dfb0a324db3a64a47564ab2f3dcfe9c8497da16c4"
     },
     {
       "node": "quarantine",
       "summary": "نوع غير معروف — حُجرت",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "d42286396c5f26f86f87ad1865a5e3134e6c0d3a99c0d0d1fe5228ae3e04c90f",
-      "digest": "9332e5e202dc7cdb2e0e05939048d48ded4a555ec5408095e332f48cc584422b"
+      "prev_hash": "c3242b53a9033db973adcd4dfb0a324db3a64a47564ab2f3dcfe9c8497da16c4",
+      "digest": "4bdfa4d870bd2c6bd0dd1c239192f837d8036ff64f533fdd04011048fab7bfb1"
     }
   ]
 }

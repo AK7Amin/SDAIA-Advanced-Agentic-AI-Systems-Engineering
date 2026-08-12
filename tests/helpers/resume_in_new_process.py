@@ -13,7 +13,7 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(PROJECT_ROOT))
 
-from langgraph.checkpoint.sqlite import SqliteSaver  # noqa: E402
+from src.checkpointing import make_sqlite_saver  # noqa: E402
 from langgraph.types import Command  # noqa: E402
 
 from src.graph.build import AgentDeps, build_graph  # noqa: E402
@@ -45,7 +45,7 @@ def _stub_deps():
 
 def main() -> int:
     db, thread_id, decision = sys.argv[1], sys.argv[2], sys.argv[3]
-    saver = SqliteSaver(sqlite3.connect(db, check_same_thread=False))
+    saver = make_sqlite_saver(db)
     graph = build_graph(_stub_deps(), checkpointer=saver)
     cfg = {"configurable": {"thread_id": thread_id}}
     out = graph.invoke(Command(resume=decision), cfg)

@@ -112,12 +112,12 @@ def graph_with_stubs_factory():
     """مثل السابق لكن يربط SqliteSaver على مسار معطى (اختبار الاستئناف)."""
     import sqlite3
 
-    from langgraph.checkpoint.sqlite import SqliteSaver
+    from src.checkpointing import make_sqlite_saver
 
     def _factory(checkpoint_db, classification=DocType.INVOICE, extraction_complete=True,
                  extraction_attempts=None, verdict="violation"):
         deps = _make_deps(classification, extraction_complete, extraction_attempts, verdict)  # noqa: E501
-        saver = SqliteSaver(sqlite3.connect(str(checkpoint_db), check_same_thread=False))
+        saver = make_sqlite_saver(checkpoint_db)
         return build_graph(deps, checkpointer=saver)
     return _factory
 

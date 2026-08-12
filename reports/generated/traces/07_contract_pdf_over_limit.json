@@ -1,0 +1,70 @@
+{
+  "doc_id": "07_contract_pdf_over_limit",
+  "chain_intact": true,
+  "events": [
+    {
+      "node": "ingest",
+      "summary": "استُلمت الوثيقة 07_contract_pdf_over_limit",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "",
+      "digest": "94f86732f855cf6e25eca4b0a879259378fe5072e30a2672a7aa2aa8de63614a"
+    },
+    {
+      "node": "classify",
+      "summary": "النوع=contract ثقة=1.0",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "94f86732f855cf6e25eca4b0a879259378fe5072e30a2672a7aa2aa8de63614a",
+      "digest": "1201045aa3fc3ef7234a58ea3dfcd928173ce21f812c819add8f14e4ad70ce7e"
+    },
+    {
+      "node": "plan_route",
+      "summary": "خطة=full (5 خطوات): الوثيقة هي عقد (contract) مع التزامات مالية (قيمة 320000 ريا",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "1201045aa3fc3ef7234a58ea3dfcd928173ce21f812c819add8f14e4ad70ce7e",
+      "digest": "4de0e32bd1946c04728bd669b23934334088a35fed8ad7bb8d0cba9c2a0f2f84"
+    },
+    {
+      "node": "extract",
+      "summary": "محاولة 1؛ ناقص=[]",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "4de0e32bd1946c04728bd669b23934334088a35fed8ad7bb8d0cba9c2a0f2f84",
+      "digest": "fbf242ec3e9710d44884a7d2716217f309e3a6ee2efc0064394f6cb2871737c5"
+    },
+    {
+      "node": "policy_check",
+      "summary": "حكم=violation سياسة=POL-003 مصدر_القرار=model",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "fbf242ec3e9710d44884a7d2716217f309e3a6ee2efc0064394f6cb2871737c5",
+      "digest": "6555e42b0f91d76eb5710b950154b2d7ad53d08cffc22eebdf5881fb8421aaac"
+    },
+    {
+      "node": "tool_call",
+      "summary": "policy_lookup({\"query\": \"حد المبلغ للمشتريات أو مدة العقد أو مؤسسة الإمداد) → POL-003: ## POL-003 — حد الفاتورة الواحدة\nالفواتير التي تتجا [مصدر=model]",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "6555e42b0f91d76eb5710b950154b2d7ad53d08cffc22eebdf5881fb8421aaac",
+      "digest": "1257b3545d851a317fa411e17dcabba89e3a81a6c5e9b86c16cefa85bf9f818c"
+    },
+    {
+      "node": "tool_call",
+      "summary": "calculator({\"expression\": \"320000.0 > 75000\"}) → True [مصدر=model]",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "1257b3545d851a317fa411e17dcabba89e3a81a6c5e9b86c16cefa85bf9f818c",
+      "digest": "aae608a35e82f07f47b5eaf9e5d4fe9a083894fe1da762bc12859385addb8949"
+    },
+    {
+      "node": "escalate",
+      "summary": "صُعّدت لموافقة بشرية",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "aae608a35e82f07f47b5eaf9e5d4fe9a083894fe1da762bc12859385addb8949",
+      "digest": "e714be0e6662ecd9a8810ff6eafa7430c1022824fb4e15772fc27dfe1b640171"
+    }
+  ]
+}

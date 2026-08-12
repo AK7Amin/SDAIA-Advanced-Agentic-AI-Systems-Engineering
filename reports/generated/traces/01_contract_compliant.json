@@ -1,0 +1,86 @@
+{
+  "doc_id": "01_contract_compliant",
+  "chain_intact": true,
+  "events": [
+    {
+      "node": "ingest",
+      "summary": "استُلمت الوثيقة 01_contract_compliant",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "",
+      "digest": "febc655e16c71b4e62d45ed43c5ccbdf1e83c742031e3493a9e380c175530e5f"
+    },
+    {
+      "node": "classify",
+      "summary": "النوع=contract ثقة=0.99",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "febc655e16c71b4e62d45ed43c5ccbdf1e83c742031e3493a9e380c175530e5f",
+      "digest": "2e2add0ee19d64a3c7e3270832079b4255fa5ffd9d06b2be990ad324973a64b6"
+    },
+    {
+      "node": "plan_route",
+      "summary": "خطة=full (4 خطوات): الوثيقة هي عقد توريد (نوع contract) يحتوي على التزامات مالية",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "2e2add0ee19d64a3c7e3270832079b4255fa5ffd9d06b2be990ad324973a64b6",
+      "digest": "3094d5138c01f2898652064127af0aaecfdef848d2ed81fd667ae7dc9a762d32"
+    },
+    {
+      "node": "extract",
+      "summary": "محاولة 1؛ ناقص=[]",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "3094d5138c01f2898652064127af0aaecfdef848d2ed81fd667ae7dc9a762d32",
+      "digest": "baa588d184111da989d6194bde0d6ba2c18f08e2685cbed3b2a511419f008b02"
+    },
+    {
+      "node": "policy_check",
+      "summary": "حكم=compliant سياسة=POL-003 مصدر_القرار=model",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "baa588d184111da989d6194bde0d6ba2c18f08e2685cbed3b2a511419f008b02",
+      "digest": "6b40f219af8dfd34c244ea60c8e5d827c9688eb135a9edb0983d9f399ef610b6"
+    },
+    {
+      "node": "tool_call",
+      "summary": "policy_lookup({\"query\": \"حد المبلغ للمشتريات أو عقود الشركة المتحدة\"}) → POL-005: ## POL-005 — حظر البنود مفتوحة القيمة\nيُرفض أي بند  [مصدر=model]",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "6b40f219af8dfd34c244ea60c8e5d827c9688eb135a9edb0983d9f399ef610b6",
+      "digest": "527941a72e28cd75a2134104fead6c641d96da6f849982652f80beb94d8b290a"
+    },
+    {
+      "node": "tool_call",
+      "summary": "policy_lookup({\"query\": \"حد المبلغ الأقصى لعقود المشتريات SAR\"}) → POL-002: ## POL-002 — مدة العقد القصوى\nلا تتجاوز مدة أي عقد  [مصدر=model]",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "527941a72e28cd75a2134104fead6c641d96da6f849982652f80beb94d8b290a",
+      "digest": "aaa6fa05fd589644959f45d00b5b88276764afa646789a7604fa09ab540c800f"
+    },
+    {
+      "node": "tool_call",
+      "summary": "calculator({\"expression\": \"30000.0 > 75000\"}) → False [مصدر=model]",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "aaa6fa05fd589644959f45d00b5b88276764afa646789a7604fa09ab540c800f",
+      "digest": "7c36fcf38f434d2c1c1bee8aa623e8574b259b922f82162fb42bd81be6008b4a"
+    },
+    {
+      "node": "archive",
+      "summary": "أُرشفت الوثيقة → C:\\Users\\abdul\\Desktop\\Islamic Content Association\\SDAIA Advanced Agentic AI Systems Engineering\\capstone-doc-lifecycle\\archive\\01_contract_compliant.txt",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "7c36fcf38f434d2c1c1bee8aa623e8574b259b922f82162fb42bd81be6008b4a",
+      "digest": "b1606b2d6e7bacdb64285812d4377c6a672d0c06725cb3add7027624017e8f55"
+    },
+    {
+      "node": "notify",
+      "summary": "أُشعر بالحالة archived → C:\\Users\\abdul\\Desktop\\Islamic Content Association\\SDAIA Advanced Agentic AI Systems Engineering\\capstone-doc-lifecycle\\reports\\notifications\\01_contract_compliant.md",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "b1606b2d6e7bacdb64285812d4377c6a672d0c06725cb3add7027624017e8f55",
+      "digest": "4785e394b0b5a45b67d438b3ff4a2ccd4ba1433d6070736296f136b0718d7e75"
+    }
+  ]
+}

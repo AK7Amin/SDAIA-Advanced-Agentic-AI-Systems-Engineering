@@ -8,23 +8,24 @@
 """
 from __future__ import annotations
 
-import sqlite3
 import sys
 import time
-import warnings
 from pathlib import Path
-
-# فك تسلسل الcheckpoint يعمل صحيحًا؛ نكتم تحذير deprecation غير الضار لنظافة الدمو.
-warnings.filterwarnings("ignore", message=".*Deserializing unregistered type.*")
 
 sys.path.insert(0, str(Path(__file__).parent))
 
-from langgraph.checkpoint.sqlite import SqliteSaver
+# يحمّل .env كما يَعِد README (المفاتيح تُقرأ من البيئة). بلا هذا السطر كان
+# استنساخ نظيف يتبع README يفشل بـ401 — عيب رُصد أثناء التقاط الأدلة.
+from dotenv import load_dotenv
+
+load_dotenv(Path(__file__).parent / ".env")
+
 from langgraph.types import Command
 
+from src.checkpointing import make_sqlite_saver
 from src.guardrails.input_guard import scan_user_input
 from src.loaders import load_document
-from src.observability import tracing
+from src.observability import dashboard, tracing
 from src.pipeline import build_production_graph, process_document
 
 ROOT = Path(__file__).parent
@@ -34,8 +35,7 @@ CK_DB = ROOT / "checkpoints" / "run.sqlite"
 
 
 def _saver():
-    CK_DB.parent.mkdir(parents=True, exist_ok=True)
-    return SqliteSaver(sqlite3.connect(str(CK_DB), check_same_thread=False))
+    return make_sqlite_saver(CK_DB)
 
 
 def _run_id() -> str:
@@ -65,8 +65,11 @@ def cmd_run(guardrails: bool):
                 print(f"      ↳ للاستئناف: python main.py resume {res['thread_id']} approve")
         except Exception as exc:  # noqa: BLE001
             print(f"  {d.name:32s} → FAILED: {type(exc).__name__}: {str(exc)[:120]}")
-    tracing.write_metrics_snapshot(REPORTS, llm.meter.snapshot())
-    print(f"\nلقطة المقاييس: {REPORTS / 'metrics-snapshot.json'}")
+    snap = tracing.write_metrics_snapshot(REPORTS, llm.meter.snapshot())
+    # اللوحة تُبنى من اللقطة نفسها في كل تشغيلة — وإلا بقيت ملفًا قديمًا
+    # يدّعي مراقبة لا تُنتَج (عيب رُصد: لا شيء في الكود كان ينادي render).
+    dash = dashboard.render(snap, REPORTS / "dashboard.html")
+    print(f"\nلقطة المقاييس: {snap}\nلوحة المراقبة: {dash}")
 
 
 def cmd_resume(thread_id: str, decision: str):

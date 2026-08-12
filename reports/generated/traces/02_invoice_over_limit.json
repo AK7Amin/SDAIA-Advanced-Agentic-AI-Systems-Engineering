@@ -20,35 +20,51 @@
     },
     {
       "node": "plan_route",
-      "summary": "خطة=full (4 خطوات): الوثيقة هي فاتورة تتضمن التزامًا ماليًا، لذا يلزم استخراج ال",
+      "summary": "خطة=full (4 خطوات): الوثيقة هي فاتورة (invoice) تحتوي على التزامات مالية واضحة (",
       "cost_usd": 0.0,
       "latency_ms": 0,
       "prev_hash": "e8ef2a12bd15f1c92a7be39d30cafee2448ec72628d6fb745522accf54d273b2",
-      "digest": "d41c1d327913e28fcba28fb428566d4ca2ceac70749b461e71a199adb41d6b21"
+      "digest": "137b3c39411d996bad35dbda72e5a6b406c5315f0a0f6f636d482b1a596568b1"
     },
     {
       "node": "extract",
-      "summary": "محاولة 1؛ ناقص=['signed_date']",
+      "summary": "محاولة 1؛ ناقص=[]",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "d41c1d327913e28fcba28fb428566d4ca2ceac70749b461e71a199adb41d6b21",
-      "digest": "a1fb0c202e65c81e4282009aa1b2a29090ab7fd2c0738c8b9f6f64ecc534965c"
+      "prev_hash": "137b3c39411d996bad35dbda72e5a6b406c5315f0a0f6f636d482b1a596568b1",
+      "digest": "205b313511fef3d02cf713d57a219709287b987e723cb1cda4594dca61ab4c1b"
     },
     {
-      "node": "extract",
-      "summary": "محاولة 2؛ ناقص=['signed_date']",
+      "node": "policy_check",
+      "summary": "حكم=violation سياسة=POL-003 مصدر_القرار=model",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "a1fb0c202e65c81e4282009aa1b2a29090ab7fd2c0738c8b9f6f64ecc534965c",
-      "digest": "aa945a3cb83dddfca1b48d6b45d7592985803207c2784118d9a13538a2d5760e"
+      "prev_hash": "205b313511fef3d02cf713d57a219709287b987e723cb1cda4594dca61ab4c1b",
+      "digest": "d6ea19f805ff172694c1792643d8d6a706e473d5dc29c1108d5fdc7ec2dffa76"
+    },
+    {
+      "node": "tool_call",
+      "summary": "policy_lookup({\"query\": \"حد المبلغ للمشتريات مؤسسة الإمداد الشامل\"}) → POL-002: ## POL-002 — مدة العقد القصوى\nلا تتجاوز مدة أي عقد  [مصدر=model]",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "d6ea19f805ff172694c1792643d8d6a706e473d5dc29c1108d5fdc7ec2dffa76",
+      "digest": "d4f42e9282595dfdd4f1f6a0f03587c1c7adc54a249d6dbd8edf41f782ba2b32"
+    },
+    {
+      "node": "tool_call",
+      "summary": "calculator({\"expression\": \"95000.0 > 75000\"}) → True [مصدر=model]",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "d4f42e9282595dfdd4f1f6a0f03587c1c7adc54a249d6dbd8edf41f782ba2b32",
+      "digest": "625bda1e7f67fd7daec33f52b73899cc8e3175803ddc6c2e04e52862a0ebe05f"
     },
     {
       "node": "escalate",
       "summary": "صُعّدت لموافقة بشرية",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "aa945a3cb83dddfca1b48d6b45d7592985803207c2784118d9a13538a2d5760e",
-      "digest": "d0b977ffd9e8b468845da2533d12c800145cf06a0720690d9023255a159a1ae0"
+      "prev_hash": "625bda1e7f67fd7daec33f52b73899cc8e3175803ddc6c2e04e52862a0ebe05f",
+      "digest": "1d7258dc0e0e61fc6af79f0c9077194d4077a00f10bee59bb6b53a2c0e1fde37"
     }
   ]
 }

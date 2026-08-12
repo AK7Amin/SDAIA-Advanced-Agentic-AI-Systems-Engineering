@@ -1,0 +1,70 @@
+{
+  "doc_id": "05_letter",
+  "chain_intact": true,
+  "events": [
+    {
+      "node": "ingest",
+      "summary": "استُلمت الوثيقة 05_letter",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "",
+      "digest": "2ae577bc649c83de766d6c96a9bd957fbbe2a4b1f586f54796bb06de776a3ff8"
+    },
+    {
+      "node": "classify",
+      "summary": "النوع=letter ثقة=0.98",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "2ae577bc649c83de766d6c96a9bd957fbbe2a4b1f586f54796bb06de776a3ff8",
+      "digest": "b1395b64fb445652bc439b26c4d82f2d7d1e595b5332f92f3bc3da88e12ef005"
+    },
+    {
+      "node": "plan_route",
+      "summary": "خطة=skip_extract (1 خطوات): الوثيقة هي خطاب إداري لا يتضمن أي التزام مالي أو تعاقدي (مثل",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "b1395b64fb445652bc439b26c4d82f2d7d1e595b5332f92f3bc3da88e12ef005",
+      "digest": "116a41a50905d1269916552966f80e41d79560bc85561a958c6f2882d5252a99"
+    },
+    {
+      "node": "policy_check",
+      "summary": "حكم=uncertain سياسة=None مصدر_القرار=model",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "116a41a50905d1269916552966f80e41d79560bc85561a958c6f2882d5252a99",
+      "digest": "593e7af5de1cb5db1393bf2101ea0842d64526679ded8d0349d9bef34bbdf281"
+    },
+    {
+      "node": "tool_call",
+      "summary": "policy_lookup({\"query\": \"مدقق وثائق المشتريات حقل party amount_sar duratio) → POL-002: ## POL-002 — مدة العقد القصوى\nلا تتجاوز مدة أي عقد  [مصدر=model]",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "593e7af5de1cb5db1393bf2101ea0842d64526679ded8d0349d9bef34bbdf281",
+      "digest": "a26991653f39ecb1840f7d3e0725154aee350f169bd27f6e11c059f589e17ce4"
+    },
+    {
+      "node": "tool_call",
+      "summary": "policy_lookup({\"query\": \"حقل party signed_date سياسات المشتريات الإلزامية\") → POL-002: ## POL-002 — مدة العقد القصوى\nلا تتجاوز مدة أي عقد  [مصدر=model]",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "a26991653f39ecb1840f7d3e0725154aee350f169bd27f6e11c059f589e17ce4",
+      "digest": "9656faf2d3354d3ce24c2aea69cb0c43660a6b02c900fe334b224ab0b74d9f2b"
+    },
+    {
+      "node": "reflect",
+      "summary": "مراجعة=confirm: جميع الحقول الأساسية (party, amount_sar, duration_months, si",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "9656faf2d3354d3ce24c2aea69cb0c43660a6b02c900fe334b224ab0b74d9f2b",
+      "digest": "37d790b42aadd9cb454db7dd7da0e9530503caabaaa06d1f3e1979c9f5c7b290"
+    },
+    {
+      "node": "escalate",
+      "summary": "صُعّدت لموافقة بشرية",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "37d790b42aadd9cb454db7dd7da0e9530503caabaaa06d1f3e1979c9f5c7b290",
+      "digest": "c6e5099c3ecc5baa8dbbf3c43457c86b585968f9b2c098e7fa64cea926ebd5eb"
+    }
+  ]
+}

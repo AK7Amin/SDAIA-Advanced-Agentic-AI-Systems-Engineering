@@ -9,6 +9,7 @@
 """
 from __future__ import annotations
 
+import json
 import re
 from dataclasses import dataclass, field
 
@@ -71,10 +72,18 @@ def run_react(llm_call, task: str, registry: ToolRegistry, max_steps: int = 4) -
     """
     scratchpad = ""
     result = ReActResult(final_answer=None)
-    for _ in range(max_steps):
+    for step_i in range(max_steps):
+        # في الخطوة الأخيرة يُطلب الحسم صراحةً — وإلا استنفد النموذج الحلقة
+        # بأدوات متكررة بلا جواب (سلوك رُصد حيًا) فيضيع استدلاله كله.
+        closing = (
+            "\n\n**هذه آخر خطوة مسموحة**: لا تستدعِ أداة أخرى، أعطِ Final Answer الآن "
+            "بناءً على الملاحظات أعلاه."
+            if step_i == max_steps - 1
+            else ""
+        )
         prompt = REACT_INSTRUCTIONS.format(
             tools=registry.describe(), task=task, scratchpad=scratchpad
-        )
+        ) + closing
         text = llm_call(prompt) or ""
 
         final = _FINAL_RE.search(text)
@@ -96,7 +105,8 @@ def run_react(llm_call, task: str, registry: ToolRegistry, max_steps: int = 4) -
         try:
             call = registry.parse_call(action, action_input)
             observation = registry.dispatch(call).output
-            rendered = call.render()
+            # الوسائط وحدها — اسم الأداة يُطبع بجوارها فلا يتكرر في الأثر.
+            rendered = json.dumps(call.arguments, ensure_ascii=False)
         except ToolError as e:
             observation = f"خطأ أداة: {e}"
             rendered = action_input
