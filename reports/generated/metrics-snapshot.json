@@ -1,57 +1,51 @@
 {
-  "total_tokens": 5129,
-  "total_latency_ms": 107467,
-  "total_ref_cost_usd": 0.001682,
+  "total_tokens": 3319,
+  "total_latency_ms": 69623,
+  "total_ref_cost_usd": 0.001113,
   "per_node": {
     "classify": {
-      "calls": 5,
-      "tokens": 1948,
-      "latency_ms": 39016,
-      "ref_cost_usd": 0.00061035
+      "calls": 3,
+      "tokens": 1175,
+      "latency_ms": 28086,
+      "ref_cost_usd": 0.0003702
     },
-    "extract": {
-      "calls": 4,
-      "tokens": 1456,
-      "latency_ms": 22036,
-      "ref_cost_usd": 0.00043755
+    "plan_route": {
+      "calls": 2,
+      "tokens": 869,
+      "latency_ms": 13121,
+      "ref_cost_usd": 0.0002802
     },
     "policy_check": {
-      "calls": 3,
-      "tokens": 1725,
-      "latency_ms": 46415,
-      "ref_cost_usd": 0.0006335999999999999
+      "calls": 1,
+      "tokens": 498,
+      "latency_ms": 8898,
+      "ref_cost_usd": 0.0001719
+    },
+    "reflect": {
+      "calls": 1,
+      "tokens": 777,
+      "latency_ms": 19518,
+      "ref_cost_usd": 0.00029069999999999996
     }
   },
   "per_doc": {
-    "01_contract_compliant": {
-      "calls": 3,
-      "tokens": 1262,
-      "latency_ms": 17905,
-      "ref_cost_usd": 0.00038415
-    },
     "02_invoice_over_limit": {
-      "calls": 3,
-      "tokens": 1115,
-      "latency_ms": 17633,
-      "ref_cost_usd": 0.000327
-    },
-    "03_injected_contract": {
-      "calls": 3,
-      "tokens": 1443,
-      "latency_ms": 37363,
-      "ref_cost_usd": 0.0005314499999999999
+      "calls": 2,
+      "tokens": 832,
+      "latency_ms": 12437,
+      "ref_cost_usd": 0.00026385
     },
     "04_unknown_noise": {
       "calls": 1,
       "tokens": 433,
-      "latency_ms": 10210,
+      "latency_ms": 10624,
       "ref_cost_usd": 0.0001563
     },
     "05_letter": {
-      "calls": 2,
-      "tokens": 876,
-      "latency_ms": 24356,
-      "ref_cost_usd": 0.0002826
+      "calls": 4,
+      "tokens": 2054,
+      "latency_ms": 46562,
+      "ref_cost_usd": 0.00069285
     }
   }
 }

@@ -20,35 +20,35 @@
     },
     {
       "node": "plan_route",
-      "summary": "خطة=full لنوع invoice",
+      "summary": "خطة=full (4 خطوات): الوثيقة هي فاتورة تتضمن التزامًا ماليًا، لذا يلزم استخراج ال",
       "cost_usd": 0.0,
       "latency_ms": 0,
       "prev_hash": "4bef78cac1e3f6394c185b92a553a72d70915e72c01d68abfeb026c1bce2db15",
-      "digest": "8088a7ac7ed28aaf06c95ae53902bcf9cea7907a483e22aff10c1f16535cfb12"
+      "digest": "7352df1eb105088c25c95fefc0ebef813d490d67113bc678d585a68932bf47e9"
     },
     {
       "node": "extract",
       "summary": "محاولة 1؛ ناقص=['signed_date']",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "8088a7ac7ed28aaf06c95ae53902bcf9cea7907a483e22aff10c1f16535cfb12",
-      "digest": "8f5ad91d3a5876d61702829e1c3fae63cc875712fd72094420ddf64204065479"
+      "prev_hash": "7352df1eb105088c25c95fefc0ebef813d490d67113bc678d585a68932bf47e9",
+      "digest": "787c61940114b230fb4ddecfe91e094b0ad722b7eb48eb946891728f5c410fb8"
     },
     {
       "node": "extract",
       "summary": "محاولة 2؛ ناقص=['signed_date']",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "8f5ad91d3a5876d61702829e1c3fae63cc875712fd72094420ddf64204065479",
-      "digest": "d4a89e5078453943374b48afc0b349d203df0e7220645b95ff93ca4a7bb7576b"
+      "prev_hash": "787c61940114b230fb4ddecfe91e094b0ad722b7eb48eb946891728f5c410fb8",
+      "digest": "95889dc4c1df2b439ff08fd4f44755706761514f696b1e862a58aa4dcbe70a14"
     },
     {
       "node": "escalate",
       "summary": "صُعّدت لموافقة بشرية",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "d4a89e5078453943374b48afc0b349d203df0e7220645b95ff93ca4a7bb7576b",
-      "digest": "3c99126eec02784b843a88284f6db70f05d1dc8c297c051dc69213a08991272b"
+      "prev_hash": "95889dc4c1df2b439ff08fd4f44755706761514f696b1e862a58aa4dcbe70a14",
+      "digest": "3e0c39442efe405ad0269a59b18cb40c284be2952efe563aec35ea3979d02fd3"
     }
   ]
 }

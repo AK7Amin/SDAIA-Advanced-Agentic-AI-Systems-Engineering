@@ -17,14 +17,29 @@ from langgraph.checkpoint.sqlite import SqliteSaver  # noqa: E402
 from langgraph.types import Command  # noqa: E402
 
 from src.graph.build import AgentDeps, build_graph  # noqa: E402
-from src.schemas import Classification, DocType, ExtractedFields, PolicyVerdict, Verdict  # noqa: E402
+from src.schemas import (  # noqa: E402
+    Classification,
+    DocType,
+    ExecutionPlan,
+    ExtractedFields,
+    PolicyVerdict,
+    ReviewAction,
+    ReviewVerdict,
+    Verdict,
+)
 
 
 def _stub_deps():
     return AgentDeps(
         classify=lambda _t: Classification(doc_type=DocType.INVOICE, confidence=0.9, rationale="stub"),
         extract=lambda _t, _a: ExtractedFields(party="مورد", amount_sar=95000, signed_date="2026-09-15"),
-        policy_check=lambda _f: PolicyVerdict(verdict=Verdict.VIOLATION, cited_policy_id="POL-003", reason="stub"),
+        policy_check=lambda _f, _c="": PolicyVerdict(
+            verdict=Verdict.VIOLATION, cited_policy_id="POL-003", reason="stub"
+        ),
+        plan=lambda _c, _t: ExecutionPlan(
+            skip_extraction=False, steps=["استخراج الحقول", "تدقيق السياسات"], rationale="stub"
+        ),
+        review=lambda _f, _v: ReviewVerdict(action=ReviewAction.CONFIRM, critique="stub"),
     )
 
 

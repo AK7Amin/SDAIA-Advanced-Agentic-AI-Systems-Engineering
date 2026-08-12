@@ -13,7 +13,16 @@ PROJECT_ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
 from src.graph.build import AgentDeps, build_graph  # noqa: E402
-from src.schemas import Classification, DocType, ExtractedFields, PolicyVerdict, Verdict  # noqa: E402
+from src.schemas import (  # noqa: E402
+    Classification,
+    DocType,
+    ExecutionPlan,
+    ExtractedFields,
+    PolicyVerdict,
+    ReviewAction,
+    ReviewVerdict,
+    Verdict,
+)
 
 _COMPLETE = dict(party="شركة التقنية", amount_sar=30000, duration_months=12, signed_date="2026-08-01")
 _MISSING = dict(party="شركة التقنية", amount_sar=None, duration_months=None, signed_date=None)
@@ -27,11 +36,24 @@ def _coerce_verdict(v) -> Verdict:
     return v if isinstance(v, Verdict) else Verdict(v)
 
 
-def _make_deps(classification, extraction_complete, extraction_attempts, verdict):
+def _make_deps(classification, extraction_complete, extraction_attempts, verdict,
+               skip_extraction=None, review_action="confirm", verdict_after_revise=None):
     dt = _coerce_type(classification)
 
     def classify(_text):
         return Classification(doc_type=dt, confidence=0.92, rationale="stub")
+
+    def plan(_classification, _text):
+        # افتراضيًا: الخطاب يتخطى الاستخراج (كما يقرر النموذج الحقيقي عادةً).
+        skip = (dt == DocType.LETTER) if skip_extraction is None else skip_extraction
+        return ExecutionPlan(
+            skip_extraction=skip,
+            steps=["تدقيق السياسات"] if skip else ["استخراج الحقول", "تدقيق السياسات"],
+            rationale="stub",
+        )
+
+    def review(_fields, _verdict):
+        return ReviewVerdict(action=ReviewAction(review_action), critique="stub critique")
 
     seq = list(extraction_attempts) if extraction_attempts else None
 
@@ -43,12 +65,18 @@ def _make_deps(classification, extraction_complete, extraction_attempts, verdict
             fields = _COMPLETE if extraction_complete else _MISSING
         return ExtractedFields(**fields)
 
-    def policy_check(_fields):
-        v = _coerce_verdict(verdict) if verdict is not None else Verdict.COMPLIANT
+    def policy_check(_fields, critique=""):
+        # بعد المراجعة (وجود نقد) يمكن أن يتغير الحكم — يحاكي حلقة Reflexion.
+        if critique and verdict_after_revise is not None:
+            v = _coerce_verdict(verdict_after_revise)
+        else:
+            v = _coerce_verdict(verdict) if verdict is not None else Verdict.COMPLIANT
         cite = "POL-001" if v == Verdict.VIOLATION else None
         return PolicyVerdict(verdict=v, cited_policy_id=cite, reason="stub")
 
-    return AgentDeps(classify=classify, extract=extract, policy_check=policy_check)
+    return AgentDeps(
+        classify=classify, extract=extract, policy_check=policy_check, plan=plan, review=review
+    )
 
 
 class FakeLLM:
@@ -69,8 +97,10 @@ class FakeLLM:
 def graph_with_stubs():
     """مصنع: يعيد مخططًا مجمّعًا بوكلاء موهومين (InMemorySaver افتراضًا)."""
     def _factory(classification=DocType.CONTRACT, extraction_complete=False,
-                 extraction_attempts=None, verdict=None, checkpointer=None):
-        deps = _make_deps(classification, extraction_complete, extraction_attempts, verdict)
+                 extraction_attempts=None, verdict=None, checkpointer=None,
+                 skip_extraction=None, review_action="confirm", verdict_after_revise=None):
+        deps = _make_deps(classification, extraction_complete, extraction_attempts, verdict,
+                          skip_extraction, review_action, verdict_after_revise)
         return build_graph(deps, checkpointer=checkpointer)
     return _factory
 
@@ -84,7 +114,7 @@ def graph_with_stubs_factory():
 
     def _factory(checkpoint_db, classification=DocType.INVOICE, extraction_complete=True,
                  extraction_attempts=None, verdict="violation"):
-        deps = _make_deps(classification, extraction_complete, extraction_attempts, verdict)
+        deps = _make_deps(classification, extraction_complete, extraction_attempts, verdict)  # noqa: E501
         saver = SqliteSaver(sqlite3.connect(str(checkpoint_db), check_same_thread=False))
         return build_graph(deps, checkpointer=saver)
     return _factory

@@ -9,10 +9,8 @@
 
 - **المخطط**: التصعيد عقدتان `escalate`→`human_gate` (interrupt بعد كتابة
   الحالة)، والاستئناف `Command(resume=...)`. plan_route **يغيّر التحكم فعلًا**
-  (الخطابات تتخطى extract — مُثبت باختبار `test_letter_skips_extraction_via_plan_route`).
+  (قرار المخطِّط LLM يوجّه الحافة — مُثبت باختبار `test_planner_decision_drives_control_flow`).
   المخطط يُجمَّع دومًا بـcheckpointer. **[مُثبت بـspike حقيقي عبر عمليتين]**.
-  *(حافة re-plan على UNCERTAIN: لم تُنفَّذ — UNCERTAIN يُصعَّد للموافقة البشرية
-  وهو السلوك الأكثر تحفظًا وأمانًا؛ مسجّلة كترقية لا كادعاء.)*
 - **الأمن**: `raw_text` لا يدخل الحالة المُنقَّطة (فقط `masked_text`) — لا PII
   في الcheckpoint. تعقيم الوثيقة بالتغليف لا الحذف. مُنقٍّح مفاتيح مركزي.
   مضمِّن ChromaDB محلي مثبت. سطح الاختراق: حقن مباشر/غير مباشر + استخراج

@@ -84,6 +84,51 @@ def test_letter_skips_extraction_via_plan_route(graph_with_stubs):
     assert state["final_status"] == "archived"
 
 
+def test_planner_decision_drives_control_flow(graph_with_stubs):
+    """خطة **النموذج** (لا شرط مكتوب) هي ما يوجّه التدفق — نمط Plan-and-Execute.
+
+    نفس نوع الوثيقة (عقد) لكن المخطِّط يقرر تخطي الاستخراج ← يُتخطى فعلًا.
+    """
+    graph = graph_with_stubs(
+        classification=DocType.CONTRACT, skip_extraction=True, verdict=Verdict.COMPLIANT
+    )
+    state = _run(graph, "عقد قرر المخطط تخطي استخراجه", "planner_skip")
+    nodes = [e.node for e in state["audit_trail"]]
+    assert "plan_route" in nodes
+    assert "extract" not in nodes       # القرار جاء من الخطة لا من نوع الوثيقة
+    assert state["plan"].skip_extraction is True
+
+
+def test_reflexion_loop_revises_uncertain_verdict(graph_with_stubs):
+    """Reflexion: ممثل ← مقيّم/عاكس ← ممثل مرة أخرى بالنقد، فيُحسم الحكم."""
+    graph = graph_with_stubs(
+        classification=DocType.CONTRACT,
+        extraction_complete=True,
+        verdict=Verdict.UNCERTAIN,
+        review_action="revise",
+        verdict_after_revise=Verdict.COMPLIANT,   # النقد أدى لحسم الحكم
+    )
+    state = _run(graph, "عقد حكمه غير حاسم أول مرة", "reflexion_revise")
+    nodes = [e.node for e in state["audit_trail"]]
+    assert nodes.count("policy_check") == 2      # أُعيد التدقيق بعد النقد
+    assert "reflect" in nodes
+    assert state["final_status"] == "archived"   # حُسم بلا إتعاب البشر
+
+
+def test_reflexion_bounded_then_escalates(graph_with_stubs):
+    """الحلقة محدودة: المراجع يؤكد عدم الحسم ← تصعيد بشري (لا لانهاية)."""
+    graph = graph_with_stubs(
+        classification=DocType.CONTRACT,
+        extraction_complete=True,
+        verdict=Verdict.UNCERTAIN,
+        review_action="confirm",
+    )
+    state = _run(graph, "عقد يبقى غير حاسم", "reflexion_confirm")
+    nodes = [e.node for e in state["audit_trail"]]
+    assert nodes.count("reflect") == 1
+    assert state["final_status"] == "awaiting_approval"
+
+
 def test_audit_trail_appends_never_replaces(graph_with_stubs, compliant_contract_ar):
     """reducer الحالة يجمع أحداث التدقيق ولا يستبدلها."""
     graph = graph_with_stubs(

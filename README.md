@@ -21,15 +21,18 @@
 flowchart TD
     START([وثيقة في inbox]) --> M[تقنيع PII + تعقيم حقن]
     M --> ingest --> classify
-    classify -->|نوع معروف| plan_route
+    classify -->|نوع معروف| plan_route[plan_route — مخطِّط LLM]
     classify -->|غير معروف| quarantine([حجر])
-    plan_route -->|عقد/فاتورة| extract
-    plan_route -->|خطاب| policy_check
+    plan_route -->|الخطة: استخراج| extract
+    plan_route -->|الخطة: تخطٍّ| policy_check
     extract -->|حقول ناقصة، محاولات<2| extract
     extract -->|ناقص، بلغ الحد| escalate
     extract -->|مكتمل| policy_check
     policy_check -->|مطابق| archive
-    policy_check -->|مخالف/مشكوك| escalate
+    policy_check -->|غير حاسم، مراجعة<1| reflect[reflect — ناقد Reflexion]
+    reflect -->|revise + نقد| policy_check
+    reflect -->|confirm| escalate
+    policy_check -->|مخالف| escalate
     escalate --> human_gate{{موافقة بشرية — interrupt}}
     human_gate -->|موافقة| archive
     human_gate -->|رفض| reject
@@ -42,9 +45,14 @@ flowchart TD
   فلا تتشوّه المعلومة بين الوكلاء. عقدة `notify` حاليًا تسجّل حالة الإشعار في
   الأثر (توليد نص الإشعار بقوالب Jinja2 ترقية مخطط لها، غير منفذة).
 - **المنسق** = مخطط الحالة نفسه (`src/graph/build.py`): عقد nodes وحواف شرطية
-  conditional edges. عقدة `plan_route` **تخطيط Plan-and-Execute** تغيّر التدفق
-  فعلًا (الخطابات تتخطى الاستخراج).
-- **الحلقة**: إعادة الاستخراج بتلميح عند نقص الحقول، محدودة بمحاولتين.
+  conditional edges.
+- **نمط Plan-and-Execute**: عقدة `plan_route` تنادي **مخطِّطًا LLM** يعيد خطة
+  typed (`ExecutionPlan`: هل يُتخطى الاستخراج + خطوات + مبرر)، والحافة الشرطية
+  تستهلك قرار النموذج — لا شرط مكتوب في الكود.
+- **نمط Reflexion**: عند حكم **غير حاسم** يدخل وكيل مراجعة ناقد
+  (المقيّم+العاكس) يعيد `revise` مع نقد قابل للتنفيذ فيُعاد التدقيق مرة واحدة،
+  أو `confirm` فيُصعَّد للبشر. حلقة محدودة بمحاولة واحدة.
+- **حلقة الاستخراج**: إعادة بتلميح عند نقص الحقول، محدودة بمحاولتين.
 - **الذاكرة/الحالة**: `SqliteSaver` checkpointer — التوقف عند الموافقة البشرية
   والاستئناف **عبر عملية منفصلة** (`langgraph interrupt` + `Command(resume=...)`).
 - **مخزن السياسات**: ChromaDB بمضمِّن **محلي** (لا تُرسَل بيانات خارج الجهاز).
@@ -93,7 +101,7 @@ docker build -t doc-agent . && docker run -p 8000:8000 --env-file .env doc-agent
 
 ### الاختبارات
 ```bash
-pytest -v          # 49 اختبارًا (schemas, llm, graph, checkpoint, guardrails, policy)
+pytest -v          # 52 اختبارًا (schemas, llm, graph, checkpoint, guardrails, policy)
 ```
 
 ## الأدلة المحفوظة (`reports/`)

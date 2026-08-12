@@ -20,43 +20,43 @@
     },
     {
       "node": "plan_route",
-      "summary": "خطة=full لنوع contract",
+      "summary": "خطة=full (3 خطوات): الوثيقة نوع عقد مع التزام مالي، لذا يتطلب استخراج حقول تعاقد",
       "cost_usd": 0.0,
       "latency_ms": 0,
       "prev_hash": "e0a2a0c0f5e2be65a8c002e5e733e27defc0443e316b32d0afcc39e85fe03b32",
-      "digest": "804e0673b107f2ecb1c3a002c748f1da83b91996f12ffa77f57200c5ee36c822"
+      "digest": "7f8bbe9d1d47acd6caa2591a186d6d1de512d5848e9397b3bd4ac9fef020a6f7"
     },
     {
       "node": "extract",
       "summary": "محاولة 1؛ ناقص=[]",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "804e0673b107f2ecb1c3a002c748f1da83b91996f12ffa77f57200c5ee36c822",
-      "digest": "79b1069c0f765d5dfd2fd7d9dc4ce44ebc2e49fd0ca5a5969c9b7f777fa49e19"
+      "prev_hash": "7f8bbe9d1d47acd6caa2591a186d6d1de512d5848e9397b3bd4ac9fef020a6f7",
+      "digest": "b194bc07302553bc16645f5728e45dd9fec985939179cf6af9d91d8189e31012"
     },
     {
       "node": "policy_check",
       "summary": "حكم=compliant سياسة=None",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "79b1069c0f765d5dfd2fd7d9dc4ce44ebc2e49fd0ca5a5969c9b7f777fa49e19",
-      "digest": "67386c4ed2bebf91812c329becd294f67511807fdce4a3c62f90a1351814e3d0"
+      "prev_hash": "b194bc07302553bc16645f5728e45dd9fec985939179cf6af9d91d8189e31012",
+      "digest": "c8b954a77aa1546cbb117fd5a939d47015158141bb617e012de6e5d33a8c12f8"
     },
     {
       "node": "archive",
       "summary": "أُرشفت الوثيقة",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "67386c4ed2bebf91812c329becd294f67511807fdce4a3c62f90a1351814e3d0",
-      "digest": "f732aa92bf05c0fd6b6b65dc7e5e6a355713597c4527ce68aed446a1946db4d8"
+      "prev_hash": "c8b954a77aa1546cbb117fd5a939d47015158141bb617e012de6e5d33a8c12f8",
+      "digest": "e165d709153b7326621b17ddd66be83c63a35cc7cee2a81ffd62f25ce4943ef7"
     },
     {
       "node": "notify",
       "summary": "أُشعر بالحالة archived",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "f732aa92bf05c0fd6b6b65dc7e5e6a355713597c4527ce68aed446a1946db4d8",
-      "digest": "9089ae96bfe8e6e112fa9443d0c7f21b2140db8197dc4b3c0a0cb8f45bfa60b0"
+      "prev_hash": "e165d709153b7326621b17ddd66be83c63a35cc7cee2a81ffd62f25ce4943ef7",
+      "digest": "ca465e383bd0e33f6cdc922db3eabb0afbe636ea5ded96fa22dc3ba4f07c19f8"
     }
   ]
 }

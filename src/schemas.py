@@ -70,6 +70,32 @@ class PolicyVerdict(BaseModel):
         return self
 
 
+class ExecutionPlan(BaseModel):
+    """مخرج وكيل التخطيط planner — نمط Plan-and-Execute (يوم 1، شريحة 38).
+
+    النموذج نفسه يقرر الخطة: هل يُتخطى الاستخراج، وما خطوات التنفيذ. القرار
+    يُستهلك في حافة شرطية فيغيّر تدفق التحكم فعلًا (لا خطة زخرفية).
+    """
+
+    skip_extraction: bool = False
+    steps: list[str] = Field(default_factory=list, min_length=1)
+    rationale: str
+
+
+class ReviewAction(str, Enum):
+    """قرار وكيل المراجعة الناقد (نمط Reflexion — يوم 1، شريحة 39)."""
+
+    CONFIRM = "confirm"   # الحكم سليم كما هو
+    REVISE = "revise"     # أعد التدقيق بتغذية راجعة
+
+
+class ReviewVerdict(BaseModel):
+    """مخرج المقيّم/العاكس Evaluator+Reflector في حلقة Reflexion."""
+
+    action: ReviewAction
+    critique: str
+
+
 class AuditEvent(BaseModel):
     """حدث تدقيق غير قابل للتعديل، مربوط بسلسلة تجزئة hash-chain.
 

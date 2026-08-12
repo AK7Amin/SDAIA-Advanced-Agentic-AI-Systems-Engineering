@@ -95,8 +95,14 @@ class LLMLayer:
         import json
         import urllib.request
 
+        # temperature=0: أخذ عينات حتمي — أول استراتيجية موثوقية في شرائح اليوم 5.
         body = json.dumps(
-            {"model": self.model, "messages": [{"role": "user", "content": prompt}], "max_tokens": 800}
+            {
+                "model": self.model,
+                "messages": [{"role": "user", "content": prompt}],
+                "max_tokens": 800,
+                "temperature": 0,
+            }
         ).encode()
         req = urllib.request.Request(
             "https://openrouter.ai/api/v1/chat/completions",
@@ -117,9 +123,31 @@ class LLMLayer:
         return self._post(self._fallback_key, prompt)[0]
 
     @staticmethod
-    def _is_quota_error(exc: Exception) -> bool:
-        status = getattr(exc, "status_code", getattr(exc, "code", None))
-        return status in (402, 403)
+    def _status_of(exc: Exception) -> int | None:
+        return getattr(exc, "status_code", getattr(exc, "code", None))
+
+    @classmethod
+    def _is_quota_error(cls, exc: Exception) -> bool:
+        """402 رصيد، 403 حد إجمالي، 429 تجاوز معدل — كلها تستدعي المفتاح الاحتياطي.
+
+        (429 أُضيف بعد رصده حيًا على الحد اليومي للنماذج المجانية.)
+        """
+        return cls._status_of(exc) in (402, 403, 429)
+
+    def _post_with_retry(self, key: str, prompt: str, attempts: int = 3) -> tuple[str, int, int]:
+        """تراجع أسّي exponential backoff على 429 — سياسة إعادة المحاولة (يوم 5)."""
+        delay = 2.0
+        last: Exception | None = None
+        for i in range(attempts):
+            try:
+                return self._post(key, prompt)
+            except Exception as exc:  # noqa: BLE001
+                last = exc
+                if self._status_of(exc) != 429 or i == attempts - 1:
+                    raise
+                time.sleep(delay)
+                delay *= 2
+        raise last  # type: ignore[misc]
 
     def invoke_with_fallback(self, prompt: str) -> str:
         """ينادي الأساسي؛ عند 402/403 يحوّل للاحتياطي. يُنقّح أي خطأ من الأسرار."""
@@ -140,10 +168,10 @@ class LLMLayer:
             self.budget.charge()
         t0 = time.perf_counter()
         try:
-            content, pt, ct = self._post(self._api_key, prompt)
+            content, pt, ct = self._post_with_retry(self._api_key, prompt)
         except Exception as exc:  # noqa: BLE001
-            if self._is_quota_error(exc):
-                content, pt, ct = self._post(self._fallback_key, prompt)
+            if self._is_quota_error(exc) and self._fallback_key:
+                content, pt, ct = self._post_with_retry(self._fallback_key, prompt)
             else:
                 raise RuntimeError(redact_secrets(str(exc))) from None
         latency_ms = int((time.perf_counter() - t0) * 1000)

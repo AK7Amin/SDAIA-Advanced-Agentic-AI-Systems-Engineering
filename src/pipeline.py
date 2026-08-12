@@ -40,7 +40,13 @@ def build_production_graph(checkpointer, policy_file: str | Path):
     store = PolicyStore()
     store.index_policy_file(policy_file)
     agents = RealAgents(llm, store)
-    deps = AgentDeps(classify=agents.classify, extract=agents.extract, policy_check=agents.policy_check)
+    deps = AgentDeps(
+        classify=agents.classify,
+        extract=agents.extract,
+        policy_check=agents.policy_check,
+        plan=agents.plan,          # مخطِّط LLM (Plan-and-Execute)
+        review=agents.review,      # مراجع ناقد (Reflexion)
+    )
     return build_graph(deps, checkpointer=checkpointer), llm
 
 

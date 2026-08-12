@@ -1,4 +1,5 @@
 """M2: طبقة LLM — عداد التكلفة/الكمون + fallback المفتاح الثاني (بند rubric 5)."""
+import urllib.error
 from unittest.mock import MagicMock, patch
 
 import pytest
@@ -37,6 +38,22 @@ def test_fallback_switches_key_on_403():
         out = LLMLayer.invoke_with_fallback(layer, "prompt")
     assert out == "ok"
     fallback.assert_called_once()
+
+
+def test_429_also_triggers_fallback_key():
+    """429 (تجاوز معدل) يجب أن يدوّر للمفتاح الاحتياطي مثل 402/403.
+
+    رُصد حيًا على الحد اليومي للنماذج المجانية — كان يفشل بلا تدوير.
+    """
+    layer = LLMLayer.__new__(LLMLayer)
+    err = urllib.error.HTTPError("u", 429, "Too Many Requests", {}, None)
+    assert LLMLayer._is_quota_error(err) is True
+
+
+def test_non_quota_error_does_not_rotate():
+    """خطأ غير متعلق بالحصة (500) لا يستهلك المفتاح الاحتياطي."""
+    err = urllib.error.HTTPError("u", 500, "Server Error", {}, None)
+    assert LLMLayer._is_quota_error(err) is False
 
 
 def test_no_key_in_repr():
