@@ -1,36 +1,36 @@
 {
-  "total_tokens": 5987,
-  "total_latency_ms": 229662,
-  "total_ref_cost_usd": 0.002008,
+  "total_tokens": 7537,
+  "total_latency_ms": 216982,
+  "total_ref_cost_usd": 0.002476,
   "per_node": {
     "classify": {
-      "calls": 4,
-      "tokens": 1566,
-      "latency_ms": 58973,
-      "ref_cost_usd": 0.00049635
+      "calls": 5,
+      "tokens": 1925,
+      "latency_ms": 41042,
+      "ref_cost_usd": 0.00059655
     },
     "plan_route": {
-      "calls": 3,
-      "tokens": 1207,
-      "latency_ms": 44139,
-      "ref_cost_usd": 0.00036960000000000004
+      "calls": 4,
+      "tokens": 1730,
+      "latency_ms": 50750,
+      "ref_cost_usd": 0.00056325
     },
     "extract": {
-      "calls": 2,
-      "tokens": 705,
-      "latency_ms": 48259,
-      "ref_cost_usd": 0.00021375
+      "calls": 4,
+      "tokens": 1456,
+      "latency_ms": 49963,
+      "ref_cost_usd": 0.00043755
     },
     "policy_check": {
       "calls": 3,
-      "tokens": 1755,
-      "latency_ms": 49654,
-      "ref_cost_usd": 0.0006516
+      "tokens": 1672,
+      "latency_ms": 48409,
+      "ref_cost_usd": 0.0006018
     },
     "reflect": {
       "calls": 1,
       "tokens": 754,
-      "latency_ms": 28637,
+      "latency_ms": 26818,
       "ref_cost_usd": 0.0002769
     }
   },
@@ -38,26 +38,32 @@
     "01_contract_compliant": {
       "calls": 4,
       "tokens": 1688,
-      "latency_ms": 39166,
+      "latency_ms": 35130,
       "ref_cost_usd": 0.000516
+    },
+    "02_invoice_over_limit": {
+      "calls": 4,
+      "tokens": 1632,
+      "latency_ms": 50616,
+      "ref_cost_usd": 0.00051705
     },
     "03_injected_contract": {
       "calls": 4,
-      "tokens": 1874,
-      "latency_ms": 87244,
-      "ref_cost_usd": 0.0006802500000000001
+      "tokens": 1791,
+      "latency_ms": 73259,
+      "ref_cost_usd": 0.0006304500000000001
     },
     "04_unknown_noise": {
       "calls": 1,
       "tokens": 401,
-      "latency_ms": 11136,
+      "latency_ms": 10168,
       "ref_cost_usd": 0.0001371
     },
     "05_letter": {
       "calls": 4,
-      "tokens": 2024,
-      "latency_ms": 92116,
-      "ref_cost_usd": 0.0006748500000000001
+      "tokens": 2025,
+      "latency_ms": 47809,
+      "ref_cost_usd": 0.00067545
     }
   }
 }

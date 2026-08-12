@@ -20,35 +20,35 @@
     },
     {
       "node": "plan_route",
-      "summary": "خطة=skip_extract (2 خطوات): الخطاب الإدارى لا يتضمن أي التزام مالي أو تعاقدي جديد، لذا ل",
+      "summary": "خطة=skip_extract (2 خطوات): الخطاب الإدارى لا يشتمل على أي التزام مالي أو تعاقدي، وبالتا",
       "cost_usd": 0.0,
       "latency_ms": 0,
       "prev_hash": "5224e9930598543d6338a9a42784742127889df498ae94d16ce48dd1c97ad213",
-      "digest": "9ee25702181676aa7468035e7a471169f2eefceaca7d2267f54eeb4f082cc136"
+      "digest": "b943b28bb342895660c6ed173bb3d7d0c297d217fec4c64a26df09e556a78a0b"
     },
     {
       "node": "policy_check",
       "summary": "حكم=uncertain سياسة=None",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "9ee25702181676aa7468035e7a471169f2eefceaca7d2267f54eeb4f082cc136",
-      "digest": "ebdeae69a7e73c477b10072cb6dea4518f840a20cab5d869bd23279d8e1a0249"
+      "prev_hash": "b943b28bb342895660c6ed173bb3d7d0c297d217fec4c64a26df09e556a78a0b",
+      "digest": "de061a3f3da721320d7091590c6f83891c95dbf407b2b1e31a9447e870699714"
     },
     {
       "node": "reflect",
       "summary": "مراجعة=confirm: المعلومات غير متوفرة في الحقول (المدة، المبلغ، إلخ) ولا يمكن",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "ebdeae69a7e73c477b10072cb6dea4518f840a20cab5d869bd23279d8e1a0249",
-      "digest": "9b9c57c445bbb6d45acda0a38097882c5a331f7a50add72ea5ce206468afddd6"
+      "prev_hash": "de061a3f3da721320d7091590c6f83891c95dbf407b2b1e31a9447e870699714",
+      "digest": "b309f48621f99a920a3571a2e4809f291d34620f63e624290bb8df97c692c956"
     },
     {
       "node": "escalate",
       "summary": "صُعّدت لموافقة بشرية",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "9b9c57c445bbb6d45acda0a38097882c5a331f7a50add72ea5ce206468afddd6",
-      "digest": "c8023f4c46eb8201d47f783d7bae863253c946c12555026b178effcb70848fc9"
+      "prev_hash": "b309f48621f99a920a3571a2e4809f291d34620f63e624290bb8df97c692c956",
+      "digest": "3a6e6df840ecf03dd99d57734529a71ce3978988bfb63abfcf8b4625e017a9c8"
     }
   ]
 }

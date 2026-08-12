@@ -68,8 +68,9 @@ flowchart TD
 | `src/guardrails/` | حقن (كشف+تغليف)، PII، اجتياز مسار، ميزانية/حجم |
 | `src/policy_store.py` | ChromaDB بمضمِّن محلي، يفهرس السياسات الموثوقة فقط |
 | `src/observability/` | traces كملفات، عدادات Prometheus، لوحة HTML |
+| `src/effects.py` | الأفعال الحقيقية: أرشفة الوثيقة + قيد القرار في SQLite + إشعار Jinja2 |
 | `src/pipeline.py` | تجميع: تقنيع/حواجز قبل المخطط ثم التشغيل والأثر |
-| `src/app.py` | خدمة FastAPI: `POST /process`، `GET /metrics`، `GET /healthz` |
+| `src/app.py` | خدمة FastAPI: `POST /process`، `POST /resume`، `GET /metrics`، `GET /healthz` |
 | `main.py` | CLI: `run` / `resume` / `attack` |
 
 ## التشغيل
@@ -111,6 +112,9 @@ pytest -v          # 59 اختبارًا (schemas, llm, graph, checkpoint, guard
 - `generated/traces/<doc_id>.json` — أثر كل وثيقة مع التحقق من سلامة السلسلة.
 - `generated/metrics-snapshot.json` — توكنز/كمون/تكلفة لكل وثيقة.
 - `generated/dashboard.html` — لوحة مراقبة تُفتح دون تشغيل.
+- `../archive/*.txt` + `notifications/*.md` — **مخرجات أفعال حقيقية**: الوثائق
+  المؤرشفة والإشعارات المولَّدة. وقاعدة `archive/decisions.sqlite` تحمل قيد كل
+  قرار (قابلة للاستعلام) وتُعاد بناؤها بكل تشغيلة فلا تُتتبَّع في git.
 
 ## الأمن (ملخص)
 
