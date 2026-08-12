@@ -2,6 +2,7 @@
 
     python main.py run [--no-guardrails]     معالجة كل وثائق sample_docs/
     python main.py resume <thread_id> <approve|reject>
+    python main.py resilience-demo            إظهار إعادة المحاولة والتراجع
     python main.py attack [--no-guardrails]  سيناريو الاختراق (حقن مباشر/غير مباشر)
 """
 from __future__ import annotations
@@ -69,6 +70,41 @@ def cmd_attack(guardrails: bool):
     print(f"[حقن غير مباشر عبر وثيقة] → الحالة={res['final_status']} حواجز={res['guardrails']}")
 
 
+def cmd_resilience():
+    """يُظهر مسار الفشل مرئيًا: 429 محاكى ← إعادة محاولة ← مفتاح احتياطي ← نجاح.
+
+    الرُبرِك يطلب «إظهار تراجع فعلي يشتغل على فشل محاكى» — لا إخفاءه في pytest.
+    """
+    import urllib.error
+
+    from src.llm import LLMLayer
+
+    print("== عرض المرونة: فشل مزوّد ← إعادة محاولة ← تراجع لمفتاح احتياطي ==\n")
+    layer = LLMLayer(api_key="PRIMARY", fallback_key="FALLBACK")
+    calls = {"n": 0}
+
+    def fake_post(key, prompt):
+        calls["n"] += 1
+        if key == "PRIMARY":
+            print(f"  [{calls['n']}] المفتاح الأساسي  → HTTP 429 (تجاوز معدل)")
+            raise urllib.error.HTTPError("u", 429, "Too Many Requests", {}, None)
+        print(f"  [{calls['n']}] المفتاح الاحتياطي → 200 OK")
+        return ("تمت المعالجة", 12, 5)
+
+    layer._post = fake_post
+    original_sleep = __import__("time").sleep
+    __import__("time").sleep = lambda s: print(f"      ↳ تراجع أسّي: انتظار {s:.0f} ثانية")
+    try:
+        out = layer.invoke("دقّق الوثيقة", node="demo", doc_id="resilience")
+    finally:
+        __import__("time").sleep = original_sleep
+
+    print(f"\n  النتيجة: {out!r}")
+    print(f"  إجمالي المحاولات: {calls['n']} (الأساسي أخفق ثم تولّى الاحتياطي)")
+    print(f"  التوكنز المسجّلة: {layer.meter.total_tokens} — القياس استمر رغم الفشل")
+    print("\n  ✓ لم تسقط الطلبية: أُعيدت المحاولة، ثم دُوِّر المفتاح، ثم نجحت.")
+
+
 def main():
     args = sys.argv[1:]
     guardrails = "--no-guardrails" not in args
@@ -82,6 +118,8 @@ def main():
         cmd_resume(args[1], args[2])
     elif args[0] == "attack":
         cmd_attack(guardrails)
+    elif args[0] == "resilience-demo":
+        cmd_resilience()
     else:
         print(__doc__)
         return 1

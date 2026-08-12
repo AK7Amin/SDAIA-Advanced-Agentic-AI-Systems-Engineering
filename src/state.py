@@ -26,6 +26,7 @@ class DocState(TypedDict, total=False):
     extraction: ExtractedFields
     extract_attempts: int
     policy_verdict: PolicyVerdict
+    tool_calls: int             # عدد الأدوات التي قرر الوكيل استدعاءها
     review: ReviewVerdict       # مخرج المراجع الناقد (Reflexion)
     critique: str               # تغذية راجعة تُحقن في إعادة التدقيق
     reflect_attempts: int

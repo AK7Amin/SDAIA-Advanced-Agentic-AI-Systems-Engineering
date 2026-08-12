@@ -1,6 +1,6 @@
 {
   "doc_id": "attack_indirect_raw",
-  "chain_intact": true,
+  "chain_intact": false,
   "events": [
     {
       "node": "ingest",
@@ -43,12 +43,20 @@
       "digest": "7e314e530a0c14003d10a614a2631942a6d150b9f799e3cbb9f9236bb28d62f2"
     },
     {
+      "node": "tool_call",
+      "summary": "policy_lookup({\"party\":\"شركة الخدمات المتقدمة\",\"amount) → POL-002: ## POL-002 — مدة العقد القصوى\nلا تتجاوز مدة أي عقد ",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "9104746afc96c3a1c0275616cdbedf7dc665ea8460997982062e872d127cb13f",
+      "digest": "3ca730eccf3bbf465194cb3d44dba0e1b64d54fdecb849a31c366ec0c4c53424"
+    },
+    {
       "node": "escalate",
       "summary": "صُعّدت لموافقة بشرية",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "7e314e530a0c14003d10a614a2631942a6d150b9f799e3cbb9f9236bb28d62f2",
-      "digest": "12eeca75fac61241f79d2df8174db012013cf1cc30bf8a480f6af7fedd86c638"
+      "prev_hash": "3ca730eccf3bbf465194cb3d44dba0e1b64d54fdecb849a31c366ec0c4c53424",
+      "digest": "9a3f768ac17fc1019fd57d80db52e897ee0b806e30d18dfbd8232dc47f84c591"
     }
   ]
 }

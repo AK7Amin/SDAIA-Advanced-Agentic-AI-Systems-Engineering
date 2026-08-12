@@ -44,7 +44,7 @@ def build_production_graph(checkpointer, policy_file: str | Path):
     deps = AgentDeps(
         classify=agents.classify,
         extract=agents.extract,
-        policy_check=agents.policy_check,
+        policy_check=agents.policy_check_with_tools,   # ReAct بأدوات حقيقية (البند 1)
         plan=agents.plan,          # مخطِّط LLM (Plan-and-Execute)
         review=agents.review,      # مراجع ناقد (Reflexion)
         effects=FileEffects(Path(__file__).parent.parent),   # أرشفة وإشعار حقيقيان

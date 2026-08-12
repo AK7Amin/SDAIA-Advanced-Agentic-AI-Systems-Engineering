@@ -1,6 +1,6 @@
 {
   "doc_id": "03_injected_contract",
-  "chain_intact": true,
+  "chain_intact": false,
   "events": [
     {
       "node": "ingest",
@@ -20,35 +20,43 @@
     },
     {
       "node": "plan_route",
-      "summary": "خطة=full (2 خطوات): The document is a formal contract that includes a monetary v",
+      "summary": "خطة=full (2 خطوات): The document is a formal maintenance contract containing bin",
       "cost_usd": 0.0,
       "latency_ms": 0,
       "prev_hash": "13bed59eb65c7edb7e0e842a58a31d30124e9d247a049dfaf5356137efe3c8ac",
-      "digest": "546e06360519ad1a04071eca6d670cb238faa98efb5866b072e1fbcf5abe6c06"
+      "digest": "c3d6561bb7a921a9a071e7700c4d79f08e3f347b801e102306b31888de5016f0"
     },
     {
       "node": "extract",
       "summary": "محاولة 1؛ ناقص=[]",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "546e06360519ad1a04071eca6d670cb238faa98efb5866b072e1fbcf5abe6c06",
-      "digest": "33460eaeea490d53c3d412164fc9d23dd0350c1ed5f001263f2d5faae610aabc"
+      "prev_hash": "c3d6561bb7a921a9a071e7700c4d79f08e3f347b801e102306b31888de5016f0",
+      "digest": "32f1a87ce2dae60d95bc43cde3f5a3131e62fe70903999f5600e8598238ee92b"
     },
     {
       "node": "policy_check",
       "summary": "حكم=violation سياسة=POL-002",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "33460eaeea490d53c3d412164fc9d23dd0350c1ed5f001263f2d5faae610aabc",
-      "digest": "5b219310c6ea8ac09d6341e1da86fd794c601a82d06ad24daafe10d5fd8d39b6"
+      "prev_hash": "32f1a87ce2dae60d95bc43cde3f5a3131e62fe70903999f5600e8598238ee92b",
+      "digest": "4d0641cdd67d8d9d25cad647ac281c487add884a3a34fa1cab7265c5522ee250"
+    },
+    {
+      "node": "tool_call",
+      "summary": "policy_lookup({\"party\":\"شركة الخدمات المتقدمة\",\"amount) → POL-002: ## POL-002 — مدة العقد القصوى\nلا تتجاوز مدة أي عقد ",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "32f1a87ce2dae60d95bc43cde3f5a3131e62fe70903999f5600e8598238ee92b",
+      "digest": "3c2fe398af88e59b2c3c2fdc1e6bc0a47355785f269a0480494e48b75528421a"
     },
     {
       "node": "escalate",
       "summary": "صُعّدت لموافقة بشرية",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "5b219310c6ea8ac09d6341e1da86fd794c601a82d06ad24daafe10d5fd8d39b6",
-      "digest": "4314c52705ea165caec76e74c184829b14c7db3b13e7d2ef93ea695ecaeccaf5"
+      "prev_hash": "3c2fe398af88e59b2c3c2fdc1e6bc0a47355785f269a0480494e48b75528421a",
+      "digest": "0c35cd8b041ffdac5a66b0cbfbd3ef6072dae2e089198d047ff9b368c2c16977"
     }
   ]
 }

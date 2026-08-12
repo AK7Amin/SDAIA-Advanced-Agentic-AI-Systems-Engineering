@@ -108,7 +108,9 @@ class LLMLayer:
             {
                 "model": self.model,
                 "messages": [{"role": "user", "content": prompt}],
-                "max_tokens": 800,
+                # نماذج الاستدلال (مثل gpt-oss) تستهلك مئات التوكنز في reasoning
+                # قبل المحتوى؛ حد منخفض يُرجع محتوى **فارغًا** (شُخِّص حيًا).
+                "max_tokens": int(os.getenv("LLM_MAX_TOKENS", "2000")),
                 "temperature": 0,
             }
         ).encode()

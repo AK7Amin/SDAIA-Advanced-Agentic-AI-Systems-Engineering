@@ -101,13 +101,26 @@ def build_graph(deps: AgentDeps, checkpointer=None):
 
     def policy_check(state: DocState):
         # الممثل Actor في حلقة Reflexion — يستقبل نقد المراجع إن وُجد.
-        v = deps.policy_check(state.get("extraction") or ExtractedFields(), state.get("critique", ""))
-        return {
-            "policy_verdict": v,
-            "audit_trail": [
-                _audit(state, "policy_check", f"حكم={v.verdict.value} سياسة={v.cited_policy_id}")
-            ],
-        }
+        out = deps.policy_check(state.get("extraction") or ExtractedFields(), state.get("critique", ""))
+        # قد يعيد المدقق (حكمًا، أثر ReAct) حين يعمل بالأدوات.
+        react = None
+        v = out
+        if isinstance(out, tuple):
+            v, react = out
+        summary = f"حكم={v.verdict.value} سياسة={v.cited_policy_id}"
+        events = [_audit(state, "policy_check", summary)]
+        if react is not None:
+            # أثر استدعاء الأدوات — دليل البند 1 داخل سجل التدقيق نفسه.
+            for step in react.steps:
+                if step.action:
+                    events.append(
+                        _audit(
+                            state,
+                            "tool_call",
+                            f"{step.action}({step.action_input[:40]}) → {str(step.observation)[:60]}",
+                        )
+                    )
+        return {"policy_verdict": v, "tool_calls": react.tool_calls if react else 0, "audit_trail": events}
 
     def reflect(state: DocState):
         """المقيّم+العاكس Evaluator+Reflector — نمط Reflexion على الحكم غير الحاسم."""

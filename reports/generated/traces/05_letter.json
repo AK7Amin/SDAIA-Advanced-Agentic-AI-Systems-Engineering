@@ -20,35 +20,35 @@
     },
     {
       "node": "plan_route",
-      "summary": "خطة=skip_extract (2 خطوات): الخطاب الإدارى لا يشتمل على أي التزام مالي أو تعاقدي، وبالتا",
+      "summary": "خطة=skip_extract (2 خطوات): الخطاب هو إشعار إداري لا يتضمن أي التزام مالي أو تعاقدي، وبا",
       "cost_usd": 0.0,
       "latency_ms": 0,
       "prev_hash": "5224e9930598543d6338a9a42784742127889df498ae94d16ce48dd1c97ad213",
-      "digest": "b943b28bb342895660c6ed173bb3d7d0c297d217fec4c64a26df09e556a78a0b"
+      "digest": "c1d398f115c7e6484b27e23769dde98257c452721834f09e35f7aa22033de21b"
     },
     {
       "node": "policy_check",
       "summary": "حكم=uncertain سياسة=None",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "b943b28bb342895660c6ed173bb3d7d0c297d217fec4c64a26df09e556a78a0b",
-      "digest": "de061a3f3da721320d7091590c6f83891c95dbf407b2b1e31a9447e870699714"
+      "prev_hash": "c1d398f115c7e6484b27e23769dde98257c452721834f09e35f7aa22033de21b",
+      "digest": "9135c12f0fb2235987df11a3f65349cb172fb88b4a198f02b0ca5ab1879962a2"
     },
     {
       "node": "reflect",
-      "summary": "مراجعة=confirm: المعلومات الأساسية (المدة، المبلغ، تاريخ التوقيع) غير متوفرة",
+      "summary": "مراجعة=confirm: The audit record lacks all key contract fields (party, amoun",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "de061a3f3da721320d7091590c6f83891c95dbf407b2b1e31a9447e870699714",
-      "digest": "abd1540c5592d067e3f380a9f14f77f46cd248bba150ab813416de78eac09eed"
+      "prev_hash": "9135c12f0fb2235987df11a3f65349cb172fb88b4a198f02b0ca5ab1879962a2",
+      "digest": "3033e065e75ec5ebf3a8b31ccbfbccf1fdee3b0eab85a7bea1848d376e6b7ad8"
     },
     {
       "node": "escalate",
       "summary": "صُعّدت لموافقة بشرية",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "abd1540c5592d067e3f380a9f14f77f46cd248bba150ab813416de78eac09eed",
-      "digest": "2048fdd261b93e73f302a5c035ed3d6b8a0a1e0fe65b7e8de0fef1dd16109a91"
+      "prev_hash": "3033e065e75ec5ebf3a8b31ccbfbccf1fdee3b0eab85a7bea1848d376e6b7ad8",
+      "digest": "186a6b88ed64d30b66d1b87184875fd113c31f67edbadb692713cf5e6d1a120d"
     }
   ]
 }

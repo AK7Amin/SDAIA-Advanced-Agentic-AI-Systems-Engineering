@@ -38,9 +38,13 @@ def _parse_json(raw: str) -> dict:
 
 
 class RealAgents:
-    def __init__(self, llm: LLMLayer, store: PolicyStore):
+    def __init__(self, llm: LLMLayer, store: PolicyStore, registry=None):
         self.llm = llm
         self.store = store
+        # سجل الأدوات التي يقررها الوكيل بنفسه (البند 1: Tool Use).
+        from src.tools import build_default_registry
+
+        self.registry = registry or build_default_registry(store)
 
     def classify(self, masked_text: str) -> Classification:
         out = self.llm.invoke(CLASSIFIER.format(doc=wrap_untrusted(masked_text)), node="classify")
@@ -76,6 +80,61 @@ class RealAgents:
         query = f"طرف {fields.party} قيمة {fields.amount_sar} مدة {fields.duration_months}"
         policies = self.store.retrieve(query, k=3)
         return "\n---\n".join(f"{p['policy_id']}: {p['text']}" for p in policies)
+
+    def policy_check_with_tools(self, fields: ExtractedFields, critique: str = ""):
+        """تدقيق بنمط **ReAct**: النموذج يقرر استدعاء الأدوات (البند 1).
+
+        يعيد (الحكم، أثر ReAct). عند تعثر الحلقة يسقط لمسار الاسترجاع المباشر
+        حتى لا يتوقف النظام على التزام النموذج بالنسق.
+        """
+        from src.agents.react import ReActStep, run_react
+
+        note = f"\nتغذية راجعة من مراجع ناقد: {critique}" if critique else ""
+        amount_line = (
+            f"المبلغ في الوثيقة: {fields.amount_sar}. **يجب** أن تستعمل calculator لمقارنته "
+            f"بالحد الوارد في السياسة (مثال: Action Input: {fields.amount_sar} > 100000).\n"
+            if fields.amount_sar
+            else ""
+        )
+        task = (
+            f"دقّق حقول الوثيقة التالية ضد سياسات المشتريات: {fields.model_dump_json()}{note}\n"
+            "**قاعدة إلزامية**: لا تُصدر حكمًا قبل قراءة السياسة فعلًا. أول فعل لك "
+            "يجب أن يكون policy_lookup لجلب السياسة ذات الصلة — الحكم بلا مراجعة سياسة مرفوض.\n"
+            f"{amount_line}"
+            'ثم اجعل الجواب النهائي JSON فقط: {"verdict":"compliant|violation|uncertain",'
+            '"cited_policy_id":"POL-XXX أو null","reason":"..."}'
+        )
+        call = lambda p: self.llm.invoke(p, node="policy_check")  # noqa: E731
+        res = run_react(call, task, self.registry, max_steps=4)
+
+        # النموذج المجاني غير حتمي: قد يُصدر حكمًا **دون** مراجعة أي سياسة.
+        # هذا مرفوض سلوكيًا (لا حكم امتثال بلا سياسة)، فنفرض الاسترجاع ونعيد
+        # السؤال بالسياسة حاضرة — والاستدعاء تنفيذ فعلي مسجَّل في الأثر.
+        if res.tool_calls == 0:
+            forced = self.registry.run("policy_lookup", fields.model_dump_json())
+            seeded = (
+                f"{task}\n\nObservation (policy_lookup): {forced}\n"
+                "بناءً على السياسة أعلاه، أكمل: استعمل calculator عند وجود مبلغ، "
+                "ثم أعطِ Final Answer بصيغة JSON."
+            )
+            res2 = run_react(call, seeded, self.registry, max_steps=3)
+            res2.steps.insert(
+                0,
+                ReActStep("مراجعة السياسة إلزامية قبل الحكم", "policy_lookup",
+                          fields.model_dump_json(), forced),
+            )
+            res = res2
+
+        if res.final_answer:
+            try:
+                d = _parse_json(res.final_answer)
+                verdict = PolicyVerdict(
+                    **{k: d.get(k) for k in ("verdict", "cited_policy_id", "reason")}
+                )
+                return verdict, res
+            except (AgentOutputError, ValueError):
+                pass
+        return self.policy_check(fields, critique), res
 
     def policy_check(self, fields: ExtractedFields, critique: str = "") -> PolicyVerdict:
         pol_text = self._retrieve_policies(fields)
