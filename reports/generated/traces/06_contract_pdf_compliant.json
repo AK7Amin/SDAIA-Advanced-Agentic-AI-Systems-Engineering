@@ -52,35 +52,35 @@
     },
     {
       "node": "tool_call",
-      "summary": "policy_lookup({\"query\": \"حد المبلغ الأقصى للعقود أو المشتريات\"}) → POL-002: ## POL-002 — مدة العقد القصوى\nلا تتجاوز مدة أي عقد  [مصدر=model]",
+      "summary": "policy_lookup({\"query\": \"حد المبلغ أو قيمة الفاتورة للمشتريات\"}) → POL-005: ## POL-005 — حظر البنود مفتوحة القيمة\nيُرفض أي بند  [مصدر=model]",
       "cost_usd": 0.0,
       "latency_ms": 0,
       "prev_hash": "715e40c7d0d51974ecfa4dd13068b5ea02b2bb35604ce1e280650c30366b76cb",
-      "digest": "08e94f0e49ca91d91eeb2b2eab72cbe74a7f161ae248edfc97d32d2e2ea6149b"
+      "digest": "2a1838c0df85ef4534899dccf9959b3ae185e246a979156a75ed3b4c61542bfc"
     },
     {
       "node": "tool_call",
-      "summary": "policy_lookup({\"query\": \"حد المشتريات أو قيمة العقد\"}) → POL-005: ## POL-005 — حظر البنود مفتوحة القيمة\nيُرفض أي بند  [مصدر=model]",
+      "summary": "calculator({\"expression\": \"45000.0 > 75000\"}) → False [مصدر=model]",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "08e94f0e49ca91d91eeb2b2eab72cbe74a7f161ae248edfc97d32d2e2ea6149b",
-      "digest": "6218796bb3332ef94f0a46d0741c2a7632460dfa35c53a741093a208ee6c628c"
+      "prev_hash": "2a1838c0df85ef4534899dccf9959b3ae185e246a979156a75ed3b4c61542bfc",
+      "digest": "d49c1ff33e79a9dbca10265b654525b505131f7d32c4102b6bece9539f5e9870"
     },
     {
       "node": "archive",
       "summary": "أُرشفت الوثيقة → C:\\Users\\abdul\\Desktop\\Islamic Content Association\\SDAIA Advanced Agentic AI Systems Engineering\\capstone-doc-lifecycle\\archive\\06_contract_pdf_compliant.txt",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "6218796bb3332ef94f0a46d0741c2a7632460dfa35c53a741093a208ee6c628c",
-      "digest": "e7088dff96708cd2aa3ce2e97aba74bed69d7080c7a7794b04cb92a10e961a31"
+      "prev_hash": "d49c1ff33e79a9dbca10265b654525b505131f7d32c4102b6bece9539f5e9870",
+      "digest": "046d0e3c4f2d6ffb31a1206f61fd168e279b8e4175e53c7aa952a1eb2ceb6567"
     },
     {
       "node": "notify",
       "summary": "أُشعر بالحالة archived → C:\\Users\\abdul\\Desktop\\Islamic Content Association\\SDAIA Advanced Agentic AI Systems Engineering\\capstone-doc-lifecycle\\reports\\notifications\\06_contract_pdf_compliant.md",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "e7088dff96708cd2aa3ce2e97aba74bed69d7080c7a7794b04cb92a10e961a31",
-      "digest": "d0b1ba37ce98eae9ad308f4d449586ea1590931bf9a86a6ae8658105668fedf5"
+      "prev_hash": "046d0e3c4f2d6ffb31a1206f61fd168e279b8e4175e53c7aa952a1eb2ceb6567",
+      "digest": "d19c75875243910bc34cf8f84f28b1a8172d1e2af6549fd9b4cf739ced905959"
     }
   ]
 }

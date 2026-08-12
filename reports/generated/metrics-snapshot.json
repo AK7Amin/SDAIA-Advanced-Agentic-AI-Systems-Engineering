@@ -1,81 +1,81 @@
 {
-  "total_tokens": 19797,
-  "total_latency_ms": 110958,
-  "total_ref_cost_usd": 0.004795,
+  "total_tokens": 25620,
+  "total_latency_ms": 169172,
+  "total_ref_cost_usd": 0.006004,
   "per_node": {
     "classify": {
       "calls": 7,
-      "tokens": 1889,
-      "latency_ms": 12507,
-      "ref_cost_usd": 0.00048134999999999996
+      "tokens": 1921,
+      "latency_ms": 9346,
+      "ref_cost_usd": 0.00048570000000000004
     },
     "plan_route": {
       "calls": 6,
-      "tokens": 2168,
-      "latency_ms": 14239,
-      "ref_cost_usd": 0.0006905999999999999
+      "tokens": 2194,
+      "latency_ms": 45338,
+      "ref_cost_usd": 0.0007061999999999999
     },
     "extract": {
       "calls": 5,
       "tokens": 1498,
-      "latency_ms": 20544,
+      "latency_ms": 26533,
       "ref_cost_usd": 0.00035835
     },
     "policy_check": {
-      "calls": 20,
-      "tokens": 13799,
-      "latency_ms": 62181,
-      "ref_cost_usd": 0.0031597499999999994
+      "calls": 26,
+      "tokens": 19505,
+      "latency_ms": 86180,
+      "ref_cost_usd": 0.004332450000000001
     },
     "reflect": {
       "calls": 1,
-      "tokens": 443,
-      "latency_ms": 1487,
-      "ref_cost_usd": 0.00010515000000000001
+      "tokens": 502,
+      "latency_ms": 1775,
+      "ref_cost_usd": 0.00012165
     }
   },
   "per_doc": {
     "01_contract_compliant": {
-      "calls": 7,
-      "tokens": 3948,
-      "latency_ms": 16316,
-      "ref_cost_usd": 0.0009224999999999999
+      "calls": 12,
+      "tokens": 7952,
+      "latency_ms": 23584,
+      "ref_cost_usd": 0.0017701499999999998
     },
     "02_invoice_over_limit": {
       "calls": 6,
-      "tokens": 2857,
-      "latency_ms": 11877,
-      "ref_cost_usd": 0.0006922499999999999
+      "tokens": 2866,
+      "latency_ms": 20138,
+      "ref_cost_usd": 0.000699
     },
     "03_injected_contract": {
-      "calls": 6,
-      "tokens": 2809,
-      "latency_ms": 11175,
-      "ref_cost_usd": 0.00068595
+      "calls": 7,
+      "tokens": 3987,
+      "latency_ms": 36993,
+      "ref_cost_usd": 0.0009409500000000001
     },
     "04_unknown_noise": {
       "calls": 1,
-      "tokens": 233,
-      "latency_ms": 1296,
-      "ref_cost_usd": 6.015e-05
+      "tokens": 264,
+      "latency_ms": 1198,
+      "ref_cost_usd": 6.390000000000001e-05
     },
     "05_letter": {
       "calls": 6,
-      "tokens": 2992,
-      "latency_ms": 21554,
-      "ref_cost_usd": 0.00076695
+      "tokens": 3570,
+      "latency_ms": 35343,
+      "ref_cost_usd": 0.0008361
     },
     "06_contract_pdf_compliant": {
       "calls": 7,
-      "tokens": 3939,
-      "latency_ms": 14212,
-      "ref_cost_usd": 0.0009170999999999999
+      "tokens": 3969,
+      "latency_ms": 39403,
+      "ref_cost_usd": 0.0009449999999999999
     },
     "07_contract_pdf_over_limit": {
       "calls": 6,
-      "tokens": 3019,
-      "latency_ms": 34528,
-      "ref_cost_usd": 0.0007503
+      "tokens": 3012,
+      "latency_ms": 12513,
+      "ref_cost_usd": 0.0007492499999999999
     }
   }
 }

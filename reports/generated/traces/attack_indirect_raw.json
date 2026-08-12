@@ -44,27 +44,35 @@
     },
     {
       "node": "tool_call",
-      "summary": "policy_lookup({\"query\": \"حد المبلغ أو مدة العقد أو شركة الخدمات المتقدمة\"}) → POL-002: ## POL-002 — مدة العقد القصوى\nلا تتجاوز مدة أي عقد  [مصدر=model]",
+      "summary": "policy_lookup({\"query\": \"حد المبلغ للصفقات الشرائية\"}) → POL-002: ## POL-002 — مدة العقد القصوى\nلا تتجاوز مدة أي عقد  [مصدر=model]",
       "cost_usd": 0.0,
       "latency_ms": 0,
       "prev_hash": "236d8833d1e81966dcebeca7a637b2dfe5f27eff09e5f9bcb120a3631419bb70",
-      "digest": "53144e38f90b74806dc6889bfe6e44fa461cf20b984f6f6a3807442ac3126563"
+      "digest": "565e1ed62774c1edfe1973fc4f4de8504179a620128a80cc77926a326d2bf3f9"
     },
     {
       "node": "tool_call",
-      "summary": "calculator({\"expression\": \"60 > 36\"}) → True [مصدر=model]",
+      "summary": "policy_lookup({\"query\": \"حد المبلغ للصفقات الشرائية 500000\"}) → POL-003: ## POL-003 — حد الفاتورة الواحدة\nالفواتير التي تتجا [مصدر=model]",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "53144e38f90b74806dc6889bfe6e44fa461cf20b984f6f6a3807442ac3126563",
-      "digest": "93b8d608a696a5b0f2e024a6565282d982aefe8a07a0cdc99843fcd7194831e2"
+      "prev_hash": "565e1ed62774c1edfe1973fc4f4de8504179a620128a80cc77926a326d2bf3f9",
+      "digest": "6b09b3f6da242c7abe19133a0554d014aaed8e02ec0b503236abb6b80e272a7d"
+    },
+    {
+      "node": "tool_call",
+      "summary": "policy_lookup({\"query\": \"حد المبلغ الأقصى للصفقات الشرائية\"}) → POL-002: ## POL-002 — مدة العقد القصوى\nلا تتجاوز مدة أي عقد  [مصدر=model]",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "6b09b3f6da242c7abe19133a0554d014aaed8e02ec0b503236abb6b80e272a7d",
+      "digest": "68fbe7475268cbbf3d51b9cb5e29ee380e3c1f4eac08d47949e826ea869029f3"
     },
     {
       "node": "escalate",
       "summary": "صُعّدت لموافقة بشرية",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "93b8d608a696a5b0f2e024a6565282d982aefe8a07a0cdc99843fcd7194831e2",
-      "digest": "0e82852c501b83c54e3f202b3057928c56d052d5804b5326d1e600ecf582e65c"
+      "prev_hash": "68fbe7475268cbbf3d51b9cb5e29ee380e3c1f4eac08d47949e826ea869029f3",
+      "digest": "d06178b497b56e07d24f301fefd9344b30fefa3df9fba26c3f372789494e7ab8"
     }
   ]
 }

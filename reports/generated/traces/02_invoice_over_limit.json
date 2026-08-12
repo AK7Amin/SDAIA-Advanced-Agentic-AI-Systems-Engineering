@@ -12,59 +12,59 @@
     },
     {
       "node": "classify",
-      "summary": "النوع=invoice ثقة=0.99",
+      "summary": "النوع=invoice ثقة=1.0",
       "cost_usd": 0.0,
       "latency_ms": 0,
       "prev_hash": "fbda0a81095f6e4c03d98841744164962170c977e72dabaeb1f07de3739dd516",
-      "digest": "e8ef2a12bd15f1c92a7be39d30cafee2448ec72628d6fb745522accf54d273b2"
+      "digest": "1f19aec1bd86abc5236699c98d7e511ab31968969510cd911deead4a33bb37c5"
     },
     {
       "node": "plan_route",
-      "summary": "خطة=full (4 خطوات): الوثيقة هي فاتورة (invoice) تحتوي على التزامات مالية واضحة (",
+      "summary": "خطة=full (4 خطوات): الوثيقة هي فاتورة (invoice) تحتوي على التزام مالي واضح (مبلغ",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "e8ef2a12bd15f1c92a7be39d30cafee2448ec72628d6fb745522accf54d273b2",
-      "digest": "137b3c39411d996bad35dbda72e5a6b406c5315f0a0f6f636d482b1a596568b1"
+      "prev_hash": "1f19aec1bd86abc5236699c98d7e511ab31968969510cd911deead4a33bb37c5",
+      "digest": "619a5324fe11672400800c579aaa114187e6b49d9d6552ec291569c7aaac8d44"
     },
     {
       "node": "extract",
       "summary": "محاولة 1؛ ناقص=[]",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "137b3c39411d996bad35dbda72e5a6b406c5315f0a0f6f636d482b1a596568b1",
-      "digest": "205b313511fef3d02cf713d57a219709287b987e723cb1cda4594dca61ab4c1b"
+      "prev_hash": "619a5324fe11672400800c579aaa114187e6b49d9d6552ec291569c7aaac8d44",
+      "digest": "3b2b28c6778a079077d87870daf6376ff60362b055a7ffe31dec4f32e7fb5517"
     },
     {
       "node": "policy_check",
       "summary": "حكم=violation سياسة=POL-003 مصدر_القرار=model",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "205b313511fef3d02cf713d57a219709287b987e723cb1cda4594dca61ab4c1b",
-      "digest": "d6ea19f805ff172694c1792643d8d6a706e473d5dc29c1108d5fdc7ec2dffa76"
+      "prev_hash": "3b2b28c6778a079077d87870daf6376ff60362b055a7ffe31dec4f32e7fb5517",
+      "digest": "1c232e25b06a89c43f5bb6332764c7840bfc6ced82507cc786c45b9852ed03fc"
     },
     {
       "node": "tool_call",
       "summary": "policy_lookup({\"query\": \"حد المبلغ للمشتريات مؤسسة الإمداد الشامل\"}) → POL-002: ## POL-002 — مدة العقد القصوى\nلا تتجاوز مدة أي عقد  [مصدر=model]",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "d6ea19f805ff172694c1792643d8d6a706e473d5dc29c1108d5fdc7ec2dffa76",
-      "digest": "d4f42e9282595dfdd4f1f6a0f03587c1c7adc54a249d6dbd8edf41f782ba2b32"
+      "prev_hash": "1c232e25b06a89c43f5bb6332764c7840bfc6ced82507cc786c45b9852ed03fc",
+      "digest": "6d2126ad764be33d57bc80eee3056a6126344d87887c6d1d820cbddc62ed8f9d"
     },
     {
       "node": "tool_call",
       "summary": "calculator({\"expression\": \"95000.0 > 75000\"}) → True [مصدر=model]",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "d4f42e9282595dfdd4f1f6a0f03587c1c7adc54a249d6dbd8edf41f782ba2b32",
-      "digest": "625bda1e7f67fd7daec33f52b73899cc8e3175803ddc6c2e04e52862a0ebe05f"
+      "prev_hash": "6d2126ad764be33d57bc80eee3056a6126344d87887c6d1d820cbddc62ed8f9d",
+      "digest": "d1e8d325764a5cec1e944a081fef520088b25e4b5ac3b3604935c70a2dcb0dc5"
     },
     {
       "node": "escalate",
       "summary": "صُعّدت لموافقة بشرية",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "625bda1e7f67fd7daec33f52b73899cc8e3175803ddc6c2e04e52862a0ebe05f",
-      "digest": "1d7258dc0e0e61fc6af79f0c9077194d4077a00f10bee59bb6b53a2c0e1fde37"
+      "prev_hash": "d1e8d325764a5cec1e944a081fef520088b25e4b5ac3b3604935c70a2dcb0dc5",
+      "digest": "5e8031729c2dbde4155476816942aa7ba63ab2f95810d818643776007be6d996"
     }
   ]
 }

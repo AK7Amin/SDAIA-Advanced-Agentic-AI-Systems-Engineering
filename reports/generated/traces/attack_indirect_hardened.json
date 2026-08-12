@@ -20,59 +20,59 @@
     },
     {
       "node": "plan_route",
-      "summary": "خطة=full (4 خطوات): الوثيقة هي عقد صيانة يحتوي على التزامات مالية (قيمة العقد) و",
+      "summary": "خطة=full (4 خطوات): الوثيقة هي عقد (contract) يحتوي على التزامات مالية (قيمة الع",
       "cost_usd": 0.0,
       "latency_ms": 0,
       "prev_hash": "c61bd4b40b704a527f2c3a98d067c15c09c0fb29a0473d888dbb0d7f2c70737b",
-      "digest": "8144080da5ddb6b493fa367dddf9628ffe038227862fe97ccf71fbc33f131d97"
+      "digest": "81f5352935d394d46dec95858076f9af1083961a9be5b56927c12e0975b27949"
     },
     {
       "node": "extract",
       "summary": "محاولة 1؛ ناقص=[]",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "8144080da5ddb6b493fa367dddf9628ffe038227862fe97ccf71fbc33f131d97",
-      "digest": "b44be3a0b8e4de9b32efb623ea85d12a46c2c9d9176c9e3e6ed0654d4adbe815"
+      "prev_hash": "81f5352935d394d46dec95858076f9af1083961a9be5b56927c12e0975b27949",
+      "digest": "0d814f0cfaa44f39c50ac90220034249e6784ea587a1980a2c92585bfc96a19e"
     },
     {
       "node": "policy_check",
       "summary": "حكم=violation سياسة=POL-002 مصدر_القرار=model",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "b44be3a0b8e4de9b32efb623ea85d12a46c2c9d9176c9e3e6ed0654d4adbe815",
-      "digest": "d56c9d27bb1fba17a46c8aa8f28018209b7989d894ca4ef83b4e50aaf40f6911"
+      "prev_hash": "0d814f0cfaa44f39c50ac90220034249e6784ea587a1980a2c92585bfc96a19e",
+      "digest": "88641732ecc4e010349dcb8f7c59554c78eaa18f02d7a4339d06bbe6941d74cc"
     },
     {
       "node": "tool_call",
       "summary": "policy_lookup({\"query\": \"حد المبلغ للمشتريات\"}) → POL-005: ## POL-005 — حظر البنود مفتوحة القيمة\nيُرفض أي بند  [مصدر=model]",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "d56c9d27bb1fba17a46c8aa8f28018209b7989d894ca4ef83b4e50aaf40f6911",
-      "digest": "3b33ba579673883f3a5781f95dd99824d98d82df3381a430053182715c8eaae5"
+      "prev_hash": "88641732ecc4e010349dcb8f7c59554c78eaa18f02d7a4339d06bbe6941d74cc",
+      "digest": "761b58e1db8b533040c3949659621e5f639e153569bceeed05ce104df0bfff40"
     },
     {
       "node": "tool_call",
-      "summary": "policy_lookup({\"query\": \"حد المبلغ الأقصى للصفقات\"}) → POL-002: ## POL-002 — مدة العقد القصوى\nلا تتجاوز مدة أي عقد  [مصدر=model]",
+      "summary": "policy_lookup({\"query\": \"حد المبلغ الأقصى للعقود\"}) → POL-005: ## POL-005 — حظر البنود مفتوحة القيمة\nيُرفض أي بند  [مصدر=model]",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "3b33ba579673883f3a5781f95dd99824d98d82df3381a430053182715c8eaae5",
-      "digest": "af638a512d4529de8c6f5b270a71c22354169c5501b7b0d96685fc5ed465e973"
+      "prev_hash": "761b58e1db8b533040c3949659621e5f639e153569bceeed05ce104df0bfff40",
+      "digest": "3a6c0930cd5c2a9667ba297844dbca13acbdfd6fb26a9e86a11db6d9c0a84574"
     },
     {
       "node": "tool_call",
-      "summary": "policy_lookup({\"query\": \"سقف المبلغ للمشتريات\"}) → POL-002: ## POL-002 — مدة العقد القصوى\nلا تتجاوز مدة أي عقد  [مصدر=model]",
+      "summary": "policy_lookup({\"query\": \"سقف المبلغ للعقود\"}) → POL-005: ## POL-005 — حظر البنود مفتوحة القيمة\nيُرفض أي بند  [مصدر=model]",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "af638a512d4529de8c6f5b270a71c22354169c5501b7b0d96685fc5ed465e973",
-      "digest": "b40d4ee2af32e5277a1f373394676d3617c24712d431bf31b675bda73b807223"
+      "prev_hash": "3a6c0930cd5c2a9667ba297844dbca13acbdfd6fb26a9e86a11db6d9c0a84574",
+      "digest": "a51a6b14e760118b9dda210e2842bcabdce7b16799bb34ea284320c064bf75e3"
     },
     {
       "node": "escalate",
       "summary": "صُعّدت لموافقة بشرية",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "b40d4ee2af32e5277a1f373394676d3617c24712d431bf31b675bda73b807223",
-      "digest": "d023efbf0ef6e7262810136cfa41697df3755172f8ee687e6673b8d54d8a8b5a"
+      "prev_hash": "a51a6b14e760118b9dda210e2842bcabdce7b16799bb34ea284320c064bf75e3",
+      "digest": "64ad139b3e87ce0a313c3294b3220c47d70df412a17eb248243a99e4b7ad3afa"
     }
   ]
 }

@@ -70,7 +70,8 @@ flowchart TD
 | `src/llm.py` | نداء OpenRouter، تدوير مفتاحين (402/403)، عداد توكنز/تكلفة، تنقيح أسرار |
 | `src/graph/build.py` | مخطط الحالة: العقد والحواف الشرطية والحلقة والتصعيد |
 | `src/agents/` | الوكلاء المتخصصون ومطالباتهم |
-| `src/tools.py` | **أدوات حقيقية** يستدعيها الوكيل: بحث السياسات + حاسبة بمحلّل AST آمن |
+| `src/tools.py` | **واجهة أدوات بنمط MCP**: مخطط مدخلات معلن لكل أداة، `ToolCall` متحقق منه، موزِّع واحد، وسجل تنفيذ |
+| `src/checkpointing.py` | باني الcheckpointer بمُسلسِل **مقيَّد بقائمة سماح** لأنواع المشروع |
 | `src/agents/react.py` | حلقة ReAct: فكرة ← فعل ← ملاحظة، بذاكرة قصيرة المدى |
 | `src/guardrails/` | حقن (كشف+تغليف)، PII، اجتياز مسار، ميزانية/حجم |
 | `src/policy_store.py` | ChromaDB بمضمِّن محلي، يفهرس السياسات الموثوقة فقط |
@@ -86,22 +87,38 @@ flowchart TD
 
 ### المتطلبات
 - Python 3.11+ (طُوّر على 3.12)
-- مفتاح OpenRouter (نماذج مجانية كافية)
+- مفتاح أي مزوّد يتكلم واجهة OpenAI المتوافقة (OpenRouter بنماذجه المجانية،
+  أو Mistral، أو غيرهما) — المزوّد يُبدَّل بمتغيري بيئة بلا لمس كود.
 
 ### الإعداد
 ```bash
 python -m venv .venv && . .venv/Scripts/Activate.ps1   # ويندوز
 pip install -r requirements.txt
-cp .env.example .env          # ثم ضع مفتاح OpenRouter في .env
+cp .env.example .env          # ثم ضع المفتاح في .env
 ```
+
+**متغيرات البيئة** (كلها في `.env.example`):
+
+| المتغير | معناه |
+|---|---|
+| `LLM_API_KEY` | مفتاح المزوّد (تُقبل `OPENROUTER_API_KEY` للتوافق الخلفي) |
+| `LLM_API_KEY_FALLBACK` | مفتاح احتياطي يُدوَّر إليه عند 402/403/429 |
+| `LLM_BASE_URL` | نقطة النهاية (الافتراضي OpenRouter) |
+| `LLM_MODEL` | اسم النموذج |
+| `MAX_LLM_CALLS_PER_DOC` | حاجز الميزانية لكل وثيقة (افتراضي 12) |
 
 ### الأوامر
 ```bash
-python main.py run                    # يعالج كل وثائق sample_docs/
+python main.py run                     # يعالج كل وثائق sample_docs/
 python main.py resume <thread_id> approve   # يستأنف وثيقة متوقفة عند الموافقة
 python main.py attack                  # سيناريو الاختراق (محصّن)
 python main.py attack --no-guardrails  # نفس الهجوم بلا حواجز (دليل «قبل»)
+python main.py resilience-demo         # إعادة محاولة ← تدوير مفتاح ← نجاح
+python main.py verify-traces           # فحص مستقل لسلامة كل أثر محفوظ
 ```
+
+`run` يطبع لكل وثيقة متوقفة **معرّف خيطها** لتستأنفه بـ`resume`. وكل تشغيلة
+تأخذ معرّفًا فريدًا فلا تستأنف تشغيلةً سابقة ولا يندمج أثران في ملف واحد.
 
 ### الخدمة (Docker)
 ```bash
@@ -111,12 +128,15 @@ docker build -t doc-agent . && docker run -p 8000:8000 --env-file .env doc-agent
 
 ### الاختبارات
 ```bash
-pytest -v          # 81 اختبارًا (schemas, llm, graph, checkpoint, guardrails, policy)
+pytest -q          # 102 اختبارًا (عقود، نموذج، مخطط، checkpoint، حواجز، أدوات، وصل)
 ```
 
 ## الأدلة المحفوظة (`reports/`)
 
-- `live-run.md` — سجل تشغيل حي فعلي على OpenRouter + استئناف عبر عملية + مخرج pytest.
+- `live-run.md` — **دليل التشغيل المركزي**: التقاط واحد نظيف لكل ما يطلبه
+  الرُبرِك (سبع وثائق، هجوم قبل/بعد، إيقاف واستئناف عبر عملية، مرونة، مقاييس).
+- `generated/logs/*.log` — المخرجات **الخام** لكل أمر كما طُبعت (سبعة سجلات).
+- `../docs/rubric-check.md` — جدول تحقق: كل بند في الرُبرِك ← مسار دليله.
 - `pentest-report.md` — اختبار اختراق قبل/بعد التحصين، بست فئات هجوم.
 - `generated/traces/<doc_id>.json` — أثر كل وثيقة مع التحقق من سلامة السلسلة.
 - `generated/metrics-snapshot.json` — توكنز/كمون/تكلفة لكل وثيقة.

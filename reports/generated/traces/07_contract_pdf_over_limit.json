@@ -20,51 +20,51 @@
     },
     {
       "node": "plan_route",
-      "summary": "خطة=full (5 خطوات): الوثيقة هي عقد (contract) مع التزامات مالية (قيمة 320000 ريا",
+      "summary": "خطة=full (5 خطوات): الوثيقة هي عقد (contract) مع التزامات مالية (قيمة العقد: 320",
       "cost_usd": 0.0,
       "latency_ms": 0,
       "prev_hash": "1201045aa3fc3ef7234a58ea3dfcd928173ce21f812c819add8f14e4ad70ce7e",
-      "digest": "4de0e32bd1946c04728bd669b23934334088a35fed8ad7bb8d0cba9c2a0f2f84"
+      "digest": "9c99477afb763e1b630b944987d5af3fd1866ff678f398e167df824a61c242a0"
     },
     {
       "node": "extract",
       "summary": "محاولة 1؛ ناقص=[]",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "4de0e32bd1946c04728bd669b23934334088a35fed8ad7bb8d0cba9c2a0f2f84",
-      "digest": "fbf242ec3e9710d44884a7d2716217f309e3a6ee2efc0064394f6cb2871737c5"
+      "prev_hash": "9c99477afb763e1b630b944987d5af3fd1866ff678f398e167df824a61c242a0",
+      "digest": "3cf9a815feb75e05e9f786e45d8f0413d71c2b4437555d4603b891ae86276802"
     },
     {
       "node": "policy_check",
       "summary": "حكم=violation سياسة=POL-003 مصدر_القرار=model",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "fbf242ec3e9710d44884a7d2716217f309e3a6ee2efc0064394f6cb2871737c5",
-      "digest": "6555e42b0f91d76eb5710b950154b2d7ad53d08cffc22eebdf5881fb8421aaac"
+      "prev_hash": "3cf9a815feb75e05e9f786e45d8f0413d71c2b4437555d4603b891ae86276802",
+      "digest": "7c392509a3e9b3f04169c26811ecf4be43164bbe21e4d51420414a5767d281f3"
     },
     {
       "node": "tool_call",
-      "summary": "policy_lookup({\"query\": \"حد المبلغ للمشتريات أو مدة العقد أو مؤسسة الإمداد) → POL-003: ## POL-003 — حد الفاتورة الواحدة\nالفواتير التي تتجا [مصدر=model]",
+      "summary": "policy_lookup({\"query\": \"حد المبلغ للمشتريات أو مدة العقد أو مورّد مؤسسة ا) → POL-003: ## POL-003 — حد الفاتورة الواحدة\nالفواتير التي تتجا [مصدر=model]",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "6555e42b0f91d76eb5710b950154b2d7ad53d08cffc22eebdf5881fb8421aaac",
-      "digest": "1257b3545d851a317fa411e17dcabba89e3a81a6c5e9b86c16cefa85bf9f818c"
+      "prev_hash": "7c392509a3e9b3f04169c26811ecf4be43164bbe21e4d51420414a5767d281f3",
+      "digest": "f175e6ec610dfff41a0b8235f5d374ff0339213f63455fe0a9cd288c0af5fe87"
     },
     {
       "node": "tool_call",
       "summary": "calculator({\"expression\": \"320000.0 > 75000\"}) → True [مصدر=model]",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "1257b3545d851a317fa411e17dcabba89e3a81a6c5e9b86c16cefa85bf9f818c",
-      "digest": "aae608a35e82f07f47b5eaf9e5d4fe9a083894fe1da762bc12859385addb8949"
+      "prev_hash": "f175e6ec610dfff41a0b8235f5d374ff0339213f63455fe0a9cd288c0af5fe87",
+      "digest": "b180d17ecd085d421146dc63bcc57d78b0b2202732fa4c7b36fe59b37567f56d"
     },
     {
       "node": "escalate",
       "summary": "صُعّدت لموافقة بشرية",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "aae608a35e82f07f47b5eaf9e5d4fe9a083894fe1da762bc12859385addb8949",
-      "digest": "e714be0e6662ecd9a8810ff6eafa7430c1022824fb4e15772fc27dfe1b640171"
+      "prev_hash": "b180d17ecd085d421146dc63bcc57d78b0b2202732fa4c7b36fe59b37567f56d",
+      "digest": "b63ba666c70ac1cacd88e15610870fda3514581f4d414ce13153e2cc88c1260e"
     }
   ]
 }

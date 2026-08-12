@@ -1,12 +1,12 @@
 الأثر                               أحداث  أدوات    سلسلة  ملاحظات
-01_contract_compliant                  10      3  سليمة ✓  
+01_contract_compliant                  15      6  سليمة ✓  
 02_invoice_over_limit                   8      2  سليمة ✓  
-03_injected_contract                    8      2  سليمة ✓  
+03_injected_contract                    9      3  سليمة ✓  
 04_unknown_noise                        3      0  سليمة ✓  
-05_letter                               8      2  سليمة ✓  
+05_letter                               8      3  سليمة ✓  
 06_contract_pdf_compliant              10      3  سليمة ✓  
 07_contract_pdf_over_limit              8      2  سليمة ✓  
 attack_indirect_hardened                9      3  سليمة ✓  
-attack_indirect_raw                     8      2  سليمة ✓  
+attack_indirect_raw                     9      3  سليمة ✓  
 
 المجموع: 9 أثر — مكسور: 0

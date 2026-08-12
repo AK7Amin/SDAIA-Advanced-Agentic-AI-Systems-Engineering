@@ -28,43 +28,43 @@
     },
     {
       "node": "policy_check",
-      "summary": "حكم=uncertain سياسة=None مصدر_القرار=model",
+      "summary": "حكم=violation سياسة=POL-004 مصدر_القرار=model",
       "cost_usd": 0.0,
       "latency_ms": 0,
       "prev_hash": "116a41a50905d1269916552966f80e41d79560bc85561a958c6f2882d5252a99",
-      "digest": "593e7af5de1cb5db1393bf2101ea0842d64526679ded8d0349d9bef34bbdf281"
+      "digest": "6f9381e10be607a805c2bff1cc16d0798463b1f4c8eb9ed66000419338940f71"
     },
     {
       "node": "tool_call",
-      "summary": "policy_lookup({\"query\": \"مدقق وثائق المشتريات حقل party amount_sar duratio) → POL-002: ## POL-002 — مدة العقد القصوى\nلا تتجاوز مدة أي عقد  [مصدر=model]",
+      "summary": "policy_lookup({\"query\": \"حقول الوثيقة الإلزامية أو مدقق وثائق المشتريات\"}) → POL-002: ## POL-002 — مدة العقد القصوى\nلا تتجاوز مدة أي عقد  [مصدر=model]",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "593e7af5de1cb5db1393bf2101ea0842d64526679ded8d0349d9bef34bbdf281",
-      "digest": "a26991653f39ecb1840f7d3e0725154aee350f169bd27f6e11c059f589e17ce4"
+      "prev_hash": "6f9381e10be607a805c2bff1cc16d0798463b1f4c8eb9ed66000419338940f71",
+      "digest": "8ae7c8ef2ad89b16e9c014945f99668728329d34e3eed5b6786de7fa8e825b5b"
     },
     {
       "node": "tool_call",
-      "summary": "policy_lookup({\"query\": \"حقل party signed_date سياسات المشتريات الإلزامية\") → POL-002: ## POL-002 — مدة العقد القصوى\nلا تتجاوز مدة أي عقد  [مصدر=model]",
+      "summary": "policy_lookup({\"query\": \"حقول إلزامية في وثائق المشتريات أو بيانات مطلوبة\") → POL-002: ## POL-002 — مدة العقد القصوى\nلا تتجاوز مدة أي عقد  [مصدر=model]",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "a26991653f39ecb1840f7d3e0725154aee350f169bd27f6e11c059f589e17ce4",
-      "digest": "9656faf2d3354d3ce24c2aea69cb0c43660a6b02c900fe334b224ab0b74d9f2b"
+      "prev_hash": "8ae7c8ef2ad89b16e9c014945f99668728329d34e3eed5b6786de7fa8e825b5b",
+      "digest": "bc32450431ab9d707b7a5b2fbdd5373c6183fe283750d06240394e09f0e4a851"
     },
     {
-      "node": "reflect",
-      "summary": "مراجعة=confirm: جميع الحقول الأساسية (party, amount_sar, duration_months, si",
+      "node": "tool_call",
+      "summary": "policy_lookup({\"query\": \"بيانات مطلوبة في وثائق المشتريات أو الحقول الإلزا) → POL-002: ## POL-002 — مدة العقد القصوى\nلا تتجاوز مدة أي عقد  [مصدر=model]",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "9656faf2d3354d3ce24c2aea69cb0c43660a6b02c900fe334b224ab0b74d9f2b",
-      "digest": "37d790b42aadd9cb454db7dd7da0e9530503caabaaa06d1f3e1979c9f5c7b290"
+      "prev_hash": "bc32450431ab9d707b7a5b2fbdd5373c6183fe283750d06240394e09f0e4a851",
+      "digest": "c07671fba9b98675254e95b7c543aa8e92a4cc4fd39782e4dd43e42f3aab4454"
     },
     {
       "node": "escalate",
       "summary": "صُعّدت لموافقة بشرية",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "37d790b42aadd9cb454db7dd7da0e9530503caabaaa06d1f3e1979c9f5c7b290",
-      "digest": "c6e5099c3ecc5baa8dbbf3c43457c86b585968f9b2c098e7fa64cea926ebd5eb"
+      "prev_hash": "c07671fba9b98675254e95b7c543aa8e92a4cc4fd39782e4dd43e42f3aab4454",
+      "digest": "1fbd7f367bb11df44d7fee840ed4218956ae762ae4efafe86658dbe0de65d3d8"
     }
   ]
 }

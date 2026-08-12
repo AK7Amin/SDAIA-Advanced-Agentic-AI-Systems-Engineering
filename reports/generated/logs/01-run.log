@@ -1,17 +1,17 @@
 == معالجة 7 وثيقة (guardrails=on) ==
-== معرّف التشغيلة: r20260812-235412 — خيط جديد لكل وثيقة، فلا يندمج أثران ==
+== معرّف التشغيلة: r20260813-000220 — خيط جديد لكل وثيقة، فلا يندمج أثران ==
 
-  01_contract_compliant.md         → archived           أدوات=3 مصدر=model
+  01_contract_compliant.md         → archived           أدوات=6 مصدر=model
   02_invoice_over_limit.md         → awaiting_approval  أدوات=2 مصدر=model
-      ↳ للاستئناف: python main.py resume r20260812-235412-02_invoice_over_limit approve
-  03_injected_contract.md          → awaiting_approval  أدوات=2 مصدر=model
-      ↳ للاستئناف: python main.py resume r20260812-235412-03_injected_contract approve
+      ↳ للاستئناف: python main.py resume r20260813-000220-02_invoice_over_limit approve
+  03_injected_contract.md          → awaiting_approval  أدوات=3 مصدر=model
+      ↳ للاستئناف: python main.py resume r20260813-000220-03_injected_contract approve
   04_unknown_noise.txt             → quarantined        أدوات=0 مصدر=n/a
-  05_letter.md                     → awaiting_approval  أدوات=2 مصدر=model
-      ↳ للاستئناف: python main.py resume r20260812-235412-05_letter approve
+  05_letter.md                     → awaiting_approval  أدوات=3 مصدر=model
+      ↳ للاستئناف: python main.py resume r20260813-000220-05_letter approve
   06_contract_pdf_compliant.pdf    → archived           أدوات=3 مصدر=model
   07_contract_pdf_over_limit.pdf   → awaiting_approval  أدوات=2 مصدر=model
-      ↳ للاستئناف: python main.py resume r20260812-235412-07_contract_pdf_over_limit approve
+      ↳ للاستئناف: python main.py resume r20260813-000220-07_contract_pdf_over_limit approve
 
 لقطة المقاييس: C:\Users\abdul\Desktop\Islamic Content Association\SDAIA Advanced Agentic AI Systems Engineering\capstone-doc-lifecycle\reports\generated\metrics-snapshot.json
 لوحة المراقبة: C:\Users\abdul\Desktop\Islamic Content Association\SDAIA Advanced Agentic AI Systems Engineering\capstone-doc-lifecycle\reports\generated\dashboard.html
