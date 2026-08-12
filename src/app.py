@@ -6,10 +6,13 @@
 """
 from __future__ import annotations
 
+import os
+import secrets
+import uuid
 from pathlib import Path
 
 from dotenv import load_dotenv
-from fastapi import FastAPI
+from fastapi import FastAPI, Header, HTTPException
 from prometheus_client import CONTENT_TYPE_LATEST, generate_latest
 from pydantic import BaseModel
 from starlette.responses import Response
@@ -51,17 +54,38 @@ def healthz():
 @app.post("/process")
 def process(doc: DocIn):
     graph, llm = _graph()
+    # معرّف خيط فريد لكل طلب: طلبان بنفس doc_id كانا يستأنفان الخيط نفسه
+    # فيندمج تشغيلان في أثر واحد — وهو بالضبط ما يرفضه verify-traces.
+    thread_id = f"api-{uuid.uuid4().hex[:8]}-{doc.doc_id}"
     # guardrails=True مثبتة — تمرير llm يفعّل حاجز الميزانية ونسب التكلفة للوثيقة.
     return process_document(
-        graph, doc.doc_id, doc.text, True, ROOT / "reports" / "generated", llm=llm
+        graph, doc.doc_id, doc.text, True, ROOT / "reports" / "generated",
+        llm=llm, thread_id=thread_id,
     )
 
 
+def _require_approval_token(token: str | None) -> None:
+    """بوابة الموافقة فعلٌ حسّاس: تعتمد عقدًا مخالفًا بنداء واحد.
+
+    فلا تُفتح على الشبكة بلا اعتماد. وإن لم يُضبط `APPROVAL_API_TOKEN` تُغلق
+    البوابة (503) بدل أن تعمل مكشوفة — الافتراض الآمن هو المنع لا السماح.
+    """
+    expected = os.getenv("APPROVAL_API_TOKEN", "")
+    if not expected:
+        raise HTTPException(
+            status_code=503,
+            detail="بوابة الموافقة معطّلة: اضبط APPROVAL_API_TOKEN لتفعيلها",
+        )
+    if not token or not secrets.compare_digest(token, expected):
+        raise HTTPException(status_code=401, detail="اعتماد غير صالح")
+
+
 @app.post("/resume")
-def resume(body: ResumeIn):
-    """استئناف وثيقة متوقفة عند الموافقة البشرية عبر الخدمة."""
+def resume(body: ResumeIn, x_approval_token: str | None = Header(default=None)):
+    """استئناف وثيقة متوقفة عند الموافقة البشرية عبر الخدمة (يتطلب اعتمادًا)."""
     from langgraph.types import Command
 
+    _require_approval_token(x_approval_token)
     graph, _ = _graph()
     out = graph.invoke(
         Command(resume=body.decision), {"configurable": {"thread_id": body.thread_id}}

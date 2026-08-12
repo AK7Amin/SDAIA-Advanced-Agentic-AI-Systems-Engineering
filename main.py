@@ -105,7 +105,7 @@ def cmd_resilience():
     layer = LLMLayer(api_key="PRIMARY", fallback_key="FALLBACK")
     calls = {"n": 0}
 
-    def fake_post(key, prompt):
+    def fake_post(key, prompt, *_args, **_kw):
         calls["n"] += 1
         if key == "PRIMARY":
             print(f"  [{calls['n']}] المفتاح الأساسي  → HTTP 429 (تجاوز معدل)")

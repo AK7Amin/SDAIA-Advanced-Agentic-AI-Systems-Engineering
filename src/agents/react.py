@@ -51,9 +51,12 @@ class ReActResult:
     final_answer: str | None
     steps: list[ReActStep] = field(default_factory=list)
     exhausted: bool = False   # بلغ حد الخطوات دون جواب نهائي
-    #: من اختار الأداة فعلًا: النموذج، أم فُرضت برمجيًا حين قصّر النموذج.
-    #: "model" | "policy_enforced" — تُنقل حرفيًا إلى أثر التدقيق بلا تجميل.
+    #: مسار وصول الحكم: "model" | "policy_enforced" | "fallback_direct_retrieval".
     decision_source: str = "model"
+    #: هل **فرض النظام** الاستدعاء الأول؟ علم مستقل عن `decision_source` عمدًا:
+    #: مسار السقوط يكتب فوق الأخير، وكان ذلك يُلبس الأداة المفروضة وسم "model"
+    #: في أثر التدقيق — أي أن ميزة الصدق نفسها كانت تكذب في هذا الفرع.
+    forced_first_call: bool = False
 
     @property
     def tool_calls(self) -> int:

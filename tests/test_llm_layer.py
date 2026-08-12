@@ -27,17 +27,20 @@ class _Boom403(Exception):
     status_code = 403
 
 
-def test_fallback_switches_key_on_403():
+def test_fallback_switches_key_on_403(monkeypatch):
     """درس ذاكرة الجمعية: 403 (total limit) يجب أن يحوّل للمفتاح الاحتياطي مثل 402."""
-    primary = MagicMock(side_effect=_Boom403("Key limit exceeded"))
-    fallback = MagicMock(return_value="ok")
-    layer = LLMLayer.__new__(LLMLayer)
-    with patch.object(LLMLayer, "_call_primary", primary), patch.object(
-        LLMLayer, "_call_fallback", fallback
-    ):
-        out = LLMLayer.invoke_with_fallback(layer, "prompt")
-    assert out == "ok"
-    fallback.assert_called_once()
+    layer = LLMLayer(api_key="k1", fallback_key="k2", model="m")
+    used = []
+
+    def fake_post(key, prompt, base_url=None, model=None):
+        used.append(key)
+        if key == "k1":
+            raise _Boom403("Key limit exceeded")
+        return ("ok", 1, 1)
+
+    monkeypatch.setattr(layer, "_post", fake_post)
+    assert layer.invoke("prompt") == "ok"
+    assert used == ["k1", "k2"]        # دُوّر فعلًا، ولم يُتخطَّ الأساسي
 
 
 def test_429_also_triggers_fallback_key():

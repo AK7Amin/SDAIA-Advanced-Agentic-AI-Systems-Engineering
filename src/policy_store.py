@@ -49,6 +49,10 @@ class PolicyStore:
         )
         return len(items)
 
+    def known_ids(self) -> set[str]:
+        """معرّفات السياسات المفهرسة فعلًا — مرجع التحقق من صدق الاستشهاد."""
+        return set(self._col.get(include=[]).get("ids", []))
+
     def retrieve(self, query: str, k: int = 3) -> list[dict]:
         """يسترجع أقرب السياسات لبنود الوثيقة (بحث دلالي)."""
         res = self._col.query(query_texts=[query], n_results=k)

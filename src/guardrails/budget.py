@@ -17,7 +17,7 @@ class InputTooLarge(ValueError):
 
 
 class BudgetGuard:
-    def __init__(self, max_calls: int = 8):
+    def __init__(self, max_calls: int = 12):
         self.max_calls = max_calls
         self._calls = 0
 

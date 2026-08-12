@@ -131,9 +131,12 @@ def build_graph(deps: AgentDeps, checkpointer=None):
             # أثر استدعاء الأدوات — دليل البند 1 داخل سجل التدقيق نفسه.
             # `مصدر` يفرّق بصدق بين أداة اختارها النموذج وأخرى فرضها النظام.
             acted = [s for s in react.steps if s.action]
+            forced_first = getattr(react, "forced_first_call", False)
             for i, s in enumerate(acted):
-                # الاستدعاء المفروض هو الأول وحده في مسار policy_enforced.
-                origin = "policy_enforced" if (source == "policy_enforced" and i == 0) else "model"
+                # الاستدعاء المفروض هو الأول وحده. يُقرأ من علم مستقل لا من
+                # `source`، لأن السقوط للاسترجاع المباشر يكتب فوق `source`
+                # فكانت الأداة المفروضة تُوسم "model" — إسناد كاذب.
+                origin = "policy_enforced" if (forced_first and i == 0) else "model"
                 entries.append((
                     "tool_call",
                     f"{s.action}({str(s.action_input)[:60]}) → {str(s.observation)[:60]} [مصدر={origin}]",

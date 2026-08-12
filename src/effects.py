@@ -16,7 +16,7 @@ from pathlib import Path
 
 from jinja2 import Template
 
-from src.guardrails.path_guard import safe_doc_id
+from src.guardrails.path_guard import resolve_within, safe_doc_id
 
 NOTIFICATION_TEMPLATE = Template(
     """إشعار معالجة وثيقة
@@ -65,7 +65,8 @@ class FileEffects:
         conn = sqlite3.connect(self.db_path)
         conn.execute(
             """CREATE TABLE IF NOT EXISTS decisions (
-                doc_id TEXT PRIMARY KEY, final_status TEXT, doc_type TEXT,
+                seq INTEGER PRIMARY KEY AUTOINCREMENT,
+                doc_id TEXT, final_status TEXT, doc_type TEXT,
                 verdict TEXT, policy_id TEXT, amount_sar REAL,
                 audit_head TEXT, decided_at TEXT
             )"""
@@ -76,16 +77,20 @@ class FileEffects:
         """يكتب الوثيقة المؤرشفة **ويقيّد القرار** في قاعدة قابلة للاستعلام."""
         safe = safe_doc_id(doc_id)
         self.archive_dir.mkdir(parents=True, exist_ok=True)
-        out = self.archive_dir / f"{safe}.txt"
+        out = resolve_within(self.archive_dir, f"{safe}.txt")
         out.write_text(state.get("masked_text", ""), encoding="utf-8")
 
         verdict = state.get("policy_verdict")
         extraction = state.get("extraction")
         classification = state.get("classification")
         trail = state.get("audit_trail") or []
-        with self._connect() as conn:
+        # سجل **تاريخي**: كل قرار قيد مستقل. `INSERT OR REPLACE` كان يمحو
+        # القرار السابق لنفس الوثيقة، فيضيع تاريخ التدقيق الذي وُجد السجل له.
+        conn = self._connect()
+        try:
             conn.execute(
-                "INSERT OR REPLACE INTO decisions VALUES (?,?,?,?,?,?,?,?)",
+                "INSERT INTO decisions (doc_id, final_status, doc_type, verdict,"
+                " policy_id, amount_sar, audit_head, decided_at) VALUES (?,?,?,?,?,?,?,?)",
                 (
                     safe,
                     state.get("final_status", ""),
@@ -97,6 +102,9 @@ class FileEffects:
                     datetime.now(timezone.utc).isoformat(timespec="seconds"),
                 ),
             )
+            conn.commit()
+        finally:
+            conn.close()      # `with sqlite3.connect(...)` يودِع ولا يغلق
         return str(out)
 
     def notify(self, doc_id: str, state: dict) -> str:

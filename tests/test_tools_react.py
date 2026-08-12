@@ -120,6 +120,9 @@ class TestForcedPolicyLookup:
             def retrieve(self, q, k=2):
                 return [{"policy_id": "POL-003", "text": "حد الفاتورة 100000"}]
 
+            def known_ids(self):
+                return {"POL-001", "POL-003"}
+
         return RealAgents(_LLM(), _Store())
 
     def test_verdict_without_tool_use_is_rejected_and_retried(self):

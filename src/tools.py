@@ -224,8 +224,9 @@ class ToolRegistry:
         t0 = time.perf_counter()
         try:
             tool = self.validate(call)
-            ordered = [call.arguments[k] for k in tool.properties if k in call.arguments]
-            output = str(tool.run(*ordered))
+            # ربط **بالاسم** لا بالموضع: مخطط بثلاثة وسائط ووسيطان مطلوبان
+            # كان يمرّر الثاني مكان الثالث. `validate` ضمن أن الأسماء صحيحة.
+            output = str(tool.run(**call.arguments))
         except ToolError as exc:
             self.execution_log.append(
                 ToolResult(call.name, call.arguments, False, f"خطأ أداة: {exc}",

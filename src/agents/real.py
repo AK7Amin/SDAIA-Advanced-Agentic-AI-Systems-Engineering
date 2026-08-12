@@ -18,6 +18,7 @@ from src.schemas import (
     ExtractedFields,
     PolicyVerdict,
     ReviewVerdict,
+    Verdict,
 )
 
 
@@ -35,6 +36,9 @@ def _parse_json(raw: str) -> dict:
         return json.loads(m.group(0))
     except json.JSONDecodeError as e:
         raise AgentOutputError(f"JSON غير صالح: {e}") from None
+
+
+_POLICY_ID_RE = re.compile(r"POL-\d+")
 
 
 class RealAgents:
@@ -74,6 +78,29 @@ class RealAgents:
             skip_extraction=bool(d.get("skip_extraction", False)),
             steps=steps,
             rationale=str(d.get("rationale", "")),
+        )
+
+    def validate_citation(self, verdict: PolicyVerdict) -> PolicyVerdict:
+        """**تحقق من المخرجات**: لا يُقبل استشهاد بسياسة لا وجود لها.
+
+        النموذج قد يخترع `POL-999`. حكم مبني على سياسة موهومة أسوأ من حكم غير
+        حاسم، فيُخفَّض إلى `uncertain` ويُذكر السبب — فيلتقطه المراجع الناقد
+        أو يُصعَّد للبشر بدل أن يمر بثقة كاذبة.
+        """
+        cited = (verdict.cited_policy_id or "").strip()
+        if not cited:
+            return verdict
+        referenced = set(_POLICY_ID_RE.findall(cited)) or {cited}
+        unknown = referenced - self.store.known_ids()
+        if not unknown:
+            return verdict
+        return PolicyVerdict(
+            verdict=Verdict.UNCERTAIN,
+            cited_policy_id=None,
+            reason=(
+                f"استشهاد بسياسة غير موجودة ({', '.join(sorted(unknown))}) — "
+                f"خُفّض الحكم من {verdict.verdict.value}. الأصل: {verdict.reason[:120]}"
+            ),
         )
 
     def _retrieve_policies(self, fields: ExtractedFields) -> str:
@@ -123,11 +150,18 @@ class RealAgents:
             res2 = run_react(call, seeded, self.registry, max_steps=3)
             res2.steps.insert(
                 0,
-                ReActStep("مراجعة السياسة إلزامية قبل الحكم", "policy_lookup",
-                          forced_call.render(), forced, forced_call),
+                ReActStep(
+                    "مراجعة السياسة إلزامية قبل الحكم",
+                    "policy_lookup",
+                    json.dumps(forced_call.arguments, ensure_ascii=False),
+                    forced,
+                    forced_call,
+                ),
             )
             # **صدق الإسناد**: النموذج لم يختر هذه الأداة — النظام فرضها.
+            # العلم مستقل عن `decision_source` لأن مسار السقوط أدناه يكتب فوقه.
             res2.decision_source = "policy_enforced"
+            res2.forced_first_call = True
             res = res2
 
         if res.final_answer:
@@ -136,7 +170,7 @@ class RealAgents:
                 verdict = PolicyVerdict(
                     **{k: d.get(k) for k in ("verdict", "cited_policy_id", "reason")}
                 )
-                return verdict, res
+                return self.validate_citation(verdict), res
             except (AgentOutputError, ValueError):
                 pass
         # لم يصلنا حكم صالح من حلقة الأدوات ← مسار الاسترجاع المباشر.
@@ -153,7 +187,9 @@ class RealAgents:
             node="policy_check",
         )
         d = _parse_json(out)
-        return PolicyVerdict(**{k: d.get(k) for k in ("verdict", "cited_policy_id", "reason")})
+        return self.validate_citation(
+            PolicyVerdict(**{k: d.get(k) for k in ("verdict", "cited_policy_id", "reason")})
+        )
 
     def review(self, fields: ExtractedFields, verdict: PolicyVerdict) -> ReviewVerdict:
         """وكيل المراجعة الناقد: المقيّم+العاكس في حلقة Reflexion."""

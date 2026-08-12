@@ -123,6 +123,9 @@ class TestDecisionSourceHonesty:
             def retrieve(self, q, k=2):
                 return [{"policy_id": "POL-003", "text": "حد الفاتورة 100000"}]
 
+            def known_ids(self):
+                return {"POL-001", "POL-003"}
+
         return RealAgents(_LLM(), _Store())
 
     def test_model_chosen_tool_is_labelled_model(self):
@@ -152,7 +155,9 @@ class TestDecisionSourceHonesty:
         from tests.conftest import _make_deps
 
         class _React:
-            decision_source = "policy_enforced"
+            # مسار السقوط يكتب فوق decision_source، فالوسم يُقرأ من العلم المستقل.
+            decision_source = "fallback_direct_retrieval"
+            forced_first_call = True
             tool_calls = 2
 
             class _S:
@@ -170,9 +175,74 @@ class TestDecisionSourceHonesty:
             {"masked_text": "عقد", "doc_id": "SRC-1", "extract_attempts": 0, "audit_trail": []},
             config={"configurable": {"thread_id": "decision_source"}},
         )
+        # ملاحظة: `decision_source` هنا "fallback" عمدًا — لو رُبط الوسم به
+        # لصار الاستدعاء المفروض `model`، وهو الإسناد الكاذب الذي أُصلح.
         tool_events = [e.summary for e in state["audit_trail"] if e.node == "tool_call"]
         assert "[مصدر=policy_enforced]" in tool_events[0]
         assert "[مصدر=model]" in tool_events[1]
-        assert state["decision_source"] == "policy_enforced"
+        assert state["decision_source"] == "fallback_direct_retrieval"
         policy_event = next(e for e in state["audit_trail"] if e.node == "policy_check")
-        assert "مصدر_القرار=policy_enforced" in policy_event.summary
+        assert "مصدر_القرار=fallback_direct_retrieval" in policy_event.summary
+
+    def test_enforced_call_stays_labelled_even_when_verdict_falls_back(self):
+        """الفرع الذي كان يكذب: فرضُ الأداة ثم فشلُ تحليل الجواب النهائي.
+
+        كان `decision_source` يُكتب فوقه بـfallback فيُوسم الاستدعاء المفروض
+        `model` — أي أن النظام ينسب لنفسه ما فرضه. العلم المستقل يمنع ذلك.
+        """
+        from src.schemas import ExtractedFields
+
+        ag = self._agents([
+            # 1) حكم فوري بلا أداة ← يُفرض policy_lookup
+            'Thought: واضح\nFinal Answer: {"verdict":"compliant","cited_policy_id":null,"reason":"-"}',
+            # 2) مخرج غير قابل للتحليل ← سقوط للاسترجاع المباشر
+            "Thought: تشويش\nFinal Answer: ليس JSON إطلاقًا",
+            '{"verdict":"compliant","cited_policy_id":"POL-003","reason":"من المسار المباشر"}',
+        ])
+        _v, res = ag.policy_check_with_tools(ExtractedFields(party="س", amount_sar=5))
+        assert res.decision_source == "fallback_direct_retrieval"
+        assert res.forced_first_call is True          # والعلم صامد
+        assert res.steps[0].action == "policy_lookup"
+
+
+class TestCitationValidation:
+    """حكم يستشهد بسياسة غير موجودة يُخفَّض بدل أن يمر بثقة كاذبة."""
+
+    def _agents(self):
+        from src.agents.real import RealAgents
+
+        class _LLM:
+            def invoke(self, prompt, **_):
+                return "{}"
+
+        class _Store:
+            def retrieve(self, q, k=2):
+                return [{"policy_id": "POL-003", "text": "حد الفاتورة"}]
+
+            def known_ids(self):
+                return {"POL-001", "POL-003"}
+
+        return RealAgents(_LLM(), _Store())
+
+    def test_hallucinated_policy_downgrades_the_verdict(self):
+        from src.schemas import PolicyVerdict, Verdict
+
+        out = self._agents().validate_citation(
+            PolicyVerdict(verdict=Verdict.VIOLATION, cited_policy_id="POL-999", reason="يتجاوز")
+        )
+        assert out.verdict == Verdict.UNCERTAIN
+        assert out.cited_policy_id is None
+        assert "POL-999" in out.reason        # السبب معلن لا مبتلع
+
+    def test_real_policy_passes_untouched(self):
+        from src.schemas import PolicyVerdict, Verdict
+
+        v = PolicyVerdict(verdict=Verdict.VIOLATION, cited_policy_id="POL-003", reason="يتجاوز")
+        assert self._agents().validate_citation(v).verdict == Verdict.VIOLATION
+
+    def test_multi_citation_is_checked_per_policy(self):
+        from src.schemas import PolicyVerdict, Verdict
+
+        v = PolicyVerdict(verdict=Verdict.VIOLATION, cited_policy_id="POL-003,POL-777", reason="ر")
+        out = self._agents().validate_citation(v)
+        assert out.verdict == Verdict.UNCERTAIN and "POL-777" in out.reason

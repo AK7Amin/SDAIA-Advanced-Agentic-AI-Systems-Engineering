@@ -57,6 +57,8 @@ class SanitizeResult:
     clean_text: str
     was_flagged: bool
     wrapped_text: str
+    #: الأسطر التي حُذفت فعلًا — الحذف الصامت يتلف بيانات بلا أثر يُدقَّق.
+    removed_lines: tuple[str, ...] = ()
 
 
 def sanitize_document(text: str) -> SanitizeResult:
@@ -67,13 +69,20 @@ def sanitize_document(text: str) -> SanitizeResult:
     (المبالغ، الأطراف) تبقى.
     """
     lines = text.splitlines()
-    kept = [ln for ln in lines if not scan_user_input(ln).blocked]
-    flagged = len(kept) != len(lines)
+    kept, removed = [], []
+    for ln in lines:
+        (removed if scan_user_input(ln).blocked else kept).append(ln)
+    flagged = bool(removed)
     if not flagged:
         clean = text  # لا عبث بوثيقة نظيفة (يحفظ فواصل الأسطر الأصلية)
     else:
         clean = "\n".join(kept)
-    return SanitizeResult(clean_text=clean, was_flagged=flagged, wrapped_text=wrap_untrusted(clean))
+    return SanitizeResult(
+        clean_text=clean,
+        was_flagged=flagged,
+        wrapped_text=wrap_untrusted(clean),
+        removed_lines=tuple(removed),
+    )
 
 
 def wrap_untrusted(text: str) -> str:
