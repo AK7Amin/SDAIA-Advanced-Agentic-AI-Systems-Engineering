@@ -12,59 +12,67 @@
     },
     {
       "node": "classify",
-      "summary": "النوع=invoice ثقة=1.0",
+      "summary": "النوع=invoice ثقة=0.99",
       "cost_usd": 0.0,
       "latency_ms": 0,
       "prev_hash": "fbda0a81095f6e4c03d98841744164962170c977e72dabaeb1f07de3739dd516",
-      "digest": "1f19aec1bd86abc5236699c98d7e511ab31968969510cd911deead4a33bb37c5"
+      "digest": "e8ef2a12bd15f1c92a7be39d30cafee2448ec72628d6fb745522accf54d273b2"
     },
     {
       "node": "plan_route",
-      "summary": "خطة=full (4 خطوات): الوثيقة هي فاتورة (invoice) تحتوي على التزام مالي واضح (مبلغ",
+      "summary": "خطة=full (4 خطوات): الوثيقة هي فاتورة (invoice) تحتوي على التزامات مالية واضحة (",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "1f19aec1bd86abc5236699c98d7e511ab31968969510cd911deead4a33bb37c5",
-      "digest": "619a5324fe11672400800c579aaa114187e6b49d9d6552ec291569c7aaac8d44"
+      "prev_hash": "e8ef2a12bd15f1c92a7be39d30cafee2448ec72628d6fb745522accf54d273b2",
+      "digest": "137b3c39411d996bad35dbda72e5a6b406c5315f0a0f6f636d482b1a596568b1"
     },
     {
       "node": "extract",
       "summary": "محاولة 1؛ ناقص=[]",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "619a5324fe11672400800c579aaa114187e6b49d9d6552ec291569c7aaac8d44",
-      "digest": "3b2b28c6778a079077d87870daf6376ff60362b055a7ffe31dec4f32e7fb5517"
+      "prev_hash": "137b3c39411d996bad35dbda72e5a6b406c5315f0a0f6f636d482b1a596568b1",
+      "digest": "205b313511fef3d02cf713d57a219709287b987e723cb1cda4594dca61ab4c1b"
     },
     {
       "node": "policy_check",
       "summary": "حكم=violation سياسة=POL-003 مصدر_القرار=model",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "3b2b28c6778a079077d87870daf6376ff60362b055a7ffe31dec4f32e7fb5517",
-      "digest": "1c232e25b06a89c43f5bb6332764c7840bfc6ced82507cc786c45b9852ed03fc"
+      "prev_hash": "205b313511fef3d02cf713d57a219709287b987e723cb1cda4594dca61ab4c1b",
+      "digest": "d6ea19f805ff172694c1792643d8d6a706e473d5dc29c1108d5fdc7ec2dffa76"
     },
     {
       "node": "tool_call",
-      "summary": "policy_lookup({\"query\": \"حد المبلغ للمشتريات مؤسسة الإمداد الشامل\"}) → POL-002: ## POL-002 — مدة العقد القصوى\nلا تتجاوز مدة أي عقد  [مصدر=model]",
+      "summary": "policy_lookup({\"query\": \"حد المبلغ للمشتريات أو عقود التوريد\"}) → POL-002: ## POL-002 — مدة العقد القصوى\nلا تتجاوز مدة أي عقد  [مصدر=model]",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "1c232e25b06a89c43f5bb6332764c7840bfc6ced82507cc786c45b9852ed03fc",
-      "digest": "6d2126ad764be33d57bc80eee3056a6126344d87887c6d1d820cbddc62ed8f9d"
+      "prev_hash": "d6ea19f805ff172694c1792643d8d6a706e473d5dc29c1108d5fdc7ec2dffa76",
+      "digest": "c3a4c62c3a7fe443fced56e7f67c8172253568343d7ce980b1cafb0e947fdb6c"
+    },
+    {
+      "node": "tool_call",
+      "summary": "policy_lookup({\"query\": \"حد المبلغ الأقصى لعقود المشتريات أو التوريد\"}) → POL-002: ## POL-002 — مدة العقد القصوى\nلا تتجاوز مدة أي عقد  [مصدر=model]",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "c3a4c62c3a7fe443fced56e7f67c8172253568343d7ce980b1cafb0e947fdb6c",
+      "digest": "9640f0cb7299efc72157cee54e18e84293e32dc1e4fa6c1ba4d85de59fdc83d2"
     },
     {
       "node": "tool_call",
       "summary": "calculator({\"expression\": \"95000.0 > 75000\"}) → True [مصدر=model]",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "6d2126ad764be33d57bc80eee3056a6126344d87887c6d1d820cbddc62ed8f9d",
-      "digest": "d1e8d325764a5cec1e944a081fef520088b25e4b5ac3b3604935c70a2dcb0dc5"
+      "prev_hash": "9640f0cb7299efc72157cee54e18e84293e32dc1e4fa6c1ba4d85de59fdc83d2",
+      "digest": "3f5c1fee4314e04c08122530862db459cf916426ca29a34c247e5d9d3567815c"
     },
     {
       "node": "escalate",
       "summary": "صُعّدت لموافقة بشرية",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "d1e8d325764a5cec1e944a081fef520088b25e4b5ac3b3604935c70a2dcb0dc5",
-      "digest": "5e8031729c2dbde4155476816942aa7ba63ab2f95810d818643776007be6d996"
+      "prev_hash": "3f5c1fee4314e04c08122530862db459cf916426ca29a34c247e5d9d3567815c",
+      "digest": "b3701b613da7a54cd4c51b752c14f7bdbeb58b9eccc48677c10d2aaf017588fa"
     }
   ]
 }

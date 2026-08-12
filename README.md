@@ -129,16 +129,22 @@ docker build -t doc-agent . && docker run -p 8000:8000 --env-file .env doc-agent
 # ثم: POST http://localhost:8000/process  {"doc_id":"d1","text":"..."}
 ```
 
+المسارات: `POST /process`، و`POST /resume` (يتطلب ترويسة `X-Approval-Token`
+مطابقة لـ`APPROVAL_API_TOKEN`، وبدونها تُغلق البوابة بـ503)، و`GET /metrics`،
+و`GET /healthz`. دليل تشغيل فعلي (بناء + نداءات على الحاوية) في
+`reports/generated/logs/08-docker-build.log` و`09-docker-run.log`.
+
 ### الاختبارات
 ```bash
-pytest -q          # 102 اختبارًا (عقود، نموذج، مخطط، checkpoint، حواجز، أدوات، وصل)
+pytest -q          # 121 اختبارًا (عقود، نموذج، مخطط، checkpoint، حواجز، أدوات، وصل)
 ```
 
 ## الأدلة المحفوظة (`reports/`)
 
 - `live-run.md` — **دليل التشغيل المركزي**: التقاط واحد نظيف لكل ما يطلبه
   الرُبرِك (سبع وثائق، هجوم قبل/بعد، إيقاف واستئناف عبر عملية، مرونة، مقاييس).
-- `generated/logs/*.log` — المخرجات **الخام** لكل أمر كما طُبعت (سبعة سجلات).
+- `generated/logs/*.log` — المخرجات **الخام** لكل أمر كما طُبعت (تسعة سجلات،
+  منها بناء صورة Docker وتشغيل الحاوية ونداءات HTTP عليها).
 - `../docs/rubric-check.md` — جدول تحقق: كل بند في الرُبرِك ← مسار دليله.
 - `pentest-report.md` — اختبار اختراق قبل/بعد التحصين، بست فئات هجوم.
 - `generated/traces/<doc_id>.json` — أثر كل وثيقة مع التحقق من سلامة السلسلة.

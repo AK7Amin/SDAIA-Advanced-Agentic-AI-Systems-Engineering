@@ -1,0 +1,25 @@
+== 1) تحقق أمني: هل خُبز .env في الصورة؟ ==
+.env.example
+
+== 2) تشغيل الحاوية ==
+5e7f4432de6a4f90e498f50d64c4ad180e955f3d210813a38a0a633eaeb42723
+
+== 3) /healthz ==
+{"status":"ok"}
+
+== 4) /metrics (أول 6 أسطر ذات دلالة) ==
+python_gc_objects_collected_total{generation="0"} 1556.0
+python_gc_objects_collected_total{generation="1"} 520.0
+python_gc_objects_collected_total{generation="2"} 25.0
+python_gc_objects_uncollectable_total{generation="0"} 0.0
+python_gc_objects_uncollectable_total{generation="1"} 0.0
+python_gc_objects_uncollectable_total{generation="2"} 0.0
+
+== 5) بوابة الموافقة بلا اعتماد ==
+{"detail":"بوابة الموافقة معطّلة: اضبط APPROVAL_API_TOKEN لتفعيلها"}
+
+== 6) معالجة وثيقة كاملة داخل الحاوية ==
+{"detail":"There was an error parsing the body"}
+
+== 6) معالجة وثيقة كاملة داخل الحاوية ==
+{"doc_id":"api_contract","thread_id":"api-be18663c-api_contract","final_status":"archived","guardrails":{"size_ok":true,"injection_flagged":false,"pii_masked":false,"removed_lines":0},"tool_calls":3,"decision_source":"model"}

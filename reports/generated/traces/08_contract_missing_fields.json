@@ -1,0 +1,54 @@
+{
+  "doc_id": "08_contract_missing_fields",
+  "chain_intact": true,
+  "events": [
+    {
+      "node": "ingest",
+      "summary": "استُلمت الوثيقة 08_contract_missing_fields",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "",
+      "digest": "48198190f8d3d13026cd3491c24b914957295a9328ac1ef6a1ac018814e530b2"
+    },
+    {
+      "node": "classify",
+      "summary": "النوع=contract ثقة=0.98",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "48198190f8d3d13026cd3491c24b914957295a9328ac1ef6a1ac018814e530b2",
+      "digest": "e163c73ad902295f7bd14fd1357789aab76a192e47f7baf8f6d189dd3ab5a140"
+    },
+    {
+      "node": "plan_route",
+      "summary": "خطة=full (5 خطوات): الوثيقة من نوع عقد توريد (contract) وتحتوي على حقول تعاقدية ",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "e163c73ad902295f7bd14fd1357789aab76a192e47f7baf8f6d189dd3ab5a140",
+      "digest": "a032565022eb95b60b6d31c57e8bd49f03e62ee1a4f3afa51ba61cccd40f94cb"
+    },
+    {
+      "node": "extract",
+      "summary": "محاولة 1؛ ناقص=['party', 'amount_sar', 'signed_date']",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "a032565022eb95b60b6d31c57e8bd49f03e62ee1a4f3afa51ba61cccd40f94cb",
+      "digest": "25c21df30a287c86fed8010c661b9106139880f29098c78a68936e25a91f745b"
+    },
+    {
+      "node": "extract",
+      "summary": "محاولة 2؛ ناقص=['party', 'amount_sar', 'signed_date']",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "25c21df30a287c86fed8010c661b9106139880f29098c78a68936e25a91f745b",
+      "digest": "c2a6020e012ccc20defb4089515c8d8b693f06c7c658c6ceee70e0f90c7fc6d1"
+    },
+    {
+      "node": "escalate",
+      "summary": "صُعّدت لموافقة بشرية",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "c2a6020e012ccc20defb4089515c8d8b693f06c7c658c6ceee70e0f90c7fc6d1",
+      "digest": "5247d07fb86cfd18339dc8be023c7e5a7f15067464e7dd06966b047f77e5691f"
+    }
+  ]
+}

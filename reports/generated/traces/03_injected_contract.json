@@ -20,59 +20,59 @@
     },
     {
       "node": "plan_route",
-      "summary": "خطة=full (4 خطوات): الوثيقة هي عقد صيانة يحتوي على التزامات مالية (قيمة العقد) و",
+      "summary": "خطة=full (4 خطوات): الوثيقة هي عقد (contract) يحتوي على التزامات مالية (قيمة الع",
       "cost_usd": 0.0,
       "latency_ms": 0,
       "prev_hash": "b4484e821f5f2dfaa9e9f1cc09a8f70e12d9276ffc27a6cc245e6e84e4a47a1c",
-      "digest": "493ebd6b6b86dca4d6a26cacf1d1f62dee36a85ccafc762cdd07b90e87b342c6"
+      "digest": "c32b418c80f8f66d569d5ed03ac1d91da37514992a089d7c9765a1920155ead9"
     },
     {
       "node": "extract",
       "summary": "محاولة 1؛ ناقص=[]",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "493ebd6b6b86dca4d6a26cacf1d1f62dee36a85ccafc762cdd07b90e87b342c6",
-      "digest": "8ee9c3494918f2e7935e525c95d3f5f2b1b1915753380f3726554b500b55a52d"
+      "prev_hash": "c32b418c80f8f66d569d5ed03ac1d91da37514992a089d7c9765a1920155ead9",
+      "digest": "77cbe0138c378e212df415b84aa0ce90a881bb0a22f349c67d274984d5491186"
     },
     {
       "node": "policy_check",
       "summary": "حكم=violation سياسة=POL-002 مصدر_القرار=model",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "8ee9c3494918f2e7935e525c95d3f5f2b1b1915753380f3726554b500b55a52d",
-      "digest": "4bd30b35a4c4b4cbcbb6b88891a1957f662b9f10f9533f1005ac3013ca17a2b7"
+      "prev_hash": "77cbe0138c378e212df415b84aa0ce90a881bb0a22f349c67d274984d5491186",
+      "digest": "56764f1c0eb1eb5672a52ff66d8416c1a51ea8d9f68f6b05016a971e49c6807e"
     },
     {
       "node": "tool_call",
-      "summary": "policy_lookup({\"query\": \"حد المبلغ أو مدة العقد أو شركة الخدمات المتقدمة\"}) → POL-002: ## POL-002 — مدة العقد القصوى\nلا تتجاوز مدة أي عقد  [مصدر=model]",
+      "summary": "policy_lookup({\"query\": \"حد المبلغ للصفقات الشرائية\"}) → POL-002: ## POL-002 — مدة العقد القصوى\nلا تتجاوز مدة أي عقد  [مصدر=model]",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "4bd30b35a4c4b4cbcbb6b88891a1957f662b9f10f9533f1005ac3013ca17a2b7",
-      "digest": "7f96a25a9cf0fa0c2740b7be14f588d2f1522a9ca648b9f661d2d9ec0cad1224"
+      "prev_hash": "56764f1c0eb1eb5672a52ff66d8416c1a51ea8d9f68f6b05016a971e49c6807e",
+      "digest": "67f8c230d39144426c4433479b32386d2a47ead83d82b9d2bdb2cf91cece752a"
     },
     {
       "node": "tool_call",
-      "summary": "policy_lookup({\"query\": \"حد المبلغ الأقصى أو قيمة العقد\"}) → POL-005: ## POL-005 — حظر البنود مفتوحة القيمة\nيُرفض أي بند  [مصدر=model]",
+      "summary": "policy_lookup({\"query\": \"حد المبلغ 500000 SAR أو عقود كبيرة\"}) → POL-003: ## POL-003 — حد الفاتورة الواحدة\nالفواتير التي تتجا [مصدر=model]",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "7f96a25a9cf0fa0c2740b7be14f588d2f1522a9ca648b9f661d2d9ec0cad1224",
-      "digest": "8e1e30a54c82e305458b839badbe6aaf82ab99d7662f04d1341ddc98ff3bd277"
+      "prev_hash": "67f8c230d39144426c4433479b32386d2a47ead83d82b9d2bdb2cf91cece752a",
+      "digest": "5ad5f8b1565ad2267febe9d5b087a00fce36cf0131912d7ba1308442f66b9889"
     },
     {
       "node": "tool_call",
-      "summary": "policy_lookup({\"query\": \"حد المبلغ الأقصى عقد توريد\"}) → POL-002: ## POL-002 — مدة العقد القصوى\nلا تتجاوز مدة أي عقد  [مصدر=model]",
+      "summary": "calculator({\"expression\": \"500000.0 > 50000\"}) → True [مصدر=model]",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "8e1e30a54c82e305458b839badbe6aaf82ab99d7662f04d1341ddc98ff3bd277",
-      "digest": "4ba504548e672cb4bd6455102f0bcff4dc346e5a7bc879f707a900d93721f5ec"
+      "prev_hash": "5ad5f8b1565ad2267febe9d5b087a00fce36cf0131912d7ba1308442f66b9889",
+      "digest": "64767add767058bdc70e3ae5e4d029c464a3b63f747e4fa61eb99fa7693e0619"
     },
     {
       "node": "escalate",
       "summary": "صُعّدت لموافقة بشرية",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "4ba504548e672cb4bd6455102f0bcff4dc346e5a7bc879f707a900d93721f5ec",
-      "digest": "a6851320f0c6f27a35e55b67899f4ccf8d0188a5f49af6191764b5fdccd22ef5"
+      "prev_hash": "64767add767058bdc70e3ae5e4d029c464a3b63f747e4fa61eb99fa7693e0619",
+      "digest": "6e2f62a3660b53ed193e114b18a1a3f02ee5ba0301aa227720dbf58d884d324b"
     }
   ]
 }
