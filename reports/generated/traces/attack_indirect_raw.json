@@ -1,0 +1,54 @@
+{
+  "doc_id": "attack_indirect_raw",
+  "chain_intact": true,
+  "events": [
+    {
+      "node": "ingest",
+      "summary": "استُلمت الوثيقة attack_indirect_raw",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "",
+      "digest": "a957b7dc7f772c148d536d965b019155b5adef210f9bd7754fe0509b45beeb60"
+    },
+    {
+      "node": "classify",
+      "summary": "النوع=contract ثقة=0.95",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "a957b7dc7f772c148d536d965b019155b5adef210f9bd7754fe0509b45beeb60",
+      "digest": "334aade4875613e570b69780edafcb0b9668871fbf2b150283501aaa64536a0c"
+    },
+    {
+      "node": "plan_route",
+      "summary": "خطة=full (4 خطوات): الوثيقة عبارة عن عقد صيانة يتضمن طرفًا، قيمة مالية، وتاريخ ت",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "334aade4875613e570b69780edafcb0b9668871fbf2b150283501aaa64536a0c",
+      "digest": "20ce813939f772f494e99a998f98e451963b11051a9423d72987299a3869a5cc"
+    },
+    {
+      "node": "extract",
+      "summary": "محاولة 1؛ ناقص=[]",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "20ce813939f772f494e99a998f98e451963b11051a9423d72987299a3869a5cc",
+      "digest": "9104746afc96c3a1c0275616cdbedf7dc665ea8460997982062e872d127cb13f"
+    },
+    {
+      "node": "policy_check",
+      "summary": "حكم=violation سياسة=POL-002",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "9104746afc96c3a1c0275616cdbedf7dc665ea8460997982062e872d127cb13f",
+      "digest": "7e314e530a0c14003d10a614a2631942a6d150b9f799e3cbb9f9236bb28d62f2"
+    },
+    {
+      "node": "escalate",
+      "summary": "صُعّدت لموافقة بشرية",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "7e314e530a0c14003d10a614a2631942a6d150b9f799e3cbb9f9236bb28d62f2",
+      "digest": "12eeca75fac61241f79d2df8174db012013cf1cc30bf8a480f6af7fedd86c638"
+    }
+  ]
+}

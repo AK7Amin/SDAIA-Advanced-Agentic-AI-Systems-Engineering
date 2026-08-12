@@ -1,0 +1,54 @@
+{
+  "doc_id": "03_injected_contract",
+  "chain_intact": true,
+  "events": [
+    {
+      "node": "ingest",
+      "summary": "استُلمت الوثيقة 03_injected_contract",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "",
+      "digest": "c5e4402fd56edd73d11729be91d656148a7d0ce82ee5a4a6e20d93d1cb5c5f66"
+    },
+    {
+      "node": "classify",
+      "summary": "النوع=contract ثقة=0.95",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "c5e4402fd56edd73d11729be91d656148a7d0ce82ee5a4a6e20d93d1cb5c5f66",
+      "digest": "13bed59eb65c7edb7e0e842a58a31d30124e9d247a049dfaf5356137efe3c8ac"
+    },
+    {
+      "node": "plan_route",
+      "summary": "خطة=full (2 خطوات): The document is a formal contract that includes a monetary v",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "13bed59eb65c7edb7e0e842a58a31d30124e9d247a049dfaf5356137efe3c8ac",
+      "digest": "546e06360519ad1a04071eca6d670cb238faa98efb5866b072e1fbcf5abe6c06"
+    },
+    {
+      "node": "extract",
+      "summary": "محاولة 1؛ ناقص=[]",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "546e06360519ad1a04071eca6d670cb238faa98efb5866b072e1fbcf5abe6c06",
+      "digest": "33460eaeea490d53c3d412164fc9d23dd0350c1ed5f001263f2d5faae610aabc"
+    },
+    {
+      "node": "policy_check",
+      "summary": "حكم=violation سياسة=POL-002",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "33460eaeea490d53c3d412164fc9d23dd0350c1ed5f001263f2d5faae610aabc",
+      "digest": "5b219310c6ea8ac09d6341e1da86fd794c601a82d06ad24daafe10d5fd8d39b6"
+    },
+    {
+      "node": "escalate",
+      "summary": "صُعّدت لموافقة بشرية",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "5b219310c6ea8ac09d6341e1da86fd794c601a82d06ad24daafe10d5fd8d39b6",
+      "digest": "4314c52705ea165caec76e74c184829b14c7db3b13e7d2ef93ea695ecaeccaf5"
+    }
+  ]
+}

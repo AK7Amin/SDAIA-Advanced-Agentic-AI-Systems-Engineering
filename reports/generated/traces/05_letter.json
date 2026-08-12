@@ -1,0 +1,54 @@
+{
+  "doc_id": "05_letter",
+  "chain_intact": true,
+  "events": [
+    {
+      "node": "ingest",
+      "summary": "استُلمت الوثيقة 05_letter",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "",
+      "digest": "2ae577bc649c83de766d6c96a9bd957fbbe2a4b1f586f54796bb06de776a3ff8"
+    },
+    {
+      "node": "classify",
+      "summary": "النوع=letter ثقة=0.95",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "2ae577bc649c83de766d6c96a9bd957fbbe2a4b1f586f54796bb06de776a3ff8",
+      "digest": "5224e9930598543d6338a9a42784742127889df498ae94d16ce48dd1c97ad213"
+    },
+    {
+      "node": "plan_route",
+      "summary": "خطة=skip_extract (2 خطوات): الخطاب الإدارى لا يتضمن أي التزام مالي أو تعاقدي جديد، لذا ل",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "5224e9930598543d6338a9a42784742127889df498ae94d16ce48dd1c97ad213",
+      "digest": "9ee25702181676aa7468035e7a471169f2eefceaca7d2267f54eeb4f082cc136"
+    },
+    {
+      "node": "policy_check",
+      "summary": "حكم=uncertain سياسة=None",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "9ee25702181676aa7468035e7a471169f2eefceaca7d2267f54eeb4f082cc136",
+      "digest": "ebdeae69a7e73c477b10072cb6dea4518f840a20cab5d869bd23279d8e1a0249"
+    },
+    {
+      "node": "reflect",
+      "summary": "مراجعة=confirm: المعلومات الأساسية (المدة، المبلغ، وتاريخ التوقيع) غير متوفر",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "ebdeae69a7e73c477b10072cb6dea4518f840a20cab5d869bd23279d8e1a0249",
+      "digest": "cfce5ef37cfca3d1314c41afafa15ee8ec8f4af696c9e22f87de151b684eac2b"
+    },
+    {
+      "node": "escalate",
+      "summary": "صُعّدت لموافقة بشرية",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "cfce5ef37cfca3d1314c41afafa15ee8ec8f4af696c9e22f87de151b684eac2b",
+      "digest": "ebfaca091011b2ddcd3d66050343827b5443bbc052a828108da3ad1ea43fbee4"
+    }
+  ]
+}
