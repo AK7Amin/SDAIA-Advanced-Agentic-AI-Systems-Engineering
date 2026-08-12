@@ -6,13 +6,15 @@
 
 ## 1) معالجة وثائق العينة (الحواجز مفعّلة)
 ```
-== معالجة 5 وثيقة (guardrails=on) ==
+== معالجة 7 وثيقة (guardrails=on) ==
 
   01_contract_compliant.md         → archived           حواجز={'size_ok': True, 'injection_flagged': False, 'pii_masked': False}
   02_invoice_over_limit.md         → awaiting_approval  حواجز={'size_ok': True, 'injection_flagged': False, 'pii_masked': False}
   03_injected_contract.md          → awaiting_approval  حواجز={'size_ok': True, 'injection_flagged': True, 'pii_masked': False}
   04_unknown_noise.txt             → quarantined        حواجز={'size_ok': True, 'injection_flagged': False, 'pii_masked': False}
   05_letter.md                     → awaiting_approval  حواجز={'size_ok': True, 'injection_flagged': False, 'pii_masked': False}
+  06_contract_pdf_compliant.pdf    → archived           حواجز={'size_ok': True, 'injection_flagged': False, 'pii_masked': False}
+  07_contract_pdf_over_limit.pdf   → awaiting_approval  حواجز={'size_ok': True, 'injection_flagged': False, 'pii_masked': False}
 
 لقطة المقاييس: C:\Users\abdul\Desktop\Islamic Content Association\SDAIA Advanced Agentic AI Systems Engineering\capstone-doc-lifecycle\reports\generated\metrics-snapshot.json
 
@@ -31,19 +33,21 @@
 ## 3) التكلفة والكمون لكل وثيقة (من metrics-snapshot.json)
 | الوثيقة | نداءات | توكنز | كمون (م/ث) | تكلفة مرجعية |
 |---|---|---|---|---|
-| 01_contract_compliant | 4 | 1688 | 35130 | $0.000516 |
-| 02_invoice_over_limit | 4 | 1632 | 50616 | $0.000517 |
-| 03_injected_contract | 4 | 1791 | 73259 | $0.000630 |
-| 04_unknown_noise | 1 | 401 | 10168 | $0.000137 |
-| 05_letter | 4 | 2025 | 47809 | $0.000675 |
+| 01_contract_compliant | 4 | 1688 | 53772 | $0.000516 |
+| 02_invoice_over_limit | 4 | 1578 | 54809 | $0.000485 |
+| 03_injected_contract | 4 | 1801 | 55225 | $0.000636 |
+| 04_unknown_noise | 1 | 433 | 7628 | $0.000156 |
+| 05_letter | 4 | 1926 | 54048 | $0.000616 |
+| 06_contract_pdf_compliant | 4 | 1715 | 40822 | $0.000543 |
+| 07_contract_pdf_over_limit | 4 | 1660 | 58118 | $0.000519 |
 
-الإجمالي: 7537 توكن، $0.002476
+الإجمالي: 10801 توكن، $0.003472
 (التكلفة الفعلية 0 — النموذج مجاني؛ الرقم مرجعي بأسعار gpt-4o-mini لإظهار
 هندسة التكلفة).
 
 ## 4) مجموعة الاختبارات
 ```
-............................................................             [100%]
-60 passed in 2.43s
+....................................................................     [100%]
+68 passed in 2.70s
 
 ```

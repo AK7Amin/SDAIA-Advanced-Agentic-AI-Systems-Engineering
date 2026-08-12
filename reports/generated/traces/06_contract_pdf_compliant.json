@@ -1,0 +1,62 @@
+{
+  "doc_id": "06_contract_pdf_compliant",
+  "chain_intact": true,
+  "events": [
+    {
+      "node": "ingest",
+      "summary": "استُلمت الوثيقة 06_contract_pdf_compliant",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "",
+      "digest": "59fdc3d72137df101c0b010ded7e892f22bfb7ba5229a6df9130e961fe568e06"
+    },
+    {
+      "node": "classify",
+      "summary": "النوع=contract ثقة=0.95",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "59fdc3d72137df101c0b010ded7e892f22bfb7ba5229a6df9130e961fe568e06",
+      "digest": "17a28a0c7348291111ba70ffd5e55e576581b877a44dd8e79d87ad240d725420"
+    },
+    {
+      "node": "plan_route",
+      "summary": "خطة=full (5 خطوات): الوثيقة هي عقد توريد مع تعهد مالي، لذا يلزم استخراج الحقول ا",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "17a28a0c7348291111ba70ffd5e55e576581b877a44dd8e79d87ad240d725420",
+      "digest": "14536e18a12fdff2d10e409a9a8122c620b724be1bb415e040cf058cbfb08020"
+    },
+    {
+      "node": "extract",
+      "summary": "محاولة 1؛ ناقص=[]",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "14536e18a12fdff2d10e409a9a8122c620b724be1bb415e040cf058cbfb08020",
+      "digest": "25a12de19ffe18f5e2c97ef8f846ab50ca0f5b321387320bc8e7c7b697a989d7"
+    },
+    {
+      "node": "policy_check",
+      "summary": "حكم=compliant سياسة=None",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "25a12de19ffe18f5e2c97ef8f846ab50ca0f5b321387320bc8e7c7b697a989d7",
+      "digest": "ed01a13d5be9e6edb9d5d36301530868e73555e30984d4d8999098eb61879188"
+    },
+    {
+      "node": "archive",
+      "summary": "أُرشفت الوثيقة → C:\\Users\\abdul\\Desktop\\Islamic Content Association\\SDAIA Advanced Agentic AI Systems Engineering\\capstone-doc-lifecycle\\archive\\06_contract_pdf_compliant.txt",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "ed01a13d5be9e6edb9d5d36301530868e73555e30984d4d8999098eb61879188",
+      "digest": "dc13210de9f65f6b6d97017e2ba0d7d95b06b189fa1fca3b6e0a09c210e24083"
+    },
+    {
+      "node": "notify",
+      "summary": "أُشعر بالحالة archived → C:\\Users\\abdul\\Desktop\\Islamic Content Association\\SDAIA Advanced Agentic AI Systems Engineering\\capstone-doc-lifecycle\\reports\\notifications\\06_contract_pdf_compliant.md",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "dc13210de9f65f6b6d97017e2ba0d7d95b06b189fa1fca3b6e0a09c210e24083",
+      "digest": "10a03b1d09d74042e720afebf53d8619ca3ed4ff408aed4b8ef87275ab712598"
+    }
+  ]
+}

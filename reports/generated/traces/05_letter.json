@@ -36,19 +36,19 @@
     },
     {
       "node": "reflect",
-      "summary": "مراجعة=confirm: المعلومات غير متوفرة في الحقول (المدة، المبلغ، إلخ) ولا يمكن",
+      "summary": "مراجعة=confirm: المعلومات الأساسية (المدة، المبلغ، تاريخ التوقيع) غير متوفرة",
       "cost_usd": 0.0,
       "latency_ms": 0,
       "prev_hash": "de061a3f3da721320d7091590c6f83891c95dbf407b2b1e31a9447e870699714",
-      "digest": "b309f48621f99a920a3571a2e4809f291d34620f63e624290bb8df97c692c956"
+      "digest": "abd1540c5592d067e3f380a9f14f77f46cd248bba150ab813416de78eac09eed"
     },
     {
       "node": "escalate",
       "summary": "صُعّدت لموافقة بشرية",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "b309f48621f99a920a3571a2e4809f291d34620f63e624290bb8df97c692c956",
-      "digest": "3a6e6df840ecf03dd99d57734529a71ce3978988bfb63abfcf8b4625e017a9c8"
+      "prev_hash": "abd1540c5592d067e3f380a9f14f77f46cd248bba150ab813416de78eac09eed",
+      "digest": "2048fdd261b93e73f302a5c035ed3d6b8a0a1e0fe65b7e8de0fef1dd16109a91"
     }
   ]
 }

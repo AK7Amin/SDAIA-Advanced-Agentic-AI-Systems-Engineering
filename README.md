@@ -56,6 +56,10 @@ flowchart TD
 - **الذاكرة/الحالة**: `SqliteSaver` checkpointer — التوقف عند الموافقة البشرية
   والاستئناف **عبر عملية منفصلة** (`langgraph interrupt` + `Command(resume=...)`).
 - **مخزن السياسات**: ChromaDB بمضمِّن **محلي** (لا تُرسَل بيانات خارج الجهاز).
+- **استيعاب PDF حقيقي**: عقود PDF عربية تُقرأ بـ`pypdf` وتُطبَّع (صيغ العرض
+  presentation forms ← حروف عادية، أرقام عربية-هندية ← لاتينية، تواريخ مقلوبة
+  ← ISO). القاعدة المتبعة من خبرة سابقة: **لا** إعادة تشكيل reshaping قبل
+  النموذج — تعكس النص منطقيًا وتدمّر فهمه.
 
 ## المكوّنات
 
@@ -68,6 +72,8 @@ flowchart TD
 | `src/guardrails/` | حقن (كشف+تغليف)، PII، اجتياز مسار، ميزانية/حجم |
 | `src/policy_store.py` | ChromaDB بمضمِّن محلي، يفهرس السياسات الموثوقة فقط |
 | `src/observability/` | traces كملفات، عدادات Prometheus، لوحة HTML |
+| `src/loaders.py` | استخراج نص من **PDF حقيقي** (pypdf) + تطبيع تشوهات العربية |
+| `tools/make_sample_pdfs.py` | أداة تطوير: توليد عقود PDF عربية اصطناعية |
 | `src/effects.py` | الأفعال الحقيقية: أرشفة الوثيقة + قيد القرار في SQLite + إشعار Jinja2 |
 | `src/pipeline.py` | تجميع: تقنيع/حواجز قبل المخطط ثم التشغيل والأثر |
 | `src/app.py` | خدمة FastAPI: `POST /process`، `POST /resume`، `GET /metrics`، `GET /healthz` |
@@ -102,7 +108,7 @@ docker build -t doc-agent . && docker run -p 8000:8000 --env-file .env doc-agent
 
 ### الاختبارات
 ```bash
-pytest -v          # 59 اختبارًا (schemas, llm, graph, checkpoint, guardrails, policy)
+pytest -v          # 68 اختبارًا (schemas, llm, graph, checkpoint, guardrails, policy)
 ```
 
 ## الأدلة المحفوظة (`reports/`)

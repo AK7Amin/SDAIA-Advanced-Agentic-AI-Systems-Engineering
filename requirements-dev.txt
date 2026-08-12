@@ -1,0 +1,5 @@
+# تبعيات التطوير فقط — توليد عينات PDF العربية. التشغيل لا يحتاجها.
+-r requirements.txt
+reportlab
+arabic-reshaper
+python-bidi

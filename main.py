@@ -20,6 +20,7 @@ from langgraph.checkpoint.sqlite import SqliteSaver
 from langgraph.types import Command
 
 from src.guardrails.input_guard import scan_user_input
+from src.loaders import load_document
 from src.observability import tracing
 from src.pipeline import build_production_graph, process_document
 
@@ -42,7 +43,7 @@ def cmd_run(guardrails: bool):
     for d in docs:
         # مرونة: فشل وثيقة (خطأ نموذج، 429، مخرج فاسد) لا يُسقط الدفعة كلها.
         try:
-            res = process_document(graph, d.stem, d.read_text(encoding="utf-8"), guardrails, REPORTS, llm=llm)
+            res = process_document(graph, d.stem, load_document(d), guardrails, REPORTS, llm=llm)
             print(f"  {d.name:32s} → {res['final_status']:18s} حواجز={res['guardrails']}")
         except Exception as exc:  # noqa: BLE001
             print(f"  {d.name:32s} → FAILED: {type(exc).__name__}: {str(exc)[:120]}")

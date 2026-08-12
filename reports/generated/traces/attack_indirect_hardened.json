@@ -19,52 +19,36 @@
       "digest": "3678184c0eae9ccba8b14b11e11679b9d0a7bbe01e74960c4b1453aab9bdc822"
     },
     {
-      "node": "ingest",
-      "summary": "استُلمت الوثيقة attack_indirect_hardened",
-      "cost_usd": 0.0,
-      "latency_ms": 0,
-      "prev_hash": "3678184c0eae9ccba8b14b11e11679b9d0a7bbe01e74960c4b1453aab9bdc822",
-      "digest": "31e65f4b1a74848144f5fed27f9500b5384e271393afdbc8903941010ddb0813"
-    },
-    {
-      "node": "classify",
-      "summary": "النوع=contract ثقة=0.95",
-      "cost_usd": 0.0,
-      "latency_ms": 0,
-      "prev_hash": "31e65f4b1a74848144f5fed27f9500b5384e271393afdbc8903941010ddb0813",
-      "digest": "5394d7359d9bc3bea2859e6b685b3d680619ffae0e26121a821338817c9d1d13"
-    },
-    {
       "node": "plan_route",
       "summary": "خطة=full (2 خطوات): The document is a formal maintenance contract containing bin",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "5394d7359d9bc3bea2859e6b685b3d680619ffae0e26121a821338817c9d1d13",
-      "digest": "8a2de0b60082c42eac42c70d4a509e4a4499a45c5af84dc1d152302c84a8319a"
+      "prev_hash": "3678184c0eae9ccba8b14b11e11679b9d0a7bbe01e74960c4b1453aab9bdc822",
+      "digest": "624fd93262e8d684c6e5a6c7488c571e8575484ac6155f28976c2a959d6795b4"
     },
     {
       "node": "extract",
       "summary": "محاولة 1؛ ناقص=[]",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "8a2de0b60082c42eac42c70d4a509e4a4499a45c5af84dc1d152302c84a8319a",
-      "digest": "e50b7d668e15a87c25f03b35052c9ab45bc00ae7afb88b7f878310d8dc1091c5"
+      "prev_hash": "624fd93262e8d684c6e5a6c7488c571e8575484ac6155f28976c2a959d6795b4",
+      "digest": "284f41e16ddeb21e5b7b556a0d35872d7756db6b03fd71ae12f347c0b91ba230"
     },
     {
       "node": "policy_check",
       "summary": "حكم=violation سياسة=POL-002",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "e50b7d668e15a87c25f03b35052c9ab45bc00ae7afb88b7f878310d8dc1091c5",
-      "digest": "6000fd35538e2ed39381c998090301b1a828c33178e3cd6732ce18dbbd231404"
+      "prev_hash": "284f41e16ddeb21e5b7b556a0d35872d7756db6b03fd71ae12f347c0b91ba230",
+      "digest": "93a21d048c039e8571a19f48ccae9332c925c953ffb8199b3c930562930849df"
     },
     {
       "node": "escalate",
       "summary": "صُعّدت لموافقة بشرية",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "6000fd35538e2ed39381c998090301b1a828c33178e3cd6732ce18dbbd231404",
-      "digest": "9524c4a93cf85e836a3b284ba92ccd4aeefb1d54fadd1bf4abcd3a9179e6f360"
+      "prev_hash": "93a21d048c039e8571a19f48ccae9332c925c953ffb8199b3c930562930849df",
+      "digest": "2a303095c50298de431035fbd608b8eb2754bef735d8abe2093416c35a582b63"
     }
   ]
 }
