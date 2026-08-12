@@ -3,12 +3,14 @@
     python main.py run [--no-guardrails]     معالجة كل وثائق sample_docs/
     python main.py resume <thread_id> <approve|reject>
     python main.py resilience-demo            إظهار إعادة المحاولة والتراجع
+    python main.py verify-traces              فحص مستقل لسلامة كل أثر محفوظ
     python main.py attack [--no-guardrails]  سيناريو الاختراق (حقن مباشر/غير مباشر)
 """
 from __future__ import annotations
 
 import sqlite3
 import sys
+import time
 import warnings
 from pathlib import Path
 
@@ -36,16 +38,31 @@ def _saver():
     return SqliteSaver(sqlite3.connect(str(CK_DB), check_same_thread=False))
 
 
+def _run_id() -> str:
+    """معرّف تشغيلة فريد — يمنع استئناف تشغيلة سابقة ودمج أثرين في ملف واحد."""
+    return time.strftime("r%Y%m%d-%H%M%S")
+
+
 def cmd_run(guardrails: bool):
     REPORTS.mkdir(parents=True, exist_ok=True)
     graph, llm = build_production_graph(_saver(), POLICY)
     docs = sorted((ROOT / "sample_docs").glob("*"))
-    print(f"== معالجة {len(docs)} وثيقة (guardrails={'on' if guardrails else 'OFF'}) ==\n")
+    run_id = _run_id()
+    print(f"== معالجة {len(docs)} وثيقة (guardrails={'on' if guardrails else 'OFF'}) ==")
+    print(f"== معرّف التشغيلة: {run_id} — خيط جديد لكل وثيقة، فلا يندمج أثران ==\n")
     for d in docs:
         # مرونة: فشل وثيقة (خطأ نموذج، 429، مخرج فاسد) لا يُسقط الدفعة كلها.
         try:
-            res = process_document(graph, d.stem, load_document(d), guardrails, REPORTS, llm=llm)
-            print(f"  {d.name:32s} → {res['final_status']:18s} حواجز={res['guardrails']}")
+            res = process_document(
+                graph, d.stem, load_document(d), guardrails, REPORTS, llm=llm,
+                thread_id=f"{run_id}-{d.stem}",
+            )
+            print(
+                f"  {d.name:32s} → {res['final_status']:18s} "
+                f"أدوات={res['tool_calls']} مصدر={res['decision_source']}"
+            )
+            if res["final_status"] == "awaiting_approval":
+                print(f"      ↳ للاستئناف: python main.py resume {res['thread_id']} approve")
         except Exception as exc:  # noqa: BLE001
             print(f"  {d.name:32s} → FAILED: {type(exc).__name__}: {str(exc)[:120]}")
     tracing.write_metrics_snapshot(REPORTS, llm.meter.snapshot())
@@ -65,8 +82,10 @@ def cmd_attack(guardrails: bool):
     print(f"[حقن مباشر] «{direct[:40]}...» → {'محجوب' if (guardrails and v.blocked) else 'مرّ!'}")
     graph, llm = build_production_graph(_saver(), POLICY)
     doc = (ROOT / "sample_docs" / "03_injected_contract.md").read_text(encoding="utf-8")
-    thread = "attack_indirect_raw" if not guardrails else "attack_indirect_hardened"
-    res = process_document(graph, thread, doc, guardrails, REPORTS, llm=llm)
+    doc_id = "attack_indirect_raw" if not guardrails else "attack_indirect_hardened"
+    res = process_document(
+        graph, doc_id, doc, guardrails, REPORTS, llm=llm, thread_id=f"{_run_id()}-{doc_id}"
+    )
     print(f"[حقن غير مباشر عبر وثيقة] → الحالة={res['final_status']} حواجز={res['guardrails']}")
 
 
@@ -105,6 +124,52 @@ def cmd_resilience():
     print("\n  ✓ لم تسقط الطلبية: أُعيدت المحاولة، ثم دُوِّر المفتاح، ثم نجحت.")
 
 
+def cmd_verify_traces() -> int:
+    """يفحص كل ملف أثر على القرص: سلسلة التجزئة، والتكرار، ودمج تشغيلتين.
+
+    فحص **مستقل** لا يثق بالحقل `chain_intact` المكتوب وقت التوليد: يعيد
+    حساب السلسلة من الأحداث نفسها. يعيد رمز خروج غير صفري عند أي عطل، فيصلح
+    بوابةً قبل الرفع.
+    """
+    import json
+
+    traces = sorted((REPORTS / "traces").glob("*.json"))
+    if not traces:
+        print("لا آثار — شغّل python main.py run أولًا.")
+        return 1
+    print(f"{'الأثر':34s} {'أحداث':>6s} {'أدوات':>6s} {'سلسلة':>8s}  ملاحظات")
+    broken = 0
+    for path in traces:
+        data = json.loads(path.read_text(encoding="utf-8"))
+        events = data.get("events", [])
+        notes = []
+        # 1) إعادة حساب السلسلة من البيانات (لا نثق بالحقل المكتوب).
+        prev = ""
+        intact = True
+        for e in events:
+            if e.get("prev_hash") != prev:
+                intact = False
+                break
+            prev = e.get("digest")
+        # 2) بصمات مكررة = حدثان بنفس المحتوى، أو أثر عقدة أُعيد تنفيذها.
+        digests = [e.get("digest") for e in events]
+        if len(set(digests)) != len(digests):
+            notes.append("بصمات مكررة")
+            intact = False
+        # 3) دمج تشغيلتين: عقدة الاستلام لا تقع إلا مرة واحدة في الأثر.
+        if [e["node"] for e in events].count("ingest") > 1:
+            notes.append("تشغيلتان في أثر واحد")
+            intact = False
+        if data.get("chain_intact") is not intact:
+            notes.append("الحقل المكتوب يخالف إعادة الحساب")
+        tools = sum(1 for e in events if e.get("node") == "tool_call")
+        mark = "سليمة ✓" if intact else "مكسورة ✗"
+        broken += 0 if intact else 1
+        print(f"{path.stem:34s} {len(events):6d} {tools:6d} {mark:>8s}  {'، '.join(notes)}")
+    print(f"\nالمجموع: {len(traces)} أثر — مكسور: {broken}")
+    return 1 if broken else 0
+
+
 def main():
     args = sys.argv[1:]
     guardrails = "--no-guardrails" not in args
@@ -120,6 +185,8 @@ def main():
         cmd_attack(guardrails)
     elif args[0] == "resilience-demo":
         cmd_resilience()
+    elif args[0] == "verify-traces":
+        return cmd_verify_traces()
     else:
         print(__doc__)
         return 1

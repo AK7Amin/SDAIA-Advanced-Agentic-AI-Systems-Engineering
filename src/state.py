@@ -27,6 +27,7 @@ class DocState(TypedDict, total=False):
     extract_attempts: int
     policy_verdict: PolicyVerdict
     tool_calls: int             # عدد الأدوات التي قرر الوكيل استدعاءها
+    decision_source: str        # model | policy_enforced | fallback_direct_retrieval
     review: ReviewVerdict       # مخرج المراجع الناقد (Reflexion)
     critique: str               # تغذية راجعة تُحقن في إعادة التدقيق
     reflect_attempts: int

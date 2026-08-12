@@ -12,19 +12,19 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass, field
 
-from src.tools import ToolError, ToolRegistry
+from src.tools import ToolCall, ToolError, ToolRegistry
 
 _ACTION_RE = re.compile(r"Action:\s*([A-Za-z_]+)\s*\n\s*Action Input:\s*(.+?)(?:\n|$)", re.DOTALL)
 _FINAL_RE = re.compile(r"Final Answer:\s*(.+)", re.DOTALL)
 
 REACT_INSTRUCTIONS = """أنت وكيل يحل المهمة عبر دورة تفكير وأدوات.
-الأدوات المتاحة:
+الأدوات المتاحة (بين القوسين اسم كل وسيط ونوعه):
 {tools}
 
 استعمل هذا النسق حرفيًا، خطوة واحدة كل رد:
 Thought: <تفكيرك>
 Action: <اسم الأداة>
-Action Input: <المدخل>
+Action Input: <كائن JSON بالوسائط المسماة، مثل {{"query": "حد الفاتورة"}}>
 
 وحين تجهز بالجواب:
 Thought: <خلاصتك>
@@ -41,6 +41,8 @@ class ReActStep:
     action: str | None
     action_input: str | None
     observation: str | None
+    #: الاستدعاء المنظَّم بعد التحقق من المخطط (None إن لم يُستدعَ أداة).
+    call: ToolCall | None = None
 
 
 @dataclass
@@ -48,6 +50,9 @@ class ReActResult:
     final_answer: str | None
     steps: list[ReActStep] = field(default_factory=list)
     exhausted: bool = False   # بلغ حد الخطوات دون جواب نهائي
+    #: من اختار الأداة فعلًا: النموذج، أم فُرضت برمجيًا حين قصّر النموذج.
+    #: "model" | "policy_enforced" — تُنقل حرفيًا إلى أثر التدقيق بلا تجميل.
+    decision_source: str = "model"
 
     @property
     def tool_calls(self) -> int:
@@ -86,14 +91,19 @@ def run_react(llm_call, task: str, registry: ToolRegistry, max_steps: int = 4) -
             return result
 
         action, action_input = m.group(1).strip(), m.group(2).strip()
+        # نص النموذج ← استدعاء منظَّم ← موزِّع واحد يتحقق من المخطط قبل التنفيذ.
+        call: ToolCall | None = None
         try:
-            observation = registry.run(action, action_input)
+            call = registry.parse_call(action, action_input)
+            observation = registry.dispatch(call).output
+            rendered = call.render()
         except ToolError as e:
             observation = f"خطأ أداة: {e}"
-        result.steps.append(ReActStep(_parse_thought(text), action, action_input, observation))
+            rendered = action_input
+        result.steps.append(ReActStep(_parse_thought(text), action, rendered, observation, call))
         scratchpad += (
             f"Thought: {_parse_thought(text)}\nAction: {action}\n"
-            f"Action Input: {action_input}\nObservation: {observation}\n"
+            f"Action Input: {rendered}\nObservation: {observation}\n"
         )
     result.exhausted = True
     return result

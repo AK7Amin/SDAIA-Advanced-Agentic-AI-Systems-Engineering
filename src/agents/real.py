@@ -88,6 +88,7 @@ class RealAgents:
         حتى لا يتوقف النظام على التزام النموذج بالنسق.
         """
         from src.agents.react import ReActStep, run_react
+        from src.tools import ToolCall
 
         note = f"\nتغذية راجعة من مراجع ناقد: {critique}" if critique else ""
         amount_line = (
@@ -111,7 +112,9 @@ class RealAgents:
         # هذا مرفوض سلوكيًا (لا حكم امتثال بلا سياسة)، فنفرض الاسترجاع ونعيد
         # السؤال بالسياسة حاضرة — والاستدعاء تنفيذ فعلي مسجَّل في الأثر.
         if res.tool_calls == 0:
-            forced = self.registry.run("policy_lookup", fields.model_dump_json())
+            # استدعاء منظَّم يمر بنفس الموزِّع والتحقق — لا مسار جانبي.
+            forced_call = ToolCall("policy_lookup", {"query": fields.model_dump_json()})
+            forced = self.registry.dispatch(forced_call).output
             seeded = (
                 f"{task}\n\nObservation (policy_lookup): {forced}\n"
                 "بناءً على السياسة أعلاه، أكمل: استعمل calculator عند وجود مبلغ، "
@@ -121,8 +124,10 @@ class RealAgents:
             res2.steps.insert(
                 0,
                 ReActStep("مراجعة السياسة إلزامية قبل الحكم", "policy_lookup",
-                          fields.model_dump_json(), forced),
+                          forced_call.render(), forced, forced_call),
             )
+            # **صدق الإسناد**: النموذج لم يختر هذه الأداة — النظام فرضها.
+            res2.decision_source = "policy_enforced"
             res = res2
 
         if res.final_answer:
@@ -134,6 +139,8 @@ class RealAgents:
                 return verdict, res
             except (AgentOutputError, ValueError):
                 pass
+        # لم يصلنا حكم صالح من حلقة الأدوات ← مسار الاسترجاع المباشر.
+        res.decision_source = "fallback_direct_retrieval"
         return self.policy_check(fields, critique), res
 
     def policy_check(self, fields: ExtractedFields, critique: str = "") -> PolicyVerdict:

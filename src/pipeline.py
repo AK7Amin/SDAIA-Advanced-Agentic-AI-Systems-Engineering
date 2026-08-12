@@ -52,7 +52,21 @@ def build_production_graph(checkpointer, policy_file: str | Path):
     return build_graph(deps, checkpointer=checkpointer), llm
 
 
-def process_document(graph, doc_id: str, raw_text: str, guardrails: bool, reports_dir: str | Path, llm=None):
+def process_document(
+    graph,
+    doc_id: str,
+    raw_text: str,
+    guardrails: bool,
+    reports_dir: str | Path,
+    llm=None,
+    thread_id: str | None = None,
+):
+    """يعالج وثيقة ويكتب أثرها.
+
+    `thread_id` منفصل عن `doc_id` عمدًا: معرّف الوثيقة يسمّي ملف الأثر، ومعرّف
+    الخيط يعرّف الحالة في الcheckpointer. تشغيلتان بنفس معرّف الخيط تستأنف
+    الثانية فوق الأولى فيندمج أثرهما في ملف واحد — عيب أدلة رُصد حيًا.
+    """
     safe_id = safe_doc_id(doc_id)
     safe_text, flags = prepare_text(raw_text, guardrails)
     if llm is not None:
@@ -60,7 +74,8 @@ def process_document(graph, doc_id: str, raw_text: str, guardrails: bool, report
         # حاجز الميزانية: عدّاد جديد لكل وثيقة — يفشل بصوت عالٍ عند تجاوز الحد.
         llm.budget = BudgetGuard(max_calls=int(os.getenv("MAX_LLM_CALLS_PER_DOC", "8")))
     state_in = {"doc_id": safe_id, "masked_text": safe_text, "extract_attempts": 0, "audit_trail": []}
-    cfg = {"configurable": {"thread_id": safe_id}}
+    thread = safe_doc_id(thread_id) if thread_id else safe_id
+    cfg = {"configurable": {"thread_id": thread}}
     t0 = time.perf_counter()
     out = graph.invoke(state_in, cfg)
     tracing.observe_doc_latency((time.perf_counter() - t0) * 1000)
@@ -69,4 +84,11 @@ def process_document(graph, doc_id: str, raw_text: str, guardrails: bool, report
     for e in out.get("audit_trail", []):
         tracing.NODE_RUNS.labels(node=e.node).inc()
     tracing.write_trace(reports_dir, safe_id, out.get("audit_trail", []))
-    return {"doc_id": safe_id, "final_status": status, "guardrails": flags}
+    return {
+        "doc_id": safe_id,
+        "thread_id": thread,
+        "final_status": status,
+        "guardrails": flags,
+        "tool_calls": out.get("tool_calls", 0),
+        "decision_source": out.get("decision_source", "n/a"),
+    }

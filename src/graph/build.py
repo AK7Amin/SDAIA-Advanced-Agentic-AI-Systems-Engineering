@@ -123,17 +123,29 @@ def build_graph(deps: AgentDeps, checkpointer=None):
         v = out
         if isinstance(out, tuple):
             v, react = out
-        entries = [("policy_check", f"حكم={v.verdict.value} سياسة={v.cited_policy_id}")]
+        source = getattr(react, "decision_source", "model") if react is not None else "n/a"
+        entries = [
+            ("policy_check", f"حكم={v.verdict.value} سياسة={v.cited_policy_id} مصدر_القرار={source}")
+        ]
         if react is not None:
             # أثر استدعاء الأدوات — دليل البند 1 داخل سجل التدقيق نفسه.
-            entries += [
-                ("tool_call", f"{s.action}({str(s.action_input)[:40]}) → {str(s.observation)[:60]}")
-                for s in react.steps
-                if s.action
-            ]
+            # `مصدر` يفرّق بصدق بين أداة اختارها النموذج وأخرى فرضها النظام.
+            acted = [s for s in react.steps if s.action]
+            for i, s in enumerate(acted):
+                # الاستدعاء المفروض هو الأول وحده في مسار policy_enforced.
+                origin = "policy_enforced" if (source == "policy_enforced" and i == 0) else "model"
+                entries.append((
+                    "tool_call",
+                    f"{s.action}({str(s.action_input)[:60]}) → {str(s.observation)[:60]} [مصدر={origin}]",
+                ))
         # مترابطة فيما بينها حتى تصمد سلسلة التجزئة للتحقق.
         events = _audit_chain(state, entries)
-        return {"policy_verdict": v, "tool_calls": react.tool_calls if react else 0, "audit_trail": events}
+        return {
+            "policy_verdict": v,
+            "tool_calls": react.tool_calls if react else 0,
+            "decision_source": source,
+            "audit_trail": events,
+        }
 
     def reflect(state: DocState):
         """المقيّم+العاكس Evaluator+Reflector — نمط Reflexion على الحكم غير الحاسم."""

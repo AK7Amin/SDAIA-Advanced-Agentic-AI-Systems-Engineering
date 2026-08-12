@@ -15,14 +15,27 @@ from dataclasses import dataclass, field
 
 _SECRET_RE = re.compile(r"sk-or-[A-Za-z0-9\-_]+")
 
+#: مفاتيح مسجَّلة وقت التشغيل تُمسح حرفيًا من أي نص — يغطي المزودين الذين
+#: لا تحمل مفاتيحهم بادئة معروفة (Mistral مثلًا) بعد إتاحة تبديل المزود.
+_KNOWN_SECRETS: set[str] = set()
+
+
+def register_secret(value: str | None) -> None:
+    """يسجّل قيمة سرية لتُنقَّح من كل مخرج لاحق (سجل/أثر/رسالة خطأ)."""
+    if value and len(value) >= 12:
+        _KNOWN_SECRETS.add(value)
+
 # أسعار مرجعية افتراضية (دولار لكل مليون توكن) — بأسلوب gpt-4o-mini.
 REF_PRICE_PROMPT = 0.15 / 1_000_000
 REF_PRICE_COMPLETION = 0.60 / 1_000_000
 
 
 def redact_secrets(text: str) -> str:
-    """يمسح أي مفتاح OpenRouter من نص قبل كتابته في سجل/أثر/رسالة خطأ."""
-    return _SECRET_RE.sub("sk-or-***REDACTED***", str(text))
+    """يمسح أي مفتاح مزوّد من نص قبل كتابته في سجل/أثر/رسالة خطأ."""
+    out = _SECRET_RE.sub("sk-or-***REDACTED***", str(text))
+    for secret in _KNOWN_SECRETS:
+        out = out.replace(secret, "***REDACTED***")
+    return out
 
 
 class ProviderError(RuntimeError):
@@ -84,9 +97,22 @@ class LLMLayer:
         model: str | None = None,
         meter: UsageMeter | None = None,
     ):
-        self._api_key = api_key or os.getenv("OPENROUTER_API_KEY", "")
-        self._fallback_key = fallback_key or os.getenv("OPENROUTER_API_KEY_FALLBACK", "")
+        # أسماء عامة أولًا (`LLM_API_KEY`) ثم أسماء OpenRouter للتوافق الخلفي —
+        # المزوّد صار قابلًا للتبديل فلا يليق أن يحمل المفتاح اسم مزوّد بعينه.
+        self._api_key = api_key or os.getenv("LLM_API_KEY") or os.getenv("OPENROUTER_API_KEY", "")
+        self._fallback_key = (
+            fallback_key
+            or os.getenv("LLM_API_KEY_FALLBACK")
+            or os.getenv("OPENROUTER_API_KEY_FALLBACK", "")
+        )
         self.model = model or os.getenv("LLM_MODEL", "openai/gpt-oss-20b:free")
+        #: المزوّد قابل للتبديل بمتغير بيئة واحد — كل المزودين هنا يتكلمون
+        #: نفس واجهة OpenAI المتوافقة، فتبديل OpenRouter↔Mistral بلا لمس كود.
+        self.base_url = os.getenv(
+            "LLM_BASE_URL", "https://openrouter.ai/api/v1/chat/completions"
+        )
+        register_secret(self._api_key)
+        register_secret(self._fallback_key)
         self.meter = meter or UsageMeter()
         #: يُضبط قبل معالجة كل وثيقة ليُنسب الاستهلاك إليها (تكلفة لكل وثيقة).
         self.active_doc_id = "-"
@@ -115,7 +141,7 @@ class LLMLayer:
             }
         ).encode()
         req = urllib.request.Request(
-            "https://openrouter.ai/api/v1/chat/completions",
+            self.base_url,
             data=body,
             headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json"},
         )
