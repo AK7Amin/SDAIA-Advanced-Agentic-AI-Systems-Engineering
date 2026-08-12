@@ -20,43 +20,51 @@
     },
     {
       "node": "plan_route",
-      "summary": "خطة=full (2 خطوات): The document is a formal maintenance contract containing bin",
+      "summary": "خطة=full (3 خطوات): The document is a contract with a financial commitment, cont",
       "cost_usd": 0.0,
       "latency_ms": 0,
       "prev_hash": "13bed59eb65c7edb7e0e842a58a31d30124e9d247a049dfaf5356137efe3c8ac",
-      "digest": "c3d6561bb7a921a9a071e7700c4d79f08e3f347b801e102306b31888de5016f0"
+      "digest": "93106cbd781705afcdba94fcfa52261ce49ca350968e352d56347b3f646a8a32"
     },
     {
       "node": "extract",
       "summary": "محاولة 1؛ ناقص=[]",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "c3d6561bb7a921a9a071e7700c4d79f08e3f347b801e102306b31888de5016f0",
-      "digest": "32f1a87ce2dae60d95bc43cde3f5a3131e62fe70903999f5600e8598238ee92b"
+      "prev_hash": "93106cbd781705afcdba94fcfa52261ce49ca350968e352d56347b3f646a8a32",
+      "digest": "dcd72dcd81b3804d68f24c0f7fb050affaa8242c300cb4a6a70138ab3fa2b479"
     },
     {
       "node": "policy_check",
       "summary": "حكم=violation سياسة=POL-002",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "32f1a87ce2dae60d95bc43cde3f5a3131e62fe70903999f5600e8598238ee92b",
-      "digest": "4d0641cdd67d8d9d25cad647ac281c487add884a3a34fa1cab7265c5522ee250"
+      "prev_hash": "dcd72dcd81b3804d68f24c0f7fb050affaa8242c300cb4a6a70138ab3fa2b479",
+      "digest": "7bd4727d7dddd342333e7a160e56de74f9f2efba352cbf916e7e55c8a8277fa6"
     },
     {
       "node": "tool_call",
       "summary": "policy_lookup({\"party\":\"شركة الخدمات المتقدمة\",\"amount) → POL-002: ## POL-002 — مدة العقد القصوى\nلا تتجاوز مدة أي عقد ",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "32f1a87ce2dae60d95bc43cde3f5a3131e62fe70903999f5600e8598238ee92b",
-      "digest": "3c2fe398af88e59b2c3c2fdc1e6bc0a47355785f269a0480494e48b75528421a"
+      "prev_hash": "dcd72dcd81b3804d68f24c0f7fb050affaa8242c300cb4a6a70138ab3fa2b479",
+      "digest": "0c42f1b080f12725d132a2de9ef12b4b4e24310c7eb76e312c19ac7a7e708361"
+    },
+    {
+      "node": "tool_call",
+      "summary": "policy_lookup({\"party\":\"شركة الخدمات المتقدمة\",\"amount) → POL-002: ## POL-002 — مدة العقد القصوى\nلا تتجاوز مدة أي عقد ",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "dcd72dcd81b3804d68f24c0f7fb050affaa8242c300cb4a6a70138ab3fa2b479",
+      "digest": "0c42f1b080f12725d132a2de9ef12b4b4e24310c7eb76e312c19ac7a7e708361"
     },
     {
       "node": "escalate",
       "summary": "صُعّدت لموافقة بشرية",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "3c2fe398af88e59b2c3c2fdc1e6bc0a47355785f269a0480494e48b75528421a",
-      "digest": "0c35cd8b041ffdac5a66b0cbfbd3ef6072dae2e089198d047ff9b368c2c16977"
+      "prev_hash": "0c42f1b080f12725d132a2de9ef12b4b4e24310c7eb76e312c19ac7a7e708361",
+      "digest": "bfbc0338cd0e9702a5846453d41e3c542f44e7f2a4d50785d5d98368fc0a835c"
     }
   ]
 }

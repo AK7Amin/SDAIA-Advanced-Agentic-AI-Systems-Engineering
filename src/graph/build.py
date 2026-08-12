@@ -59,6 +59,22 @@ def _audit(state: DocState, node: str, summary: str, cost_usd: float = 0.0, late
     return AuditEvent(node=node, summary=summary, cost_usd=cost_usd, latency_ms=latency_ms, prev_hash=prev)
 
 
+def _audit_chain(state: DocState, entries: list[tuple[str, str]]) -> list[AuditEvent]:
+    """يبني عدة أحداث من عقدة واحدة **مترابطة فيما بينها**.
+
+    `_audit` وحدها تقرأ لقطة الحالة السابقة، فلو نادتها العقدة مرتين لتشاركت
+    الأحداث نفس `prev_hash` وانكسرت السلسلة. هنا تُسلسَل كل حادثة على سابقتها.
+    """
+    trail = state.get("audit_trail", [])
+    prev = trail[-1].digest() if trail else ""
+    events: list[AuditEvent] = []
+    for node, summary in entries:
+        e = AuditEvent(node=node, summary=summary, prev_hash=prev)
+        events.append(e)
+        prev = e.digest()
+    return events
+
+
 def build_graph(deps: AgentDeps, checkpointer=None):
     if checkpointer is None:
         checkpointer = InMemorySaver()
@@ -107,19 +123,16 @@ def build_graph(deps: AgentDeps, checkpointer=None):
         v = out
         if isinstance(out, tuple):
             v, react = out
-        summary = f"حكم={v.verdict.value} سياسة={v.cited_policy_id}"
-        events = [_audit(state, "policy_check", summary)]
+        entries = [("policy_check", f"حكم={v.verdict.value} سياسة={v.cited_policy_id}")]
         if react is not None:
             # أثر استدعاء الأدوات — دليل البند 1 داخل سجل التدقيق نفسه.
-            for step in react.steps:
-                if step.action:
-                    events.append(
-                        _audit(
-                            state,
-                            "tool_call",
-                            f"{step.action}({step.action_input[:40]}) → {str(step.observation)[:60]}",
-                        )
-                    )
+            entries += [
+                ("tool_call", f"{s.action}({str(s.action_input)[:40]}) → {str(s.observation)[:60]}")
+                for s in react.steps
+                if s.action
+            ]
+        # مترابطة فيما بينها حتى تصمد سلسلة التجزئة للتحقق.
+        events = _audit_chain(state, entries)
         return {"policy_verdict": v, "tool_calls": react.tool_calls if react else 0, "audit_trail": events}
 
     def reflect(state: DocState):

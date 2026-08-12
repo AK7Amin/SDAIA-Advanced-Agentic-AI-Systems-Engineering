@@ -1,6 +1,6 @@
 {
   "doc_id": "05_letter",
-  "chain_intact": true,
+  "chain_intact": false,
   "events": [
     {
       "node": "ingest",
@@ -35,20 +35,28 @@
       "digest": "9135c12f0fb2235987df11a3f65349cb172fb88b4a198f02b0ca5ab1879962a2"
     },
     {
-      "node": "reflect",
-      "summary": "مراجعة=confirm: The audit record lacks all key contract fields (party, amoun",
+      "node": "tool_call",
+      "summary": "policy_lookup({\"party\":null,\"amount_sar\":null,\"duratio) → POL-003: ## POL-003 — حد الفاتورة الواحدة\nالفواتير التي تتجا",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "9135c12f0fb2235987df11a3f65349cb172fb88b4a198f02b0ca5ab1879962a2",
-      "digest": "3033e065e75ec5ebf3a8b31ccbfbccf1fdee3b0eab85a7bea1848d376e6b7ad8"
+      "prev_hash": "c1d398f115c7e6484b27e23769dde98257c452721834f09e35f7aa22033de21b",
+      "digest": "8beae59cce7adc9da5c1d4a084d547e5bae0e316b5a0476d1944d98511c07e93"
+    },
+    {
+      "node": "reflect",
+      "summary": "مراجعة=confirm: المعلومات غير متوفرة في الحقول (المدة، المبلغ، إلخ) ولا يمكن",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "8beae59cce7adc9da5c1d4a084d547e5bae0e316b5a0476d1944d98511c07e93",
+      "digest": "d2e889f88a64edb548d2a23ab894e734bd3b81ca8e6be09ba13cbd02fd4c8600"
     },
     {
       "node": "escalate",
       "summary": "صُعّدت لموافقة بشرية",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "3033e065e75ec5ebf3a8b31ccbfbccf1fdee3b0eab85a7bea1848d376e6b7ad8",
-      "digest": "186a6b88ed64d30b66d1b87184875fd113c31f67edbadb692713cf5e6d1a120d"
+      "prev_hash": "d2e889f88a64edb548d2a23ab894e734bd3b81ca8e6be09ba13cbd02fd4c8600",
+      "digest": "6ef4d7ace1efea86d2b1ab6024604d26e392d84358d5484274baff5ed4e231a7"
     }
   ]
 }

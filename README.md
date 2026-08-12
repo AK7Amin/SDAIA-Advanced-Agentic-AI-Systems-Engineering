@@ -70,6 +70,8 @@ flowchart TD
 | `src/llm.py` | نداء OpenRouter، تدوير مفتاحين (402/403)، عداد توكنز/تكلفة، تنقيح أسرار |
 | `src/graph/build.py` | مخطط الحالة: العقد والحواف الشرطية والحلقة والتصعيد |
 | `src/agents/` | الوكلاء المتخصصون ومطالباتهم |
+| `src/tools.py` | **أدوات حقيقية** يستدعيها الوكيل: بحث السياسات + حاسبة بمحلّل AST آمن |
+| `src/agents/react.py` | حلقة ReAct: فكرة ← فعل ← ملاحظة، بذاكرة قصيرة المدى |
 | `src/guardrails/` | حقن (كشف+تغليف)، PII، اجتياز مسار، ميزانية/حجم |
 | `src/policy_store.py` | ChromaDB بمضمِّن محلي، يفهرس السياسات الموثوقة فقط |
 | `src/observability/` | traces كملفات، عدادات Prometheus، لوحة HTML |
@@ -78,7 +80,7 @@ flowchart TD
 | `src/effects.py` | الأفعال الحقيقية: أرشفة الوثيقة + قيد القرار في SQLite + إشعار Jinja2 |
 | `src/pipeline.py` | تجميع: تقنيع/حواجز قبل المخطط ثم التشغيل والأثر |
 | `src/app.py` | خدمة FastAPI: `POST /process`، `POST /resume`، `GET /metrics`، `GET /healthz` |
-| `main.py` | CLI: `run` / `resume` / `attack` |
+| `main.py` | CLI: `run` / `resume` / `attack` / `resilience-demo` |
 
 ## التشغيل
 
@@ -109,7 +111,7 @@ docker build -t doc-agent . && docker run -p 8000:8000 --env-file .env doc-agent
 
 ### الاختبارات
 ```bash
-pytest -v          # 68 اختبارًا (schemas, llm, graph, checkpoint, guardrails, policy)
+pytest -v          # 81 اختبارًا (schemas, llm, graph, checkpoint, guardrails, policy)
 ```
 
 ## الأدلة المحفوظة (`reports/`)

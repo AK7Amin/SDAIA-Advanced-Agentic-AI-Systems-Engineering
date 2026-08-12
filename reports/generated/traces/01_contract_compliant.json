@@ -1,6 +1,6 @@
 {
   "doc_id": "01_contract_compliant",
-  "chain_intact": true,
+  "chain_intact": false,
   "events": [
     {
       "node": "ingest",
@@ -36,27 +36,43 @@
     },
     {
       "node": "policy_check",
-      "summary": "حكم=compliant سياسة=None",
+      "summary": "حكم=compliant سياسة=POL-002",
       "cost_usd": 0.0,
       "latency_ms": 0,
       "prev_hash": "b194bc07302553bc16645f5728e45dd9fec985939179cf6af9d91d8189e31012",
-      "digest": "c8b954a77aa1546cbb117fd5a939d47015158141bb617e012de6e5d33a8c12f8"
+      "digest": "45372e9f25dcd61b4754a7491e2b4aa2b460fe4c286ebe9f7d4069c1738fa505"
+    },
+    {
+      "node": "tool_call",
+      "summary": "policy_lookup({\"party\":\"شركة التقنية المتحدة\",\"amount_) → POL-002: ## POL-002 — مدة العقد القصوى\nلا تتجاوز مدة أي عقد ",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "b194bc07302553bc16645f5728e45dd9fec985939179cf6af9d91d8189e31012",
+      "digest": "4bd7560d6537f9ffd391d74e5cd705734090f2e6a1fd6cafa69c320697805271"
+    },
+    {
+      "node": "tool_call",
+      "summary": "policy_lookup({\"party\":\"شركة التقنية المتحدة\",\"amount_) → POL-002: ## POL-002 — مدة العقد القصوى\nلا تتجاوز مدة أي عقد ",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "b194bc07302553bc16645f5728e45dd9fec985939179cf6af9d91d8189e31012",
+      "digest": "4bd7560d6537f9ffd391d74e5cd705734090f2e6a1fd6cafa69c320697805271"
     },
     {
       "node": "archive",
       "summary": "أُرشفت الوثيقة → C:\\Users\\abdul\\Desktop\\Islamic Content Association\\SDAIA Advanced Agentic AI Systems Engineering\\capstone-doc-lifecycle\\archive\\01_contract_compliant.txt",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "c8b954a77aa1546cbb117fd5a939d47015158141bb617e012de6e5d33a8c12f8",
-      "digest": "1d7ba9d2eeae06dfc9853756fc43711826b917bcb526c447868700cc968d0a91"
+      "prev_hash": "4bd7560d6537f9ffd391d74e5cd705734090f2e6a1fd6cafa69c320697805271",
+      "digest": "2ddaf60c842350692fcde6a1b5cf224ececcad5b7aa37902b34e73b6496d1af8"
     },
     {
       "node": "notify",
       "summary": "أُشعر بالحالة archived → C:\\Users\\abdul\\Desktop\\Islamic Content Association\\SDAIA Advanced Agentic AI Systems Engineering\\capstone-doc-lifecycle\\reports\\notifications\\01_contract_compliant.md",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "1d7ba9d2eeae06dfc9853756fc43711826b917bcb526c447868700cc968d0a91",
-      "digest": "6e9b65d4e2785b15889136f6dc098e17ee4e350e34347bcb69df5f07ea4fcd90"
+      "prev_hash": "2ddaf60c842350692fcde6a1b5cf224ececcad5b7aa37902b34e73b6496d1af8",
+      "digest": "4e6b2e93c33da21e45e01399ca50521c7b30fadc6a4c3561bc7e843438d67ab9"
     }
   ]
 }

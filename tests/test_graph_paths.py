@@ -156,3 +156,43 @@ def test_audit_trail_appends_never_replaces(graph_with_stubs, compliant_contract
     )
     state = _run(graph, compliant_contract_ar, "audit")
     assert len(state["audit_trail"]) >= 5
+
+
+def test_hash_chain_survives_multi_event_node(graph_with_stubs):
+    """سلسلة التجزئة تصمد حين تُصدر عقدة واحدة عدة أحداث (استدعاءات أدوات).
+
+    عيب مُكتشف حيًا: كل أحداث العقدة كانت تحسب prev_hash من لقطة ما قبل العقدة
+    فتتشارك البصمة وتنكسر السلسلة — بالضبط في مسارات الأمن.
+    """
+    from src.schemas import verify_chain
+
+    class _React:
+        tool_calls = 2
+
+        class _S:
+            def __init__(self, a, i, o):
+                self.action, self.action_input, self.observation = a, i, o
+
+        steps = [_S("policy_lookup", "q", "POL-003"), _S("calculator", "1>0", "True")]
+
+    def policy_with_tools(_fields, _critique=""):
+        from src.schemas import PolicyVerdict, Verdict
+
+        return PolicyVerdict(verdict=Verdict.COMPLIANT, reason="stub"), _React()
+
+    graph = graph_with_stubs(classification=DocType.CONTRACT, extraction_complete=True)
+    graph.nodes  # noqa: B018 - يضمن البناء
+    # أعد البناء بحاقن يعيد (حكم، أثر ReAct) لتفعيل مسار الأحداث المتعددة
+    from src.graph.build import AgentDeps, build_graph
+    from tests.conftest import _make_deps
+
+    deps = _make_deps(DocType.CONTRACT, True, None, Verdict.COMPLIANT)
+    deps.policy_check = policy_with_tools
+    g = build_graph(deps)
+    state = g.invoke(
+        {"masked_text": "عقد", "doc_id": "CHAIN-1", "extract_attempts": 0, "audit_trail": []},
+        config={"configurable": {"thread_id": "chain_multi"}},
+    )
+    tool_events = [e for e in state["audit_trail"] if e.node == "tool_call"]
+    assert len(tool_events) == 2                    # الأحداث المتعددة صدرت فعلًا
+    assert verify_chain(state["audit_trail"])       # والسلسلة سليمة

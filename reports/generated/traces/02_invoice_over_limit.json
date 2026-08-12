@@ -12,43 +12,43 @@
     },
     {
       "node": "classify",
-      "summary": "النوع=invoice ثقة=0.95",
+      "summary": "النوع=invoice ثقة=0.99",
       "cost_usd": 0.0,
       "latency_ms": 0,
       "prev_hash": "fbda0a81095f6e4c03d98841744164962170c977e72dabaeb1f07de3739dd516",
-      "digest": "4bef78cac1e3f6394c185b92a553a72d70915e72c01d68abfeb026c1bce2db15"
+      "digest": "e8ef2a12bd15f1c92a7be39d30cafee2448ec72628d6fb745522accf54d273b2"
     },
     {
       "node": "plan_route",
       "summary": "خطة=full (4 خطوات): الوثيقة هي فاتورة تتضمن التزامًا ماليًا، لذا يلزم استخراج ال",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "4bef78cac1e3f6394c185b92a553a72d70915e72c01d68abfeb026c1bce2db15",
-      "digest": "7352df1eb105088c25c95fefc0ebef813d490d67113bc678d585a68932bf47e9"
+      "prev_hash": "e8ef2a12bd15f1c92a7be39d30cafee2448ec72628d6fb745522accf54d273b2",
+      "digest": "d41c1d327913e28fcba28fb428566d4ca2ceac70749b461e71a199adb41d6b21"
     },
     {
       "node": "extract",
       "summary": "محاولة 1؛ ناقص=['signed_date']",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "7352df1eb105088c25c95fefc0ebef813d490d67113bc678d585a68932bf47e9",
-      "digest": "787c61940114b230fb4ddecfe91e094b0ad722b7eb48eb946891728f5c410fb8"
+      "prev_hash": "d41c1d327913e28fcba28fb428566d4ca2ceac70749b461e71a199adb41d6b21",
+      "digest": "a1fb0c202e65c81e4282009aa1b2a29090ab7fd2c0738c8b9f6f64ecc534965c"
     },
     {
       "node": "extract",
       "summary": "محاولة 2؛ ناقص=['signed_date']",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "787c61940114b230fb4ddecfe91e094b0ad722b7eb48eb946891728f5c410fb8",
-      "digest": "95889dc4c1df2b439ff08fd4f44755706761514f696b1e862a58aa4dcbe70a14"
+      "prev_hash": "a1fb0c202e65c81e4282009aa1b2a29090ab7fd2c0738c8b9f6f64ecc534965c",
+      "digest": "aa945a3cb83dddfca1b48d6b45d7592985803207c2784118d9a13538a2d5760e"
     },
     {
       "node": "escalate",
       "summary": "صُعّدت لموافقة بشرية",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "95889dc4c1df2b439ff08fd4f44755706761514f696b1e862a58aa4dcbe70a14",
-      "digest": "3e0c39442efe405ad0269a59b18cb40c284be2952efe563aec35ea3979d02fd3"
+      "prev_hash": "aa945a3cb83dddfca1b48d6b45d7592985803207c2784118d9a13538a2d5760e",
+      "digest": "d0b977ffd9e8b468845da2533d12c800145cf06a0720690d9023255a159a1ae0"
     }
   ]
 }
