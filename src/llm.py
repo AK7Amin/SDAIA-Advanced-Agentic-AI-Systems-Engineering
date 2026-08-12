@@ -25,6 +25,14 @@ def redact_secrets(text: str) -> str:
     return _SECRET_RE.sub("sk-or-***REDACTED***", str(text))
 
 
+class ProviderError(RuntimeError):
+    """خطأ من المزوّد يحمل رمز حالة — يشمل حالة 200 بجسم خطأ."""
+
+    def __init__(self, message: str, status_code: int | None = None):
+        super().__init__(message)
+        self.status_code = status_code
+
+
 @dataclass
 class UsageMeter:
     """عداد استهلاك لكل عقدة **ولكل وثيقة** (بند rubric 5)."""
@@ -111,6 +119,14 @@ class LLMLayer:
         )
         with urllib.request.urlopen(req, timeout=90) as r:
             resp = json.load(r)
+        # المزوّد قد يعيد 200 ومعها جسم خطأ (بلا choices) — خصوصًا عند تحديد
+        # المعدل upstream. نحوّلها لخطأ مصنَّف ليعمل التدوير/إعادة المحاولة.
+        if "choices" not in resp:
+            err = resp.get("error") or {}
+            code = err.get("code") or resp.get("code")
+            raise ProviderError(
+                redact_secrets(str(err.get("message") or resp))[:200], status_code=code
+            )
         content = resp["choices"][0]["message"]["content"] or ""
         usage = resp.get("usage", {})
         return content, usage.get("prompt_tokens", 0), usage.get("completion_tokens", 0)

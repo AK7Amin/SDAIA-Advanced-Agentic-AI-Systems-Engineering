@@ -101,7 +101,7 @@ docker build -t doc-agent . && docker run -p 8000:8000 --env-file .env doc-agent
 
 ### الاختبارات
 ```bash
-pytest -v          # 52 اختبارًا (schemas, llm, graph, checkpoint, guardrails, policy)
+pytest -v          # 59 اختبارًا (schemas, llm, graph, checkpoint, guardrails, policy)
 ```
 
 ## الأدلة المحفوظة (`reports/`)

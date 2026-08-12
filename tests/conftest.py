@@ -98,9 +98,11 @@ def graph_with_stubs():
     """مصنع: يعيد مخططًا مجمّعًا بوكلاء موهومين (InMemorySaver افتراضًا)."""
     def _factory(classification=DocType.CONTRACT, extraction_complete=False,
                  extraction_attempts=None, verdict=None, checkpointer=None,
-                 skip_extraction=None, review_action="confirm", verdict_after_revise=None):
+                 skip_extraction=None, review_action="confirm", verdict_after_revise=None,
+                 effects=None):
         deps = _make_deps(classification, extraction_complete, extraction_attempts, verdict,
                           skip_extraction, review_action, verdict_after_revise)
+        deps.effects = effects
         return build_graph(deps, checkpointer=checkpointer)
     return _factory
 

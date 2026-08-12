@@ -129,6 +129,26 @@ def test_reflexion_bounded_then_escalates(graph_with_stubs):
     assert state["final_status"] == "awaiting_approval"
 
 
+def test_archive_and_notify_perform_real_effects(graph_with_stubs, compliant_contract_ar):
+    """عقدتا archive/notify تنفّذان فعلًا ولا تكتفيان بتغيير حقل الحالة."""
+    from src.effects import NullEffects
+
+    fx = NullEffects()
+    graph = graph_with_stubs(
+        classification=DocType.CONTRACT,
+        extraction_complete=True,
+        verdict=Verdict.COMPLIANT,
+        effects=fx,
+    )
+    state = _run(graph, compliant_contract_ar, "effects_path")
+    assert state["final_status"] == "archived"
+    assert fx.archived == ["DOC-1"]     # نُودي منفّذ الأرشفة فعلًا
+    assert fx.notified == ["DOC-1"]     # ونُودي منفّذ الإشعار
+    # والمسار الناتج مسجَّل في أثر التدقيق (قابل للتفتيش)
+    archive_event = next(e for e in state["audit_trail"] if e.node == "archive")
+    assert "archive/DOC-1" in archive_event.summary
+
+
 def test_audit_trail_appends_never_replaces(graph_with_stubs, compliant_contract_ar):
     """reducer الحالة يجمع أحداث التدقيق ولا يستبدلها."""
     graph = graph_with_stubs(

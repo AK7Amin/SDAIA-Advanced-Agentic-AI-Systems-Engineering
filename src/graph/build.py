@@ -22,6 +22,7 @@ from langgraph.types import interrupt
 # قائمة السماح خاصة private وتتغير بين الإصدارات، فلا نعتمد عليها؛ التحذير
 # غير ضار ولا يؤثر على التشغيل أو التقييم.
 
+from src.effects import NullEffects
 from src.schemas import (
     AuditEvent,
     Classification,
@@ -48,6 +49,8 @@ class AgentDeps:
     policy_check: Callable[..., PolicyVerdict]
     plan: Callable[[Classification, str], ExecutionPlan]
     review: Callable[[ExtractedFields, PolicyVerdict], ReviewVerdict]
+    #: منفّذ الآثار الحقيقية (أرشفة + إشعار). NullEffects في الاختبارات.
+    effects: object = None
 
 
 def _audit(state: DocState, node: str, summary: str, cost_usd: float = 0.0, latency_ms: int = 0) -> AuditEvent:
@@ -129,14 +132,27 @@ def build_graph(deps: AgentDeps, checkpointer=None):
             return {"human_decision": "approve", "audit_trail": [_audit(state, "human_gate", "وافق المراجع")]}
         return {"human_decision": "reject", "audit_trail": [_audit(state, "human_gate", "رفض المراجع")]}
 
+    effects = deps.effects or NullEffects()
+
     def archive(state: DocState):
-        return {"final_status": "archived", "audit_trail": [_audit(state, "archive", "أُرشفت الوثيقة")]}
+        # فعل حقيقي: كتابة الوثيقة + قيد القرار في قاعدة قابلة للاستعلام.
+        target = effects.archive(state.get("doc_id", "-"), {**state, "final_status": "archived"})
+        return {
+            "final_status": "archived",
+            "audit_trail": [_audit(state, "archive", f"أُرشفت الوثيقة → {target}")],
+        }
 
     def reject(state: DocState):
         return {"final_status": "rejected", "audit_trail": [_audit(state, "reject", "رُفضت الوثيقة")]}
 
     def notify(state: DocState):
-        return {"audit_trail": [_audit(state, "notify", f"أُشعر بالحالة {state.get('final_status')}")]}
+        # فعل حقيقي: توليد نص الإشعار بقالب Jinja2 وكتابته.
+        target = effects.notify(state.get("doc_id", "-"), state)
+        return {
+            "audit_trail": [
+                _audit(state, "notify", f"أُشعر بالحالة {state.get('final_status')} → {target}")
+            ]
+        }
 
     for name, fn in [
         ("ingest", ingest), ("classify", classify), ("quarantine", quarantine),

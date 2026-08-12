@@ -20,35 +20,35 @@
     },
     {
       "node": "plan_route",
-      "summary": "خطة=full (4 خطوات): الوثيقة عبارة عن عقد صيانة يتضمن طرفًا، قيمة مالية، وتاريخ ت",
+      "summary": "خطة=full (4 خطوات): الوثيقة عبارة عن عقد صيانة يتضمن طرفًا، قيمة مالية، وموعد تو",
       "cost_usd": 0.0,
       "latency_ms": 0,
       "prev_hash": "334aade4875613e570b69780edafcb0b9668871fbf2b150283501aaa64536a0c",
-      "digest": "20ce813939f772f494e99a998f98e451963b11051a9423d72987299a3869a5cc"
+      "digest": "78465ba223aa89debd401087e9e5531dfe4e8701d353e525ed4bc40899d9951f"
     },
     {
       "node": "extract",
       "summary": "محاولة 1؛ ناقص=[]",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "20ce813939f772f494e99a998f98e451963b11051a9423d72987299a3869a5cc",
-      "digest": "9104746afc96c3a1c0275616cdbedf7dc665ea8460997982062e872d127cb13f"
+      "prev_hash": "78465ba223aa89debd401087e9e5531dfe4e8701d353e525ed4bc40899d9951f",
+      "digest": "ffaf149868d05e11cd2f6d32fe10d4294afd4f0d4753ada2c6e67e3738c8a020"
     },
     {
       "node": "policy_check",
       "summary": "حكم=violation سياسة=POL-002",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "9104746afc96c3a1c0275616cdbedf7dc665ea8460997982062e872d127cb13f",
-      "digest": "7e314e530a0c14003d10a614a2631942a6d150b9f799e3cbb9f9236bb28d62f2"
+      "prev_hash": "ffaf149868d05e11cd2f6d32fe10d4294afd4f0d4753ada2c6e67e3738c8a020",
+      "digest": "ce3b6032ab371583e524492f29b11446552e712b044367ef3ce0fa30459ebad2"
     },
     {
       "node": "escalate",
       "summary": "صُعّدت لموافقة بشرية",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "7e314e530a0c14003d10a614a2631942a6d150b9f799e3cbb9f9236bb28d62f2",
-      "digest": "12eeca75fac61241f79d2df8174db012013cf1cc30bf8a480f6af7fedd86c638"
+      "prev_hash": "ce3b6032ab371583e524492f29b11446552e712b044367ef3ce0fa30459ebad2",
+      "digest": "4a559efaa287bcba1a6360283542b5d51a1c5c59372422295418130578b8e165"
     }
   ]
 }

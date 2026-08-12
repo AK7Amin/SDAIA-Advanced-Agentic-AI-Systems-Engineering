@@ -10,6 +10,7 @@ import time
 from pathlib import Path
 
 from src.agents.real import RealAgents
+from src.effects import FileEffects
 from src.graph.build import AgentDeps, build_graph
 from src.guardrails import output_guard
 from src.guardrails.budget import BudgetGuard, enforce_input_size
@@ -46,6 +47,7 @@ def build_production_graph(checkpointer, policy_file: str | Path):
         policy_check=agents.policy_check,
         plan=agents.plan,          # مخطِّط LLM (Plan-and-Execute)
         review=agents.review,      # مراجع ناقد (Reflexion)
+        effects=FileEffects(Path(__file__).parent.parent),   # أرشفة وإشعار حقيقيان
     )
     return build_graph(deps, checkpointer=checkpointer), llm
 

@@ -56,6 +56,30 @@ def test_non_quota_error_does_not_rotate():
     assert LLMLayer._is_quota_error(err) is False
 
 
+def test_200_with_error_body_becomes_classified_error(monkeypatch):
+    """المزوّد يعيد أحيانًا 200 بجسم خطأ بلا choices — رُصد حيًا.
+
+    يجب أن تتحول لخطأ مصنَّف (لا KeyError) ليعمل التدوير/إعادة المحاولة.
+    """
+    import io
+    import json as _json
+
+    from src.llm import ProviderError
+
+    layer = LLMLayer(api_key="k", fallback_key="k2")
+    payload = _json.dumps({"error": {"message": "rate-limited upstream", "code": 429}}).encode()
+
+    class _Resp(io.BytesIO):
+        def __enter__(self): return self
+        def __exit__(self, *a): return False
+
+    monkeypatch.setattr("urllib.request.urlopen", lambda *a, **k: _Resp(payload))
+    with pytest.raises(ProviderError) as exc:
+        layer._post("k", "prompt")
+    assert exc.value.status_code == 429
+    assert LLMLayer._is_quota_error(exc.value) is True   # فيُدوَّر للمفتاح الاحتياطي
+
+
 def test_no_key_in_repr():
     """لا يتسرب المفتاح في أي تمثيل نصي (قاعدة الأمان)."""
     layer = LLMLayer(api_key="sk-or-SECRET", fallback_key="sk-or-SECRET2", model="m")
