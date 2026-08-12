@@ -12,59 +12,83 @@
     },
     {
       "node": "classify",
-      "summary": "النوع=contract ثقة=1.0",
+      "summary": "النوع=contract ثقة=0.99",
       "cost_usd": 0.0,
       "latency_ms": 0,
       "prev_hash": "94f86732f855cf6e25eca4b0a879259378fe5072e30a2672a7aa2aa8de63614a",
-      "digest": "1201045aa3fc3ef7234a58ea3dfcd928173ce21f812c819add8f14e4ad70ce7e"
+      "digest": "4d571dcfd413a7b559d061d0826c55f17a9b6cea83383a333fed75332828808a"
     },
     {
       "node": "plan_route",
       "summary": "خطة=full (5 خطوات): الوثيقة هي عقد (contract) مع التزامات مالية (قيمة 320000 ريا",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "1201045aa3fc3ef7234a58ea3dfcd928173ce21f812c819add8f14e4ad70ce7e",
-      "digest": "4de0e32bd1946c04728bd669b23934334088a35fed8ad7bb8d0cba9c2a0f2f84"
+      "prev_hash": "4d571dcfd413a7b559d061d0826c55f17a9b6cea83383a333fed75332828808a",
+      "digest": "dc125dd95649c751e11ba15b3783a8bc49286ec5e992d395c994a7915a35e301"
     },
     {
       "node": "extract",
       "summary": "محاولة 1؛ ناقص=[]",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "4de0e32bd1946c04728bd669b23934334088a35fed8ad7bb8d0cba9c2a0f2f84",
-      "digest": "fbf242ec3e9710d44884a7d2716217f309e3a6ee2efc0064394f6cb2871737c5"
+      "prev_hash": "dc125dd95649c751e11ba15b3783a8bc49286ec5e992d395c994a7915a35e301",
+      "digest": "7e566504c4b97ca312c38c73c68594654eac39ead81a92182daee69e3cf3b610"
     },
     {
       "node": "policy_check",
       "summary": "حكم=violation سياسة=POL-003 مصدر_القرار=model",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "fbf242ec3e9710d44884a7d2716217f309e3a6ee2efc0064394f6cb2871737c5",
-      "digest": "6555e42b0f91d76eb5710b950154b2d7ad53d08cffc22eebdf5881fb8421aaac"
+      "prev_hash": "7e566504c4b97ca312c38c73c68594654eac39ead81a92182daee69e3cf3b610",
+      "digest": "8ab624cca6be836df44fbf59ed0acbb0d6ad38058b184eb674069b6375309ec3"
     },
     {
       "node": "tool_call",
-      "summary": "policy_lookup({\"query\": \"حد المبلغ للمشتريات مؤسسة الإمداد الشامل 320000 S) → POL-002: ## POL-002 — مدة العقد القصوى\nلا تتجاوز مدة أي عقد  [مصدر=model]",
+      "summary": "policy_lookup({\"query\": \"حد المبلغ أو مدة العقد أو سياسات المشتريات لمؤسسة) → POL-003: ## POL-003 — حد الفاتورة الواحدة\nالفواتير التي تتجا [مصدر=model]",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "6555e42b0f91d76eb5710b950154b2d7ad53d08cffc22eebdf5881fb8421aaac",
-      "digest": "41126ddb7d4ecb3c351ac514979399f5a0e1dc80fb917530a95a13c1d5d2a60d"
+      "prev_hash": "8ab624cca6be836df44fbf59ed0acbb0d6ad38058b184eb674069b6375309ec3",
+      "digest": "67885bf1e8e897eef61dde40ccd303d9009e7e15c57d8ff39b870cced638b9b9"
     },
     {
       "node": "tool_call",
       "summary": "calculator({\"expression\": \"320000.0 > 75000\"}) → True [مصدر=model]",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "41126ddb7d4ecb3c351ac514979399f5a0e1dc80fb917530a95a13c1d5d2a60d",
-      "digest": "2952c143ae147be8996c6823e09a7a7417423a0ce4c382d40c7f510902d39465"
+      "prev_hash": "67885bf1e8e897eef61dde40ccd303d9009e7e15c57d8ff39b870cced638b9b9",
+      "digest": "8ddfd91044bac7c2781dc903a07d47fa8c62fd43c4d8303471574af4e2929204"
     },
     {
       "node": "escalate",
       "summary": "صُعّدت لموافقة بشرية",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "2952c143ae147be8996c6823e09a7a7417423a0ce4c382d40c7f510902d39465",
-      "digest": "e28df21980a94576d8ae94ef36acd005e5fefcc7c2bf562c9c8419a2dc69597c"
+      "prev_hash": "8ddfd91044bac7c2781dc903a07d47fa8c62fd43c4d8303471574af4e2929204",
+      "digest": "8c530d58516133c9dd98b52f2d8b152055ecd11c2c39d905ba014637205df4d4"
+    },
+    {
+      "node": "human_gate",
+      "summary": "رفض المراجع",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "8c530d58516133c9dd98b52f2d8b152055ecd11c2c39d905ba014637205df4d4",
+      "digest": "f671aa4667feb9f2124784b6d3009dfdb0e897d4481db38462e384f593d8c98c"
+    },
+    {
+      "node": "reject",
+      "summary": "رُفضت الوثيقة",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "f671aa4667feb9f2124784b6d3009dfdb0e897d4481db38462e384f593d8c98c",
+      "digest": "d901fc7784b45f013eb34d32c139d8da0804e9b34fdf27dcbfa298fb772824ed"
+    },
+    {
+      "node": "notify",
+      "summary": "أُشعر بالحالة rejected → reports/notifications/07_contract_pdf_over_limit.md",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "d901fc7784b45f013eb34d32c139d8da0804e9b34fdf27dcbfa298fb772824ed",
+      "digest": "cb250153edbeb253f9c1b1283fbc77f7ed2383b7f530343f2e85658990f90b84"
     }
   ]
 }

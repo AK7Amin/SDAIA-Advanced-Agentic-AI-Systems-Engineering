@@ -24,7 +24,11 @@ def client(monkeypatch, tmp_path, graph_with_stubs):
     monkeypatch.setitem(app_module._STATE, "graph", graph)
     monkeypatch.setitem(app_module._STATE, "llm", _LLM())
     monkeypatch.setattr(app_module, "ROOT", tmp_path)
-    return TestClient(app_module.app)
+    monkeypatch.setenv("API_TOKEN", "test-token")
+    app_module._RATE.clear()          # حد المعدل حالة عامة — تُصفَّر بين الاختبارات
+    c = TestClient(app_module.app)
+    c.headers.update({"X-Api-Token": "test-token"})
+    return c
 
 
 def test_healthz(client):
@@ -108,7 +112,10 @@ class TestApprovalGate:
         monkeypatch.setitem(app_module._STATE, "llm", _LLM())
         monkeypatch.setattr(app_module, "ROOT", tmp_path)
         monkeypatch.setenv("APPROVAL_API_TOKEN", "correct-token")
+        monkeypatch.setenv("API_TOKEN", "test-token")
+        app_module._RATE.clear()
         c = TestClient(app_module.app)
+        c.headers.update({"X-Api-Token": "test-token"})
 
         started = c.post("/process", json={"doc_id": "svc_hitl", "text": "فاتورة 320000 ريال"})
         assert started.json()["final_status"] == "awaiting_approval"   # توقف فعلًا
@@ -120,3 +127,42 @@ class TestApprovalGate:
         )
         assert resumed.status_code == 200
         assert resumed.json()["final_status"] == "archived"            # واستأنف فعلًا
+
+        # **الأثر يُحدَّث بعد الاستئناف**: بدونه يبقى نصف المخطط بلا دليل،
+        # ويتناقض الأثر (توقف عند escalate) مع قاعدة القرارات (أُرشفت).
+        import json
+
+        trace = json.loads(
+            (tmp_path / "reports" / "generated" / "traces" / "svc_hitl.json")
+            .read_text(encoding="utf-8")
+        )
+        nodes = [e["node"] for e in trace["events"]]
+        assert "human_gate" in nodes and "archive" in nodes and "notify" in nodes
+        assert trace["chain_intact"] is True
+
+
+class TestProcessGate:
+    """`/process` ينفق حصة نموذج ويكتب على القرص — فلا يُترك مفتوحًا."""
+
+    def test_closed_without_token_configured(self, client, monkeypatch):
+        monkeypatch.delenv("API_TOKEN", raising=False)
+        r = client.post("/process", json={"doc_id": "x", "text": "عقد"})
+        assert r.status_code == 503
+
+    def test_rejects_wrong_token(self, client):
+        r = client.post(
+            "/process", json={"doc_id": "x", "text": "عقد"},
+            headers={"X-Api-Token": "wrong"},
+        )
+        assert r.status_code == 401
+
+    def test_rate_limit_fires(self, client, monkeypatch):
+        """حاجز الميزانية يحمي الوثيقة؛ وحد المعدل يحمي الخدمة من ألف وثيقة."""
+        monkeypatch.setattr(app_module, "_rate_limit",
+                            lambda bucket, limit=2, window_s=60: _orig(bucket, 2, 60))
+        for _ in range(2):
+            assert client.post("/process", json={"doc_id": "rl", "text": "عقد"}).status_code == 200
+        assert client.post("/process", json={"doc_id": "rl", "text": "عقد"}).status_code == 429
+
+
+_orig = app_module._rate_limit

@@ -20,35 +20,35 @@
     },
     {
       "node": "plan_route",
-      "summary": "خطة=full (5 خطوات): الوثيقة من نوع عقد توريد (contract) وتحتوي على حقول تعاقدية ",
+      "summary": "خطة=full (5 خطوات): الوثيقة هي عقد توريد (نوع contract) وتحتوي على حقول تعاقدية ",
       "cost_usd": 0.0,
       "latency_ms": 0,
       "prev_hash": "e163c73ad902295f7bd14fd1357789aab76a192e47f7baf8f6d189dd3ab5a140",
-      "digest": "a032565022eb95b60b6d31c57e8bd49f03e62ee1a4f3afa51ba61cccd40f94cb"
+      "digest": "9cb0b2dd1ab5ce59245977622e3c1320cb04ed73e716d10466ed81f9f7b689ba"
     },
     {
       "node": "extract",
       "summary": "محاولة 1؛ ناقص=['party', 'amount_sar', 'signed_date']",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "a032565022eb95b60b6d31c57e8bd49f03e62ee1a4f3afa51ba61cccd40f94cb",
-      "digest": "25c21df30a287c86fed8010c661b9106139880f29098c78a68936e25a91f745b"
+      "prev_hash": "9cb0b2dd1ab5ce59245977622e3c1320cb04ed73e716d10466ed81f9f7b689ba",
+      "digest": "baede622a7ce1a4f668db9b56943f4811efcf3b401080e644a4c76fbf04f4122"
     },
     {
       "node": "extract",
       "summary": "محاولة 2؛ ناقص=['party', 'amount_sar', 'signed_date']",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "25c21df30a287c86fed8010c661b9106139880f29098c78a68936e25a91f745b",
-      "digest": "c2a6020e012ccc20defb4089515c8d8b693f06c7c658c6ceee70e0f90c7fc6d1"
+      "prev_hash": "baede622a7ce1a4f668db9b56943f4811efcf3b401080e644a4c76fbf04f4122",
+      "digest": "a3ca5b3c27db66636f811877e21d19ce66e2159955c235ec375c5e51014f2c26"
     },
     {
       "node": "escalate",
       "summary": "صُعّدت لموافقة بشرية",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "c2a6020e012ccc20defb4089515c8d8b693f06c7c658c6ceee70e0f90c7fc6d1",
-      "digest": "5247d07fb86cfd18339dc8be023c7e5a7f15067464e7dd06966b047f77e5691f"
+      "prev_hash": "a3ca5b3c27db66636f811877e21d19ce66e2159955c235ec375c5e51014f2c26",
+      "digest": "4859b9364dce04f08274cf76dcf0b1108e21508b215dc22ea8d75bd36f95b538"
     }
   ]
 }

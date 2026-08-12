@@ -1,4 +1,6 @@
 === HITL: كل استئناف من عملية بايثون مستقلة ===
-PID العملية: 37052
-استُؤنف r20260813-003019-02_invoice_over_limit بقرار «approve» → archived
-استُؤنف r20260813-003019-07_contract_pdf_over_limit بقرار «reject» → rejected
+PID العملية: 1708
+استُؤنف r20260813-011211-02_invoice_over_limit بقرار «approve» → archived
+  ↳ حُدِّث الأثر: 02_invoice_over_limit.json (11 حدثًا)
+استُؤنف r20260813-011211-07_contract_pdf_over_limit بقرار «reject» → rejected
+  ↳ حُدِّث الأثر: 07_contract_pdf_over_limit.json (11 حدثًا)

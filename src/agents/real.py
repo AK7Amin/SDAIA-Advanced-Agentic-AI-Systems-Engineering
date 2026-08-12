@@ -89,6 +89,16 @@ class RealAgents:
         """
         cited = (verdict.cited_policy_id or "").strip()
         if not cited:
+            # حكم حاسم بلا استشهاد = ثقة بلا سند. `uncertain` لا يحتاج سياسة.
+            if verdict.verdict in (Verdict.COMPLIANT, Verdict.VIOLATION):
+                return PolicyVerdict(
+                    verdict=Verdict.UNCERTAIN,
+                    cited_policy_id=None,
+                    reason=(
+                        f"حكم {verdict.verdict.value} بلا استشهاد بسياسة — خُفّض. "
+                        f"الأصل: {verdict.reason[:120]}"
+                    ),
+                )
             return verdict
         referenced = set(_POLICY_ID_RE.findall(cited)) or {cited}
         unknown = referenced - self.store.known_ids()

@@ -90,12 +90,23 @@ def run_react(llm_call, task: str, registry: ToolRegistry, max_steps: int = 4) -
         text = llm_call(prompt) or ""
 
         final = _FINAL_RE.search(text)
+        action_match = _ACTION_RE.search(text)
+        # ردٌّ يحمل الاثنين: يفوز **الأسبق نصًا**. تفضيل الجواب دائمًا كان يُسقط
+        # استدعاء أداة قرره النموذج صامتًا — فيضيع دليل البند 1 ويُحكم بلا أداة.
+        if final and action_match and action_match.start() < final.start():
+            final = None
         if final:
-            result.final_answer = final.group(1).strip()
+            # `_FINAL_RE` جشع (DOTALL): يبتلع كل ما بعده. فإن أتبع النموذج جوابَه
+            # بفعل متأخر، قُصَّ الجواب عنده — وإلا حُشِر نص الفعل داخل الجواب.
+            answer = final.group(1).strip()
+            trailing = re.search(r"\n\s*Action:\s", answer)
+            if trailing:
+                answer = answer[: trailing.start()].strip()
+            result.final_answer = answer
             result.steps.append(ReActStep(_parse_thought(text), None, None, None))
             return result
 
-        m = _ACTION_RE.search(text)
+        m = action_match
         if not m:
             # النموذج لم يلتزم النسق — أوقف الحلقة (يتكفّل النادِي بمسار احتياطي).
             result.steps.append(ReActStep(_parse_thought(text), None, None, None))

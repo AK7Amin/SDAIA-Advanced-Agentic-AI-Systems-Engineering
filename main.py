@@ -69,13 +69,25 @@ def cmd_run(guardrails: bool):
     # اللوحة تُبنى من اللقطة نفسها في كل تشغيلة — وإلا بقيت ملفًا قديمًا
     # يدّعي مراقبة لا تُنتَج (عيب رُصد: لا شيء في الكود كان ينادي render).
     dash = dashboard.render(snap, REPORTS / "dashboard.html")
-    print(f"\nلقطة المقاييس: {snap}\nلوحة المراقبة: {dash}")
+    # مسارات نسبية: السجلات تُلتزم في ريبو عام، والمطلق يسرّب اسم المستخدم
+    # وبنية مجلدات الجهاز. نفس قاعدة `effects.py`.
+    def _rel(q):
+        return q.resolve().relative_to(ROOT.resolve()).as_posix()
+
+    print(f"\nلقطة المقاييس: {_rel(snap)}\nلوحة المراقبة: {_rel(dash)}")
 
 
 def cmd_resume(thread_id: str, decision: str):
+    REPORTS.mkdir(parents=True, exist_ok=True)
     graph, _ = build_production_graph(_saver(), POLICY)
     out = graph.invoke(Command(resume=decision), {"configurable": {"thread_id": thread_id}})
+    # **يُعاد كتابة الأثر بعد الاستئناف**: بدونه تبقى عقدة human_gate وما بعدها
+    # (archive/reject ثم notify) بلا أي دليل أثر، ويتناقض الأثر مع قاعدة القرارات
+    # التي تقول «أُرشفت». نصف المخطط كان غير مرئي في الأدلة.
+    doc_id = out.get("doc_id") or thread_id
+    trace = tracing.write_trace(REPORTS, doc_id, out.get("audit_trail", []))
     print(f"استُؤنف {thread_id} بقرار «{decision}» → {out.get('final_status')}")
+    print(f"  ↳ حُدِّث الأثر: {trace.name} ({len(out.get('audit_trail', []))} حدثًا)")
 
 
 def cmd_attack(guardrails: bool):

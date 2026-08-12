@@ -20,67 +20,67 @@
     },
     {
       "node": "plan_route",
-      "summary": "خطة=full (4 خطوات): الوثيقة هي عقد توريد (نوع contract) يحتوي على التزامات مالية",
+      "summary": "خطة=full (4 خطوات): الوثيقة هي عقد توريد (contract) يحتوي على التزامات مالية (قي",
       "cost_usd": 0.0,
       "latency_ms": 0,
       "prev_hash": "2e2add0ee19d64a3c7e3270832079b4255fa5ffd9d06b2be990ad324973a64b6",
-      "digest": "3094d5138c01f2898652064127af0aaecfdef848d2ed81fd667ae7dc9a762d32"
+      "digest": "06e99e6da37a5a67f361b5feb7ea17e2f7f328ffda124afcc3a9f67856b19f9a"
     },
     {
       "node": "extract",
       "summary": "محاولة 1؛ ناقص=[]",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "3094d5138c01f2898652064127af0aaecfdef848d2ed81fd667ae7dc9a762d32",
-      "digest": "baa588d184111da989d6194bde0d6ba2c18f08e2685cbed3b2a511419f008b02"
+      "prev_hash": "06e99e6da37a5a67f361b5feb7ea17e2f7f328ffda124afcc3a9f67856b19f9a",
+      "digest": "1491d63f73d4ec7ef5502f23012d5f2f038f2413c6de17f1f65d079696056f63"
     },
     {
       "node": "policy_check",
       "summary": "حكم=compliant سياسة=POL-003 مصدر_القرار=model",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "baa588d184111da989d6194bde0d6ba2c18f08e2685cbed3b2a511419f008b02",
-      "digest": "6b40f219af8dfd34c244ea60c8e5d827c9688eb135a9edb0983d9f399ef610b6"
+      "prev_hash": "1491d63f73d4ec7ef5502f23012d5f2f038f2413c6de17f1f65d079696056f63",
+      "digest": "dc90bf36f4d5f1cb6009e2d957376a72566ca81aaf522fbc5c6e153b6153c093"
     },
     {
       "node": "tool_call",
       "summary": "policy_lookup({\"query\": \"حد المبلغ للمشتريات أو عقود الشراء\"}) → POL-005: ## POL-005 — حظر البنود مفتوحة القيمة\nيُرفض أي بند  [مصدر=model]",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "6b40f219af8dfd34c244ea60c8e5d827c9688eb135a9edb0983d9f399ef610b6",
-      "digest": "1afaaa9cedc74cee7ae376dae7b80f4bd1853a96c06b2c46d4709d50ea1c10a6"
+      "prev_hash": "dc90bf36f4d5f1cb6009e2d957376a72566ca81aaf522fbc5c6e153b6153c093",
+      "digest": "0d368d253769fbf1c243026427745f2e11a9fb0266d82d1b3204758f00e95d45"
     },
     {
       "node": "tool_call",
       "summary": "policy_lookup({\"query\": \"حد المبلغ العقود المشتريات SAR\"}) → POL-003: ## POL-003 — حد الفاتورة الواحدة\nالفواتير التي تتجا [مصدر=model]",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "1afaaa9cedc74cee7ae376dae7b80f4bd1853a96c06b2c46d4709d50ea1c10a6",
-      "digest": "ac79ff9c33197c76ea765f7219e4f2e49becd1052a7a7da68694919342c7b411"
+      "prev_hash": "0d368d253769fbf1c243026427745f2e11a9fb0266d82d1b3204758f00e95d45",
+      "digest": "cf9dba89da1a1687b450a11caa79a39705cc791c60933fbe26b2d37c49af65d0"
     },
     {
       "node": "tool_call",
       "summary": "calculator({\"expression\": \"30000.0 < 75000\"}) → True [مصدر=model]",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "ac79ff9c33197c76ea765f7219e4f2e49becd1052a7a7da68694919342c7b411",
-      "digest": "90760f70cfcc5d4d919a067b6b18c64eb498e9320e76d073183e8e87e3f93ade"
+      "prev_hash": "cf9dba89da1a1687b450a11caa79a39705cc791c60933fbe26b2d37c49af65d0",
+      "digest": "499e50d4721287c8659158ee72e83ae464858b5936ec513e5839b49c806a73f9"
     },
     {
       "node": "archive",
-      "summary": "أُرشفت الوثيقة → C:\\Users\\abdul\\Desktop\\Islamic Content Association\\SDAIA Advanced Agentic AI Systems Engineering\\capstone-doc-lifecycle\\archive\\01_contract_compliant.txt",
+      "summary": "أُرشفت الوثيقة → archive/01_contract_compliant.txt",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "90760f70cfcc5d4d919a067b6b18c64eb498e9320e76d073183e8e87e3f93ade",
-      "digest": "dc60f8c5f4b21e0d31025aa0cc763dac0ed717ccabd3cd300a5a46525e396470"
+      "prev_hash": "499e50d4721287c8659158ee72e83ae464858b5936ec513e5839b49c806a73f9",
+      "digest": "3b6563f992a9c38f2aca101d71323582595a8407db65d33eccbfa6ef711f2cfc"
     },
     {
       "node": "notify",
-      "summary": "أُشعر بالحالة archived → C:\\Users\\abdul\\Desktop\\Islamic Content Association\\SDAIA Advanced Agentic AI Systems Engineering\\capstone-doc-lifecycle\\reports\\notifications\\01_contract_compliant.md",
+      "summary": "أُشعر بالحالة archived → reports/notifications/01_contract_compliant.md",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "dc60f8c5f4b21e0d31025aa0cc763dac0ed717ccabd3cd300a5a46525e396470",
-      "digest": "6e3a3f394f8d0260780acdf4291d1135da4d50571867a855a3908debe4e6e86a"
+      "prev_hash": "3b6563f992a9c38f2aca101d71323582595a8407db65d33eccbfa6ef711f2cfc",
+      "digest": "f0f3d419d17b58634bbd890c74d0f930789ffb33c654d3be0c918764d0cb0654"
     }
   ]
 }

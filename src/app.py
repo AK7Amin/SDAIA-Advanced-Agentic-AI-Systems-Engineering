@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import os
 import secrets
+import time
 import uuid
 from pathlib import Path
 
@@ -18,6 +19,7 @@ from pydantic import BaseModel
 from starlette.responses import Response
 
 from src.checkpointing import make_sqlite_saver
+from src.observability import tracing
 from src.pipeline import build_production_graph, process_document
 
 ROOT = Path(__file__).parent.parent
@@ -52,7 +54,9 @@ def healthz():
 
 
 @app.post("/process")
-def process(doc: DocIn):
+def process(doc: DocIn, x_api_token: str | None = Header(default=None)):
+    _require_token(x_api_token, "API_TOKEN", "واجهة المعالجة")
+    _rate_limit("process")
     graph, llm = _graph()
     # معرّف خيط فريد لكل طلب: طلبان بنفس doc_id كانا يستأنفان الخيط نفسه
     # فيندمج تشغيلان في أثر واحد — وهو بالضبط ما يرفضه verify-traces.
@@ -62,6 +66,36 @@ def process(doc: DocIn):
         graph, doc.doc_id, doc.text, True, ROOT / "reports" / "generated",
         llm=llm, thread_id=thread_id,
     )
+
+
+#: حد معدل بسيط داخل العملية: نافذة زمنية ثابتة لكل نقطة نهاية.
+_RATE: dict[str, list[float]] = {}
+
+
+def _rate_limit(bucket: str, limit: int = 20, window_s: int = 60) -> None:
+    """يمنع استنزاف حصة النموذج ومساحة القرص بطلبات متتابعة.
+
+    حاجز الميزانية يحمي **الوثيقة الواحدة**؛ هذا يحمي **الخدمة** من ألف وثيقة.
+    """
+    now = time.monotonic()
+    hits = [t for t in _RATE.get(bucket, []) if now - t < window_s]
+    if len(hits) >= limit:
+        raise HTTPException(status_code=429, detail=f"تجاوز الحد: {limit} طلب/{window_s} ثانية")
+    hits.append(now)
+    _RATE[bucket] = hits
+
+
+def _require_token(token: str | None, var_name: str, what: str) -> None:
+    """بوابة اعتماد عامة. غياب المتغير = **إغلاق** (503) لا سماح.
+
+    الافتراض الآمن هو المنع: نقطة نهاية تنفق حصة نموذج وتكتب على القرص لا
+    تُترك مفتوحة لأي جهة تصل المنفذ.
+    """
+    expected = os.getenv(var_name, "")
+    if not expected:
+        raise HTTPException(status_code=503, detail=f"{what} معطّلة: اضبط {var_name} لتفعيلها")
+    if not token or not secrets.compare_digest(token, expected):
+        raise HTTPException(status_code=401, detail="اعتماد غير صالح")
 
 
 def _require_approval_token(token: str | None) -> None:
@@ -90,7 +124,16 @@ def resume(body: ResumeIn, x_approval_token: str | None = Header(default=None)):
     out = graph.invoke(
         Command(resume=body.decision), {"configurable": {"thread_id": body.thread_id}}
     )
-    return {"thread_id": body.thread_id, "final_status": out.get("final_status")}
+    # نفس قاعدة واجهة الأوامر: الأثر يُحدَّث بعد الاستئناف وإلا بقي نصف المسار
+    # (human_gate ← archive/reject ← notify) بلا دليل.
+    doc_id = out.get("doc_id") or body.thread_id
+    tracing.write_trace(ROOT / "reports" / "generated", doc_id, out.get("audit_trail", []))
+    return {
+        "thread_id": body.thread_id,
+        "doc_id": doc_id,
+        "final_status": out.get("final_status"),
+        "audit_events": len(out.get("audit_trail", [])),
+    }
 
 
 @app.get("/metrics")

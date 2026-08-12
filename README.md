@@ -8,6 +8,29 @@
 > أكاديمية سدايا SDAIA، الدفعة 9–13 أغسطس 2026 (الرياض).
 > مرجع: <https://github.com/SDAIAAcademy>
 
+## للمصحّح — أين دليل كل بند
+
+كل بند في الرُبرِك له **كود** و**دليل تشغيل حي محفوظ** (مخرج فعلي، لا كود
+«يمكن أن يعمل»). الروابط قابلة للنقر:
+
+| البند | الكود | الدليل الحي |
+|---|---|---|
+| 1 — الاستدلال واستخدام الأدوات (15) | [src/tools.py](src/tools.py) · [src/agents/react.py](src/agents/react.py) | [live-run.md](reports/live-run.md) §2 — استدعاءات أدوات حقيقية بوسائطها ونتائجها |
+| 2 — التنسيق بمخطط حالة (20) | [src/graph/build.py](src/graph/build.py) | [traces/](reports/generated/traces/) — حواف شرطية وحلقتان محدودتان في الأثر |
+| 3 — تعدد الوكلاء والأدوار (20) | [src/agents/real.py](src/agents/real.py) · [src/schemas.py](src/schemas.py) | كل أثر يُظهر قرار كل وكيل كعقد Pydantic منفصل |
+| 4 — الأمن والحواجز والمراقبة (20) | [src/guardrails/](src/guardrails/) · [src/observability/](src/observability/) | [pentest-report.md](reports/pentest-report.md) · [metrics-snapshot.json](reports/generated/metrics-snapshot.json) |
+| 5 — جاهزية الإنتاج (20) | [Dockerfile](Dockerfile) · [src/app.py](src/app.py) · [src/checkpointing.py](src/checkpointing.py) | [09-docker-run.log](reports/generated/logs/09-docker-run.log) — حاوية تعمل فعلًا · [04-hitl-resume.log](reports/generated/logs/04-hitl-resume.log) — استئناف عبر عملية |
+| 6 — التوثيق ودليل التنفيذ (5) | هذا الملف | [generated/logs/](reports/generated/logs/) — تسعة سجلات خام |
+
+**الجدول الكامل بند-بند مع كل مسار دليل**: **[docs/rubric-check.md](docs/rubric-check.md)**
+
+للتحقق بنفسك في دقيقة واحدة، بلا مفتاح ولا شبكة:
+
+```bash
+pytest -q                      # 136 اختبارًا
+python main.py verify-traces   # يعيد حساب سلسلة تجزئة كل أثر ولا يثق بالمكتوب
+```
+
 ## المشكلة التي يحلها
 
 المؤسسات تستقبل عقودًا وفواتير وخطابات تحتاج تصنيفًا وتدقيق امتثال يدويًا بطيئًا.
@@ -67,7 +90,7 @@ flowchart TD
 | المجلد/الملف | المسؤولية |
 |---|---|
 | `src/schemas.py` | عقود Pydantic + أثر تدقيق بسلسلة تجزئة hash-chain |
-| `src/llm.py` | نداء OpenRouter، تدوير مفتاحين (402/403)، عداد توكنز/تكلفة، تنقيح أسرار |
+| `src/llm.py` | سلسلة مزودين متوافقين مع واجهة OpenAI، تدوير على 401/402/403/429، عداد توكنز/كمون/تكلفة، تنقيح أسرار |
 | `src/graph/build.py` | مخطط الحالة: العقد والحواف الشرطية والحلقة والتصعيد |
 | `src/agents/` | الوكلاء المتخصصون ومطالباتهم |
 | `src/tools.py` | **واجهة أدوات بنمط MCP**: مخطط مدخلات معلن لكل أداة، `ToolCall` متحقق منه، موزِّع واحد، وسجل تنفيذ |
@@ -107,7 +130,8 @@ cp .env.example .env          # ثم ضع المفتاح في .env
 | `LLM_MODEL` | اسم النموذج |
 | `MAX_LLM_CALLS_PER_DOC` | حاجز الميزانية لكل وثيقة (افتراضي 12) |
 | `LLM_BASE_URL_2` / `LLM_MODEL_2` / `LLM_API_KEY_2` | مزوّد ثانٍ يتولّى تلقائيًا عند نفاد الحصة |
-| `APPROVAL_API_TOKEN` | اعتماد بوابة `/resume`؛ بدونه تُغلق البوابة (503) |
+| `API_TOKEN` | اعتماد `POST /process`؛ بدونه تُغلق نقطة النهاية (503) |
+| `APPROVAL_API_TOKEN` | اعتماد `POST /resume`؛ بدونه تُغلق البوابة (503) |
 
 ### الأوامر
 ```bash
@@ -136,23 +160,24 @@ docker build -t doc-agent . && docker run -p 8000:8000 --env-file .env doc-agent
 
 ### الاختبارات
 ```bash
-pytest -q          # 121 اختبارًا (عقود، نموذج، مخطط، checkpoint، حواجز، أدوات، وصل)
+pytest -q          # 136 اختبارًا (عقود، نموذج، مخطط، checkpoint، حواجز، أدوات، وصل)
 ```
 
 ## الأدلة المحفوظة (`reports/`)
 
-- `live-run.md` — **دليل التشغيل المركزي**: التقاط واحد نظيف لكل ما يطلبه
-  الرُبرِك (سبع وثائق، هجوم قبل/بعد، إيقاف واستئناف عبر عملية، مرونة، مقاييس).
-- `generated/logs/*.log` — المخرجات **الخام** لكل أمر كما طُبعت (تسعة سجلات،
+- [`reports/live-run.md`](reports/live-run.md) — **دليل التشغيل المركزي**: التقاط واحد نظيف لكل ما يطلبه
+  الرُبرِك (ثماني وثائق، هجوم قبل/بعد، إيقاف واستئناف عبر عملية، مرونة، مقاييس).
+- [`reports/generated/logs/`](reports/generated/logs/) — المخرجات **الخام** لكل أمر كما طُبعت (تسعة سجلات،
   منها بناء صورة Docker وتشغيل الحاوية ونداءات HTTP عليها).
-- `../docs/rubric-check.md` — جدول تحقق: كل بند في الرُبرِك ← مسار دليله.
-- `pentest-report.md` — اختبار اختراق قبل/بعد التحصين، بست فئات هجوم.
-- `generated/traces/<doc_id>.json` — أثر كل وثيقة مع التحقق من سلامة السلسلة.
-- `generated/metrics-snapshot.json` — توكنز/كمون/تكلفة لكل وثيقة.
-- `generated/dashboard.html` — لوحة مراقبة تُفتح دون تشغيل.
-- `../archive/*.txt` + `notifications/*.md` — **مخرجات أفعال حقيقية**: الوثائق
+- [`docs/rubric-check.md`](docs/rubric-check.md) — جدول تحقق: كل بند في الرُبرِك ← مسار دليله.
+- [`reports/pentest-report.md`](reports/pentest-report.md) — اختبار اختراق قبل/بعد التحصين، بست فئات هجوم.
+- [`reports/generated/traces/`](reports/generated/traces/) — أثر كل وثيقة مع التحقق من سلامة السلسلة.
+- [`reports/generated/metrics-snapshot.json`](reports/generated/metrics-snapshot.json) — توكنز/كمون/تكلفة لكل وثيقة.
+- [`reports/generated/dashboard.html`](reports/generated/dashboard.html) — لوحة مراقبة تُفتح دون تشغيل.
+- [`archive/`](archive/) + [`reports/notifications/`](reports/notifications/) — **مخرجات أفعال حقيقية**: الوثائق
   المؤرشفة والإشعارات المولَّدة. وقاعدة `archive/decisions.sqlite` تحمل قيد كل
-  قرار (قابلة للاستعلام) وتُعاد بناؤها بكل تشغيلة فلا تُتتبَّع في git.
+  قرار (قابلة للاستعلام) **كسجل تاريخي تراكمي** — قيد مستقل لكل قرار حتى لو
+  تكرر معرّف الوثيقة. لا تُتتبَّع في git لأنها ثنائية وتُعاد توليدها بالتشغيل.
 
 ## الأمن (ملخص)
 

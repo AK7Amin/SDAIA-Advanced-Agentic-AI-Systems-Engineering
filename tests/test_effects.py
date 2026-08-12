@@ -31,7 +31,9 @@ class TestArchive:
         out = fx.archive("DOC-7", state)
         assert (tmp_path / "archive" / "DOC-7.txt").exists()
         assert "30000" in (tmp_path / "archive" / "DOC-7.txt").read_text(encoding="utf-8")
-        assert str(tmp_path) in out
+        # المسار المُعاد **نسبي** عمدًا: المطلق يسرّب اسم المستخدم وبنية جهازه
+        # داخل آثار التدقيق الملتزَمة في ريبو عام.
+        assert out == "archive/DOC-7.txt"
 
     def test_records_queryable_decision_row(self, tmp_path, state):
         """القرار يُقيَّد في قاعدة قابلة للاستعلام — لا مجرد ملف نصي."""
@@ -63,4 +65,4 @@ class TestNotify:
         assert "archived" in text
         assert "30000" in text          # القالب يملأ القيم فعلًا
         assert "{{" not in text          # لا متغيرات قالب غير مُرندَرة
-        assert str(tmp_path) in out
+        assert out == "reports/notifications/DOC-7.md"     # نسبي لا مطلق

@@ -10,10 +10,17 @@
 """
 from __future__ import annotations
 
+import contextvars
 import os
 import re
 import time
 from dataclasses import dataclass, field
+
+#: حالة النداء **لكل طلب** لا لكل كائن: الخدمة تشارك `LLMLayer` واحدًا بين
+#: الطلبات، فطلبان متوازيان كانا يتبادلان نسبة التكلفة ويتشاركان عدّاد ميزانية
+#: واحدًا. contextvars تنسخ السياق لكل طلب/خيط فينعزلان.
+_ACTIVE_DOC: contextvars.ContextVar[str] = contextvars.ContextVar("active_doc", default="-")
+_ACTIVE_BUDGET: contextvars.ContextVar[object] = contextvars.ContextVar("active_budget", default=None)
 
 _SECRET_RE = re.compile(r"sk-or-[A-Za-z0-9\-_]+")
 
@@ -147,10 +154,6 @@ class LLMLayer:
         #: اسم المزوّد الذي خدم آخر نداء ناجح (يظهر في المقاييس).
         self.active_provider = self.providers[0].name if self.providers else "-"
         self.meter = meter or UsageMeter()
-        #: يُضبط قبل معالجة كل وثيقة ليُنسب الاستهلاك إليها (تكلفة لكل وثيقة).
-        self.active_doc_id = "-"
-        #: حاجز ميزانية لكل وثيقة — يُستبدل في process_document؛ None = بلا حد.
-        self.budget = None
 
     def _build_providers(self) -> list[Provider]:
         chain = [
@@ -174,6 +177,23 @@ class LLMLayer:
                 )
             )
         return chain
+
+    # `active_doc_id` و`budget` حالة **لكل طلب** لا لكل كائن (انظر contextvars أعلاه).
+    @property
+    def active_doc_id(self) -> str:
+        return _ACTIVE_DOC.get()
+
+    @active_doc_id.setter
+    def active_doc_id(self, value: str) -> None:
+        _ACTIVE_DOC.set(value or "-")
+
+    @property
+    def budget(self):
+        return _ACTIVE_BUDGET.get()
+
+    @budget.setter
+    def budget(self, value) -> None:
+        _ACTIVE_BUDGET.set(value)
 
     def __repr__(self) -> str:  # لا يتسرب المفتاح أبدًا
         return f"LLMLayer(model={self.model!r}, key=set={bool(self._api_key)})"
@@ -216,13 +236,6 @@ class LLMLayer:
         content = resp["choices"][0]["message"]["content"] or ""
         usage = resp.get("usage", {})
         return content, usage.get("prompt_tokens", 0), usage.get("completion_tokens", 0)
-
-    # مقابس content-only للاستخدام في invoke_with_fallback (سهلة الترقيع بالاختبار).
-    def _call_primary(self, prompt: str) -> str:
-        return self._post(self._api_key, prompt)[0]
-
-    def _call_fallback(self, prompt: str) -> str:
-        return self._post(self._fallback_key, prompt)[0]
 
     @staticmethod
     def _status_of(exc: Exception) -> int | None:

@@ -44,35 +44,35 @@
     },
     {
       "node": "tool_call",
-      "summary": "policy_lookup({\"query\": \"حد المبلغ للصفقات الشرائية\"}) → POL-002: ## POL-002 — مدة العقد القصوى\nلا تتجاوز مدة أي عقد  [مصدر=model]",
+      "summary": "policy_lookup({\"query\": \"حد المبلغ للمشتريات أو عقود الخدمات\"}) → POL-002: ## POL-002 — مدة العقد القصوى\nلا تتجاوز مدة أي عقد  [مصدر=model]",
       "cost_usd": 0.0,
       "latency_ms": 0,
       "prev_hash": "56764f1c0eb1eb5672a52ff66d8416c1a51ea8d9f68f6b05016a971e49c6807e",
-      "digest": "67f8c230d39144426c4433479b32386d2a47ead83d82b9d2bdb2cf91cece752a"
+      "digest": "2de4ca4c3b480a31236b74c356f1f756e34e46f51d36f1f8a9887fe2dd03b04b"
     },
     {
       "node": "tool_call",
-      "summary": "policy_lookup({\"query\": \"حد المبلغ 500000 SAR أو عقود كبيرة\"}) → POL-003: ## POL-003 — حد الفاتورة الواحدة\nالفواتير التي تتجا [مصدر=model]",
+      "summary": "policy_lookup({\"query\": \"حد المبلغ الأقصى لعقود المشتريات أو الخدمات\"}) → POL-002: ## POL-002 — مدة العقد القصوى\nلا تتجاوز مدة أي عقد  [مصدر=model]",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "67f8c230d39144426c4433479b32386d2a47ead83d82b9d2bdb2cf91cece752a",
-      "digest": "5ad5f8b1565ad2267febe9d5b087a00fce36cf0131912d7ba1308442f66b9889"
+      "prev_hash": "2de4ca4c3b480a31236b74c356f1f756e34e46f51d36f1f8a9887fe2dd03b04b",
+      "digest": "47e08ed9c2b46e3ae1aeead180a5420be2f0a1e25d81b9f55e8cac9668e318ab"
     },
     {
       "node": "tool_call",
-      "summary": "calculator({\"expression\": \"500000.0 > 50000\"}) → True [مصدر=model]",
+      "summary": "policy_lookup({\"query\": \"حد المبلغ المالي لعقود الخدمات أو المشتريات\"}) → POL-003: ## POL-003 — حد الفاتورة الواحدة\nالفواتير التي تتجا [مصدر=model]",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "5ad5f8b1565ad2267febe9d5b087a00fce36cf0131912d7ba1308442f66b9889",
-      "digest": "64767add767058bdc70e3ae5e4d029c464a3b63f747e4fa61eb99fa7693e0619"
+      "prev_hash": "47e08ed9c2b46e3ae1aeead180a5420be2f0a1e25d81b9f55e8cac9668e318ab",
+      "digest": "fabf8eb6b660f9d37e6a5804fd69126980883f330a4d1c4952b4db073e103323"
     },
     {
       "node": "escalate",
       "summary": "صُعّدت لموافقة بشرية",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "64767add767058bdc70e3ae5e4d029c464a3b63f747e4fa61eb99fa7693e0619",
-      "digest": "6e2f62a3660b53ed193e114b18a1a3f02ee5ba0301aa227720dbf58d884d324b"
+      "prev_hash": "fabf8eb6b660f9d37e6a5804fd69126980883f330a4d1c4952b4db073e103323",
+      "digest": "246744ba11053c476c09f5ee19c44ecec0cf060b8dbda8aec89b51084af28bf2"
     }
   ]
 }

@@ -20,59 +20,75 @@
     },
     {
       "node": "plan_route",
-      "summary": "خطة=full (4 خطوات): الوثيقة هي فاتورة (invoice) تحتوي على التزامات مالية واضحة (",
+      "summary": "خطة=full (4 خطوات): الوثيقة هي فاتورة (invoice) تحتوي على التزامات مالية (طرف/قي",
       "cost_usd": 0.0,
       "latency_ms": 0,
       "prev_hash": "e8ef2a12bd15f1c92a7be39d30cafee2448ec72628d6fb745522accf54d273b2",
-      "digest": "137b3c39411d996bad35dbda72e5a6b406c5315f0a0f6f636d482b1a596568b1"
+      "digest": "c341e5c10f4260c06adc79fde401f6145290fd7f01c25fce8ef7a267509c3a09"
     },
     {
       "node": "extract",
       "summary": "محاولة 1؛ ناقص=[]",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "137b3c39411d996bad35dbda72e5a6b406c5315f0a0f6f636d482b1a596568b1",
-      "digest": "205b313511fef3d02cf713d57a219709287b987e723cb1cda4594dca61ab4c1b"
+      "prev_hash": "c341e5c10f4260c06adc79fde401f6145290fd7f01c25fce8ef7a267509c3a09",
+      "digest": "7b18c41f470c6c37003a71a26ac12d41e00ccb047605fb349ffb2c430312422f"
     },
     {
       "node": "policy_check",
       "summary": "حكم=violation سياسة=POL-003 مصدر_القرار=model",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "205b313511fef3d02cf713d57a219709287b987e723cb1cda4594dca61ab4c1b",
-      "digest": "d6ea19f805ff172694c1792643d8d6a706e473d5dc29c1108d5fdc7ec2dffa76"
+      "prev_hash": "7b18c41f470c6c37003a71a26ac12d41e00ccb047605fb349ffb2c430312422f",
+      "digest": "34a4b14fef9d42ed3ed57113ebc77c0daff8f4ebdf51589b3ec5e4255700048d"
     },
     {
       "node": "tool_call",
-      "summary": "policy_lookup({\"query\": \"حد المبلغ للمشتريات أو عقود التوريد\"}) → POL-002: ## POL-002 — مدة العقد القصوى\nلا تتجاوز مدة أي عقد  [مصدر=model]",
+      "summary": "policy_lookup({\"query\": \"حد المبلغ للمشتريات مؤسسة الإمداد الشامل\"}) → POL-002: ## POL-002 — مدة العقد القصوى\nلا تتجاوز مدة أي عقد  [مصدر=model]",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "d6ea19f805ff172694c1792643d8d6a706e473d5dc29c1108d5fdc7ec2dffa76",
-      "digest": "c3a4c62c3a7fe443fced56e7f67c8172253568343d7ce980b1cafb0e947fdb6c"
-    },
-    {
-      "node": "tool_call",
-      "summary": "policy_lookup({\"query\": \"حد المبلغ الأقصى لعقود المشتريات أو التوريد\"}) → POL-002: ## POL-002 — مدة العقد القصوى\nلا تتجاوز مدة أي عقد  [مصدر=model]",
-      "cost_usd": 0.0,
-      "latency_ms": 0,
-      "prev_hash": "c3a4c62c3a7fe443fced56e7f67c8172253568343d7ce980b1cafb0e947fdb6c",
-      "digest": "9640f0cb7299efc72157cee54e18e84293e32dc1e4fa6c1ba4d85de59fdc83d2"
+      "prev_hash": "34a4b14fef9d42ed3ed57113ebc77c0daff8f4ebdf51589b3ec5e4255700048d",
+      "digest": "a7643d69b79c57a1b8b8a9bca49c4abcee1a52918a8f0f142eff985248dadc57"
     },
     {
       "node": "tool_call",
       "summary": "calculator({\"expression\": \"95000.0 > 75000\"}) → True [مصدر=model]",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "9640f0cb7299efc72157cee54e18e84293e32dc1e4fa6c1ba4d85de59fdc83d2",
-      "digest": "3f5c1fee4314e04c08122530862db459cf916426ca29a34c247e5d9d3567815c"
+      "prev_hash": "a7643d69b79c57a1b8b8a9bca49c4abcee1a52918a8f0f142eff985248dadc57",
+      "digest": "34d89c57b7549abf3d407cbd8ca3ef9730a9f29db1c9ace0aa4f1370ced5760f"
     },
     {
       "node": "escalate",
       "summary": "صُعّدت لموافقة بشرية",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "3f5c1fee4314e04c08122530862db459cf916426ca29a34c247e5d9d3567815c",
-      "digest": "b3701b613da7a54cd4c51b752c14f7bdbeb58b9eccc48677c10d2aaf017588fa"
+      "prev_hash": "34d89c57b7549abf3d407cbd8ca3ef9730a9f29db1c9ace0aa4f1370ced5760f",
+      "digest": "bd4352409b4ce945bf274d004e154f7cddc43645983fe6ad538cb2b726cb32dc"
+    },
+    {
+      "node": "human_gate",
+      "summary": "وافق المراجع",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "bd4352409b4ce945bf274d004e154f7cddc43645983fe6ad538cb2b726cb32dc",
+      "digest": "0c62d89b8d87d78628b25fc4006bd34206a4a1238a31b148d8e2260b03de01eb"
+    },
+    {
+      "node": "archive",
+      "summary": "أُرشفت الوثيقة → archive/02_invoice_over_limit.txt",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "0c62d89b8d87d78628b25fc4006bd34206a4a1238a31b148d8e2260b03de01eb",
+      "digest": "13d838c111d4ebe38b9e62e1d380fbae304081951fd929dc27704919235d8704"
+    },
+    {
+      "node": "notify",
+      "summary": "أُشعر بالحالة archived → reports/notifications/02_invoice_over_limit.md",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "13d838c111d4ebe38b9e62e1d380fbae304081951fd929dc27704919235d8704",
+      "digest": "5d242f3aeaa1680e05aae43248ff6d848bfc33ee40faf957e18bfbe20b98e369"
     }
   ]
 }

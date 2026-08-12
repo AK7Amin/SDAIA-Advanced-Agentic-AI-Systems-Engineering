@@ -18,6 +18,14 @@ from jinja2 import Template
 
 from src.guardrails.path_guard import resolve_within, safe_doc_id
 
+
+def _rel(path: Path, root: Path) -> str:
+    """مسار نسبي للجذر — المسار المطلق يسرّب اسم المستخدم وبنية جهازه في ريبو عام."""
+    try:
+        return path.resolve().relative_to(Path(root).resolve()).as_posix()
+    except ValueError:
+        return path.name
+
 NOTIFICATION_TEMPLATE = Template(
     """إشعار معالجة وثيقة
 
@@ -105,7 +113,7 @@ class FileEffects:
             conn.commit()
         finally:
             conn.close()      # `with sqlite3.connect(...)` يودِع ولا يغلق
-        return str(out)
+        return _rel(out, self.root)
 
     def notify(self, doc_id: str, state: dict) -> str:
         """يولّد نص الإشعار بقالب Jinja2 ويكتبه ملفًا."""
@@ -127,4 +135,4 @@ class FileEffects:
         )
         out = self.notify_dir / f"{safe}.md"
         out.write_text(text, encoding="utf-8")
-        return str(out)
+        return _rel(out, self.root)

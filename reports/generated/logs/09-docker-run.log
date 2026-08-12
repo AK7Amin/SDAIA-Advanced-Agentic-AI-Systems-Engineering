@@ -1,25 +1,20 @@
-== 1) تحقق أمني: هل خُبز .env في الصورة؟ ==
+== بناء الصورة ==
+sha256:1db3aa5f0e39c8148ee184e8948b4dde7cf91cac12e40d6520df284a22407b05
+
+== 1) تحقق أمني: ما الذي يبدأ بـ.env داخل الصورة؟ ==
 .env.example
 
 == 2) تشغيل الحاوية ==
-5e7f4432de6a4f90e498f50d64c4ad180e955f3d210813a38a0a633eaeb42723
+40722bf381cbea79fad3b02e131b50a98580ba9670765384a2bf5c2893b60ab1
 
-== 3) /healthz ==
+== 3) GET /healthz ==
 {"status":"ok"}
 
-== 4) /metrics (أول 6 أسطر ذات دلالة) ==
-python_gc_objects_collected_total{generation="0"} 1556.0
-python_gc_objects_collected_total{generation="1"} 520.0
-python_gc_objects_collected_total{generation="2"} 25.0
-python_gc_objects_uncollectable_total{generation="0"} 0.0
-python_gc_objects_uncollectable_total{generation="1"} 0.0
-python_gc_objects_uncollectable_total{generation="2"} 0.0
+== 4) POST /process بلا اعتماد ==
+{"detail":"اعتماد غير صالح"}
 
-== 5) بوابة الموافقة بلا اعتماد ==
-{"detail":"بوابة الموافقة معطّلة: اضبط APPROVAL_API_TOKEN لتفعيلها"}
+== 5) POST /resume بلا اعتماد ==
+{"detail":"اعتماد غير صالح"}
 
-== 6) معالجة وثيقة كاملة داخل الحاوية ==
-{"detail":"There was an error parsing the body"}
-
-== 6) معالجة وثيقة كاملة داخل الحاوية ==
-{"doc_id":"api_contract","thread_id":"api-be18663c-api_contract","final_status":"archived","guardrails":{"size_ok":true,"injection_flagged":false,"pii_masked":false,"removed_lines":0},"tool_calls":3,"decision_source":"model"}
+== 6) POST /process باعتماد صحيح — وثيقة كاملة داخل الحاوية ==
+{"doc_id":"api_contract","thread_id":"api-2ec1d24d-api_contract","final_status":"awaiting_approval","guardrails":{"size_ok":true,"injection_flagged":false,"pii_masked":false,"removed_lines":0},"tool_calls":3,"decision_source":"model"}

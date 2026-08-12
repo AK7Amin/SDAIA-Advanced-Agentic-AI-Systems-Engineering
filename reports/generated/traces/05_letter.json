@@ -36,43 +36,59 @@
     },
     {
       "node": "tool_call",
-      "summary": "policy_lookup({\"query\": \"حقول الوثيقة الإلزامية أو مدقق وثائق المشتريات\"}) → POL-002: ## POL-002 — مدة العقد القصوى\nلا تتجاوز مدة أي عقد  [مصدر=model]",
+      "summary": "policy_lookup({\"query\": \"مدقق وثائق المشتريات حقل party amount_sar duratio) → POL-002: ## POL-002 — مدة العقد القصوى\nلا تتجاوز مدة أي عقد  [مصدر=model]",
       "cost_usd": 0.0,
       "latency_ms": 0,
       "prev_hash": "593e7af5de1cb5db1393bf2101ea0842d64526679ded8d0349d9bef34bbdf281",
-      "digest": "ede6c2addaf8b3dcbf883ef67c923c2b2eab1eede7fc2fdcf9be3cd05b2d6cd6"
+      "digest": "a26991653f39ecb1840f7d3e0725154aee350f169bd27f6e11c059f589e17ce4"
     },
     {
       "node": "tool_call",
-      "summary": "policy_lookup({\"query\": \"حقول إلزامية في وثائق المشتريات أو بيانات مطلوبة\") → POL-002: ## POL-002 — مدة العقد القصوى\nلا تتجاوز مدة أي عقد  [مصدر=model]",
+      "summary": "policy_lookup({\"query\": \"حقل party signed_date سياسات المشتريات\"}) → POL-002: ## POL-002 — مدة العقد القصوى\nلا تتجاوز مدة أي عقد  [مصدر=model]",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "ede6c2addaf8b3dcbf883ef67c923c2b2eab1eede7fc2fdcf9be3cd05b2d6cd6",
-      "digest": "1c79acfa28e4ab1e654123733f0e61cfafe429a87c7424148d942da317934844"
+      "prev_hash": "a26991653f39ecb1840f7d3e0725154aee350f169bd27f6e11c059f589e17ce4",
+      "digest": "350e9378437e2b2420af6812b67c8cccf6c174dd0710837ffc44b41b4c327ff6"
     },
     {
       "node": "tool_call",
-      "summary": "policy_lookup({\"query\": \"إلزامية وجود بيانات في وثائق المشتريات أو حقل فار) → POL-002: ## POL-002 — مدة العقد القصوى\nلا تتجاوز مدة أي عقد  [مصدر=model]",
+      "summary": "policy_lookup({\"query\": \"حقل طرف العقد party و تاريخ التوقيع signed_date ف) → POL-002: ## POL-002 — مدة العقد القصوى\nلا تتجاوز مدة أي عقد  [مصدر=model]",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "1c79acfa28e4ab1e654123733f0e61cfafe429a87c7424148d942da317934844",
-      "digest": "164eb257aad14269847f9a300bb5988c95e23c251a7bbd9a80743376eded3b8d"
+      "prev_hash": "350e9378437e2b2420af6812b67c8cccf6c174dd0710837ffc44b41b4c327ff6",
+      "digest": "0368e63416dce97dc61340d8cef043373abe99bd193b047342649007fbec1344"
     },
     {
       "node": "reflect",
-      "summary": "مراجعة=confirm: جميع الحقول فارغة (null) مما يجعل من المستحيل التحقق من الام",
+      "summary": "مراجعة=revise: السياسة POL-005 تحظر البنود المفتوحة القيمة/المدة، لذا وجود ",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "164eb257aad14269847f9a300bb5988c95e23c251a7bbd9a80743376eded3b8d",
-      "digest": "3de35c6ebb29d668e1bbfd5dd4028c903f9fd694374b957345042399dfb51574"
+      "prev_hash": "0368e63416dce97dc61340d8cef043373abe99bd193b047342649007fbec1344",
+      "digest": "296b322285dd04920f04c20fc604dac511f82daf8e8fc40f3628da8fc261525e"
+    },
+    {
+      "node": "policy_check",
+      "summary": "حكم=violation سياسة=POL-005 مصدر_القرار=model",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "296b322285dd04920f04c20fc604dac511f82daf8e8fc40f3628da8fc261525e",
+      "digest": "2ce301163ed4802687cfaadbab7599ebca7edc1efcb41eca03f248a4be38daae"
+    },
+    {
+      "node": "tool_call",
+      "summary": "policy_lookup({\"query\": \"POL-005 بنود مفتوحة قيمة مدة\"}) → POL-005: ## POL-005 — حظر البنود مفتوحة القيمة\nيُرفض أي بند  [مصدر=model]",
+      "cost_usd": 0.0,
+      "latency_ms": 0,
+      "prev_hash": "2ce301163ed4802687cfaadbab7599ebca7edc1efcb41eca03f248a4be38daae",
+      "digest": "8b857bb8f56ddd4720ad8943af574c2e87b5f199698db18803f9636db0ab2d64"
     },
     {
       "node": "escalate",
       "summary": "صُعّدت لموافقة بشرية",
       "cost_usd": 0.0,
       "latency_ms": 0,
-      "prev_hash": "3de35c6ebb29d668e1bbfd5dd4028c903f9fd694374b957345042399dfb51574",
-      "digest": "75239cb8f0eb05f2ad9a0ec30b893c911e7c7ddbf7ad080f42349108a2c90756"
+      "prev_hash": "8b857bb8f56ddd4720ad8943af574c2e87b5f199698db18803f9636db0ab2d64",
+      "digest": "647d3968cebd5ba6246103fbfa89005b941825c366bfd2cf3721ef34c3b20f87"
     }
   ]
 }
